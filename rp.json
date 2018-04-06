@@ -1,0 +1,12 @@
+{
+  "Server": "http://localhost:5897",
+  "StaticServer": "",
+  "StaticResourceVersion": "1521597972031",
+  "RuntimeMode": "prod",
+  "LogLevel": "debug",
+  "SessionSecret": "BEYOND",
+  "SessionMaxAge": 86400,
+  "MySQL": "user:password@(localhost:3306)/rp?charset=utf8mb4&parseTime=True&loc=Local",
+  "StaticRoot": "",
+  "Port": "5897"
+}
