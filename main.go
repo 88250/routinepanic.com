@@ -1,4 +1,4 @@
-package routinepanic_com
+package main
 
 import (
 	"net/http"
