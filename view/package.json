@@ -1,0 +1,26 @@
+{
+  "name": "routinepanic-frontend",
+  "version": "1.0.0",
+  "description": "routinepanic.com template",
+  "homepage": "https://github.com/b3log/routinepanic.com",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/b3log/routinepanic.com.git"
+  },
+  "bugs": {
+    "url": "https://github.com/b3log/routinepanic.com/issues"
+  },
+  "license": "GPLv3",
+  "private": true,
+  "author": "Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
+  "maintainers": [
+    {
+      "name": "Vanessa",
+      "email": "v@b3log.org"
+    }
+  ],
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0"
+  }
+}

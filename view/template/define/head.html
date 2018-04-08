@@ -1,0 +1,16 @@
+{{define "head"}}
+<meta charset="utf-8"/>
+<title>{{.Title}}</title>
+<meta name="keywords" content="{{.MetaKeywords}}"/>
+<meta name="description" content="{{.MetaDescription}}"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta http-equiv="Window-target" content="_top"/>
+<link rel="icon" type="image/x-icon" href="{{.Conf.StaticServer}}/images/logo@48.png">
+<link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/scss/base.css?{{.Conf.StaticResourceVersion}}"/>
+{{if .PreviousArticle}}
+<link rel="prev" title="{{.PreviousArticle.Title}}" href="{{.PreviousArticle.URL}}">
+{{end}}
+{{if .NextArticle}}
+<link rel="next" title="{{.NextArticle.Title}}" href="{{.NextArticle.URL}}">
+{{end}}
+{{end}}
