@@ -28,14 +28,11 @@ var Conf *Configuration
 
 // Models represents all models..
 var Models = []interface{}{
-	&model.Article{},
+	&model.Question{}, &model.Answer{},
 }
 
 // Table prefix.
-const tablePrefix = "b3_rp_"
-
-// ZeroPushTime represents zero push time.
-var ZeroPushTime, _ = time.Parse("2006-01-02 15:04:05", "2006-01-02 15:04:05")
+const tablePrefix = "rp_"
 
 // Configuration (rp.json).
 type Configuration struct {

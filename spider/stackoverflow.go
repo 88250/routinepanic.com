@@ -18,31 +18,56 @@ type stackOverflow struct{}
 // Logger
 var logger = log.NewLogger(os.Stdout)
 
-func (s *stackOverflow) ParseQuestion(url string) *model.Question {
+func (s *stackOverflow) ParseQuestion(url string) (question *model.Question, answers []*model.Answer) {
 	request := gorequest.New()
 	response, body, errs := request.Set("User-Agent", uarand.GetRandom()).Get(url).End()
 	if nil != errs {
 		logger.Errorf("gets [%s] failed: %s", url, errs)
 
-		return nil
+		return nil, nil
 	}
 	if 200 != response.StatusCode {
 		logger.Errorf("gets [%s] status code is [%d]", response.StatusCode)
 
-		return nil
+		return nil, nil
 	}
 
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(body))
 	if nil != err {
 		logger.Errorf("parses [%s] failed: ", url, err)
 
-		return nil
+		return nil, nil
 	}
 
-	ret := &model.Question{}
+	question = &model.Question{
+		Source:    model.SourceStackOverflow,
+		SourceURL: url,
+	}
+
+	doc.Find("#question-header h1").Each(func(i int, s *goquery.Selection) {
+		question.Title = s.Text()
+	})
+	tags := ""
+	doc.Find(".post-taglist a").Each(func(i int, s *goquery.Selection) {
+		tags += s.Text() + ","
+	})
+	if 0 < len(tags) {
+		tags = tags[:len(tags)-1]
+	}
+	question.Tags = tags
 	doc.Find("#question .post-text").Each(func(i int, s *goquery.Selection) {
-		ret.Content, _ = s.Html()
+		question.Content, _ = s.Html()
+	})
+	doc.Find("#answers .answer .post-text").EachWithBreak(func(i int, s *goquery.Selection) bool {
+		content, _ := s.Html()
+		answer := &model.Answer{
+			Content: content,
+			Source:  model.SourceStackOverflow,
+		}
+		answers = append(answers, answer)
+
+		return i < 2
 	})
 
-	return ret
+	return
 }
