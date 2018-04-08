@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/b3log/routinepanic.com/log"
 	"github.com/b3log/routinepanic.com/util"
+	"path/filepath"
 )
 
 // Logger
@@ -50,5 +51,20 @@ func MapRoutes() *gin.Engine {
 	})
 	ret.Use(sessions.Sessions("rp", store))
 
+	templates, err := filepath.Glob("view/template/*.html")
+	if nil != err {
+		logger.Fatal("load templates failed: " + err.Error())
+	}
+	subTemplates, _ := filepath.Glob("view/template/*/*.html")
+	templates = append(templates, subTemplates...)
+	ret.LoadHTMLFiles(templates...)
+	ret.Static("/css", "view/css")
+	ret.Static("/js", "view/js")
+	ret.Static("/images", "view/images")
+	ret.GET("", showIndexAction)
+
 	return ret
 }
+
+// DataModel represents data model.
+type DataModel map[string]interface{}

@@ -22,19 +22,19 @@ func (s *stackOverflow) ParseQuestion(url string) (question *model.Question, ans
 	request := gorequest.New()
 	response, body, errs := request.Set("User-Agent", uarand.GetRandom()).Get(url).End()
 	if nil != errs {
-		logger.Errorf("gets [%s] failed: %s", url, errs)
+		logger.Errorf("get [%s] failed: %s", url, errs)
 
 		return nil, nil
 	}
 	if 200 != response.StatusCode {
-		logger.Errorf("gets [%s] status code is [%d]", response.StatusCode)
+		logger.Errorf("get [%s] status code is [%d]", response.StatusCode)
 
 		return nil, nil
 	}
 
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(body))
 	if nil != err {
-		logger.Errorf("parses [%s] failed: ", url, err)
+		logger.Errorf("parse [%s] failed: ", url, err)
 
 		return nil, nil
 	}
