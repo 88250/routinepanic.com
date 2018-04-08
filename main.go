@@ -1,19 +1,40 @@
 package main
 
 import (
+	"io"
+	"math/rand"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/b3log/routinepanic.com/controller"
 	"github.com/b3log/routinepanic.com/log"
 	"github.com/b3log/routinepanic.com/service"
 	"github.com/b3log/routinepanic.com/util"
+	"github.com/gin-gonic/gin"
 )
 
 // Logger
 var logger *log.Logger
+
+// The only one init function in RP.
+func init() {
+	rand.Seed(time.Now().Unix())
+
+	log.SetLevel("info")
+	logger = log.NewLogger(os.Stdout)
+
+	util.LoadConf()
+
+	if "dev" == util.Conf.RuntimeMode {
+		gin.SetMode(gin.DebugMode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+	}
+	gin.DefaultWriter = io.MultiWriter(os.Stdout)
+}
 
 // Entry point.
 func main() {
