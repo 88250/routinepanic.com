@@ -18,6 +18,16 @@ type stackOverflow struct{}
 // Logger
 var logger = log.NewLogger(os.Stdout)
 
+// QnA represents a question and its answers.
+type QnA struct {
+	question *model.Question
+	answers  []*model.Answer
+}
+
+func (s *stackOverflow) ParseQuestions(page int) []*QnA {
+	return nil
+}
+
 func (s *stackOverflow) ParseQuestion(url string) (question *model.Question, answers []*model.Answer) {
 	request := gorequest.New()
 	response, body, errs := request.Set("User-Agent", uarand.GetRandom()).Get(url).End()
@@ -43,7 +53,8 @@ func (s *stackOverflow) ParseQuestion(url string) (question *model.Question, ans
 		Source:    model.SourceStackOverflow,
 		SourceURL: url,
 	}
-
+	questionSrcID, _ := doc.Find("#question").Attr("data-questionid")
+	question.SourceID = questionSrcID
 	doc.Find("#question-header h1").Each(func(i int, s *goquery.Selection) {
 		question.Title = s.Text()
 	})
@@ -58,11 +69,13 @@ func (s *stackOverflow) ParseQuestion(url string) (question *model.Question, ans
 	doc.Find("#question .post-text").Each(func(i int, s *goquery.Selection) {
 		question.Content, _ = s.Html()
 	})
-	doc.Find("#answers .answer .post-text").EachWithBreak(func(i int, s *goquery.Selection) bool {
-		content, _ := s.Html()
+	doc.Find("#answers .answer").EachWithBreak(func(i int, s *goquery.Selection) bool {
+		answerSrcID, _ := s.Attr("data-answerid")
+		content, _ := s.Find(".post-text").Html()
 		answer := &model.Answer{
-			Content: content,
-			Source:  model.SourceStackOverflow,
+			Content:  content,
+			Source:   model.SourceStackOverflow,
+			SourceID: answerSrcID,
 		}
 		answers = append(answers, answer)
 
