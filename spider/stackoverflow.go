@@ -6,6 +6,7 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/b3log/routinepanic.com/log"
+	"github.com/b3log/routinepanic.com/model"
 	"github.com/corpix/uarand"
 	"github.com/parnurzeal/gorequest"
 )
@@ -14,14 +15,10 @@ var StackOverflow = &stackOverflow{}
 
 type stackOverflow struct{}
 
-type Question struct {
-	Content string
-}
-
 // Logger
 var logger = log.NewLogger(os.Stdout)
 
-func (s *stackOverflow) ParseQuestion(url string) *Question {
+func (s *stackOverflow) ParseQuestion(url string) *model.Question {
 	request := gorequest.New()
 	response, body, errs := request.Set("User-Agent", uarand.GetRandom()).Get(url).End()
 	if nil != errs {
@@ -42,7 +39,7 @@ func (s *stackOverflow) ParseQuestion(url string) *Question {
 		return nil
 	}
 
-	ret := &Question{}
+	ret := &model.Question{}
 	doc.Find("#question .post-text").Each(func(i int, s *goquery.Selection) {
 		ret.Content, _ = s.Html()
 	})
