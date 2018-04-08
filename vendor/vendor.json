@@ -33,6 +33,12 @@
 			"revisionTime": "2017-05-03T20:53:33Z"
 		},
 		{
+			"checksumSHA1": "f2vdCiUYRvQ3JZwLcL3ieVe00Aw=",
+			"path": "github.com/corpix/uarand",
+			"revision": "2b8494104d86337cdd41d0a49cbed8e4583c0ab4",
+			"revisionTime": "2017-09-03T19:08:22Z"
+		},
+		{
 			"checksumSHA1": "6X3O3mfvOyiwV2iAb5GjxARs08c=",
 			"path": "github.com/garyburd/redigo/internal",
 			"revision": "e3f9a558354b9c5fc3f992b9e8076dd751038b9b",
@@ -141,6 +147,24 @@
 			"revisionTime": "2017-03-22T23:44:13Z"
 		},
 		{
+			"checksumSHA1": "qy1o/2NzswTMAoPXgdUxg4/g9tI=",
+			"path": "github.com/moul/http2curl",
+			"revision": "9ac6cf4d929b2fa8fd2d2e6dec5bb0feb4f4911d",
+			"revisionTime": "2017-09-19T18:10:01Z"
+		},
+		{
+			"checksumSHA1": "yJqMcmlRNB1FoV3rYo7U6bLLjBw=",
+			"path": "github.com/parnurzeal/gorequest",
+			"revision": "8e3aed27fe49f7fdc765dad067845f600fc984e8",
+			"revisionTime": "2017-10-15T11:04:55Z"
+		},
+		{
+			"checksumSHA1": "iwLqOY6Nr1BitBUex4K0Wep3JL8=",
+			"path": "github.com/pkg/errors",
+			"revision": "ff09b135c25aae272398c51a07235b90a75aa4f0",
+			"revisionTime": "2017-03-16T20:15:38Z"
+		},
+		{
 			"checksumSHA1": "G9ZGa1NLkstgPd9EylK9Hq+wqrE=",
 			"path": "github.com/ugorji/go/codec",
 			"revision": "8c0409fcbb70099c748d71f714529204975f6c3f",
@@ -155,6 +179,12 @@
 		{
 			"checksumSHA1": "iWvOOLdDxvI4AVX6px6/HYBPeaQ=",
 			"path": "golang.org/x/net/html/atom",
+			"revision": "01c190206fbdffa42f334f4b2bf2220f50e64920",
+			"revisionTime": "2017-11-02T18:53:09Z"
+		},
+		{
+			"checksumSHA1": "nt4o3cMOyP9prgVeAZgRf82/Et0=",
+			"path": "golang.org/x/net/publicsuffix",
 			"revision": "01c190206fbdffa42f334f4b2bf2220f50e64920",
 			"revisionTime": "2017-11-02T18:53:09Z"
 		},
