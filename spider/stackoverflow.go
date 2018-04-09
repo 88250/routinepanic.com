@@ -1,6 +1,7 @@
 package spider
 
 import (
+	"fmt"
 	"os"
 	"strings"
 
@@ -22,6 +23,20 @@ var logger = log.NewLogger(os.Stdout)
 type QnA struct {
 	Question *model.Question
 	Answers  []*model.Answer
+}
+
+func (s *stackOverflow) ParseQuestionsByVotes(fromPage, toPage int) []*QnA {
+	var ret []*QnA
+	for i := fromPage; i <= toPage; i++ {
+		qnas := s.ParseQuestions(fmt.Sprintf("https://stackoverflow.com/questions?page=%d&sort=votes", i))
+		if nil != qnas {
+			ret = append(ret, qnas...)
+		}
+
+		logger.Infof("parsed voted questions [page=%d]", i)
+	}
+
+	return ret
 }
 
 func (s *stackOverflow) ParseQuestions(url string) []*QnA {
@@ -52,12 +67,12 @@ func (s *stackOverflow) ParseQuestions(url string) []*QnA {
 	})
 
 	var ret []*QnA
-	for _, url := range questionURLs {
+	for i, url := range questionURLs {
 		question, answers := s.ParseQuestion("https://stackoverflow.com" + url)
 		qna := &QnA{Question: question, Answers: answers}
 		ret = append(ret, qna)
 
-		logger.Infof("parsed question [%s]", question.Title)
+		logger.Infof("parsed question #%d [%s]", i, question.Title)
 	}
 
 	return ret

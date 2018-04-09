@@ -31,10 +31,12 @@ func teardown() {
 	log.Println("teardown tests")
 }
 
-func TestParseQuestions(t *testing.T) {
-	qnas := spider.StackOverflow.ParseQuestions("https://stackoverflow.com/questions?sort=votes")
-	err := QnA.Add(qnas)
-	if nil != err {
-		t.Errorf("add QnAs failed: " + err.Error())
+func TestAddQuestionsByVotes(t *testing.T) {
+	for page := 1; page < 200; page++ {
+		qnas := spider.StackOverflow.ParseQuestionsByVotes(page, page)
+		err := QnA.Add(qnas)
+		if nil != err {
+			t.Errorf("add QnAs failed: " + err.Error())
+		}
 	}
 }
