@@ -20,8 +20,8 @@ var logger = log.NewLogger(os.Stdout)
 
 // QnA represents a question and its answers.
 type QnA struct {
-	question *model.Question
-	answers  []*model.Answer
+	Question *model.Question
+	Answers  []*model.Answer
 }
 
 func (s *stackOverflow) ParseQuestions(url string) []*QnA {
@@ -54,10 +54,8 @@ func (s *stackOverflow) ParseQuestions(url string) []*QnA {
 	var ret []*QnA
 	for _, url := range questionURLs {
 		question, answers := s.ParseQuestion("https://stackoverflow.com" + url)
-		qna := &QnA{question: question, answers: answers}
+		qna := &QnA{Question: question, Answers: answers}
 		ret = append(ret, qna)
-
-		logger.Info(len(ret))
 	}
 
 	return ret
