@@ -34,6 +34,16 @@ func teardown() {
 func TestAddQuestionsByVotes(t *testing.T) {
 	for page := 1; page < 200; page++ {
 		qnas := spider.StackOverflow.ParseQuestionsByVotes(page, page)
+
+		for _, qna := range qnas {
+			qna.Question.Title = Translation.Translate(qna.Question.Title)
+			qna.Question.Content = Translation.Translate(qna.Question.Content)
+
+			for _, a := range qna.Answers {
+				a.Content = Translation.Translate(a.Content)
+			}
+		}
+
 		err := QnA.Add(qnas)
 		if nil != err {
 			t.Errorf("add QnAs failed: " + err.Error())

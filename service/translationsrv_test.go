@@ -3,6 +3,6 @@ package service
 import "testing"
 
 func TestTranslate(t *testing.T) {
-	text := Translate("测试<b>翻译</b>功能")
+	text := Translation.Translate("Why is it faster to process a sorted array than an unsorted array?")
 	t.Log(text)
 }
