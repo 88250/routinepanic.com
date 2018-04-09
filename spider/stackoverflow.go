@@ -56,6 +56,8 @@ func (s *stackOverflow) ParseQuestions(url string) []*QnA {
 		question, answers := s.ParseQuestion("https://stackoverflow.com" + url)
 		qna := &QnA{Question: question, Answers: answers}
 		ret = append(ret, qna)
+
+		logger.Infof("parsed question [%s]", question.Title)
 	}
 
 	return ret

@@ -33,7 +33,7 @@ func (src *qnaService) Add(qnas []*spider.QnA) (err error) {
 		}
 		for _, answer := range qna.Answers {
 			answer.QuestionID = qna.Question.ID
-			if err = db.Where("`question_id` = ? AND `source` = ?", qna.Question.ID, answer.Source).
+			if err = db.Where("`question_id` = ? AND `source_id` = ? AND `source` = ?", qna.Question.ID, answer.SourceID, answer.Source).
 				Assign(model.Answer{
 					Content:   answer.Content,
 					SourceURL: answer.SourceURL,
