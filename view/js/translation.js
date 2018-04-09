@@ -7,9 +7,9 @@ var service = server.listen(port, function (request, response) {
   var text = JSON.parse(request.post).text;
   console.log(text);
 
-  page.open('https://translate.google.cn/#en/zh-CN/' + encodeURIComponent(text), function(status) {
-    console.log(status);  
-    var result = page.evaluate(function() {
+  page.open('https://translate.google.cn/#en/zh-CN/' + encodeURIComponent(text), function (status) {
+    console.log(status);
+    var result = page.evaluate(function () {
       return document.getElementById('result_box').textContent;
     });
 
@@ -20,5 +20,4 @@ var service = server.listen(port, function (request, response) {
   });
 });
 
-
-console.log("Translation engine is running at port: " + port);
+console.log("Translation Server is running at port: " + port);
