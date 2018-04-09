@@ -89,11 +89,11 @@ func (s *stackOverflow) ParseQuestion(url string) (question *model.Question, ans
 	questionSrcID, _ := doc.Find("#question").Attr("data-questionid")
 	question.SourceID = questionSrcID
 	doc.Find("#question-header h1").Each(func(i int, s *goquery.Selection) {
-		question.Title = s.Text()
+		question.Title = strings.TrimSpace(s.Text())
 	})
 	tags := ""
 	doc.Find(".post-taglist a").Each(func(i int, s *goquery.Selection) {
-		tags += s.Text() + ","
+		tags += strings.TrimSpace(s.Text()) + ","
 	})
 	if 0 < len(tags) {
 		tags = tags[:len(tags)-1]
@@ -101,10 +101,12 @@ func (s *stackOverflow) ParseQuestion(url string) (question *model.Question, ans
 	question.Tags = tags
 	doc.Find("#question .post-text").Each(func(i int, s *goquery.Selection) {
 		question.Content, _ = s.Html()
+		question.Content = strings.TrimSpace(question.Content)
 	})
 	doc.Find("#answers .answer").EachWithBreak(func(i int, s *goquery.Selection) bool {
 		answerSrcID, _ := s.Attr("data-answerid")
 		content, _ := s.Find(".post-text").Html()
+		content = strings.TrimSpace(content)
 		answer := &model.Answer{
 			Content:  content,
 			Source:   model.SourceStackOverflow,

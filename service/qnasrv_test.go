@@ -1,10 +1,11 @@
 package service
 
 import (
-	"testing"
-	"github.com/b3log/routinepanic.com/spider"
-	"os"
 	"log"
+	"os"
+	"testing"
+
+	"github.com/b3log/routinepanic.com/spider"
 	"github.com/b3log/routinepanic.com/util"
 )
 
@@ -29,7 +30,6 @@ func teardown() {
 
 	log.Println("teardown tests")
 }
-
 
 func TestParseQuestions(t *testing.T) {
 	qnas := spider.StackOverflow.ParseQuestions("https://stackoverflow.com/questions?sort=votes")
