@@ -1,23 +1,26 @@
-var port = 6868;
-var server = server = require('webserver').create();
-var page = require('webpage').create();
+const port = 6868
+const server = server = require('webserver').create()
+const page = require('webpage').create()
 
-var service = server.listen(port, function (request, response) {
-  console.log(JSON.stringify(request, null, 4));
-  var text = JSON.parse(request.post).text;
-  console.log(text);
+server.listen(port, function (request, response) {
+  page.open('https://translate.google.cn', function () {
+    if (status === 'success') {
+      page.evaluate(function () {
+        document.getElementById('result_box').value = request.post
+        document.getElementById('gt-submit').click()
+        const intervalTime = setInterval(function () {
+          if (document.getElementById('result_box').textContent !== '') {
+            clearInterval(intervalTime)
+            response.write(document.getElementById('result_box').textContent)
+            response.close()
+          }
+        }, 1000)
+      })
+    } else {
+      response.write(status + 1)
+      response.close()
+    }
+  })
+})
 
-  page.open('https://translate.google.cn/#en/zh-CN/' + encodeURIComponent(text), function (status) {
-    console.log(status);
-    var result = page.evaluate(function () {
-      return document.getElementById('result_box').textContent;
-    });
-
-    console.log(result);
-
-    response.write(result);
-    response.close();
-  });
-});
-
-console.log("Translation Server is running at port: " + port);
+console.log('Translation Server is running at port: ' + port)
