@@ -1,0 +1,81 @@
+{{define "index.html"}}
+<!DOCTYPE html>
+<html>
+<head>
+    {{template "head" .}}
+</head>
+<body>
+<div class="post-text" itemprop="text">
+    <p>When you declare a reference variable (i.e. an object) you are really creating a pointer to an object. Consider
+        the following code where you declare a variable of primitive type <code>int</code>:</p>
+
+    <pre><code>int x;
+x = 10;
+</code></pre>
+
+    <p>In this example, the variable x is an <code>int</code> and Java will initialize it to 0 for you. When you assign
+        it to 10 in the second line your value 10 is written into the memory location pointed to by x.</p>
+
+    <p>But, when you try to declare a reference type something different happens. Take the following code:</p>
+
+    <pre><code>Integer num;
+num = new Integer(10);
+</code></pre>
+
+    <p>The first line declares a variable named <code>num</code>, but, it does not contain a primitive value. Instead,
+        it contains a pointer (because the type is <code>Integer</code> which is a reference type). Since you did not
+        say as yet what to point to Java sets it to null, meaning "<strong>I am pointing at nothing</strong>".</p>
+
+    <p>In the second line, the <code>new</code> keyword is used to instantiate (or create) an object of type Integer and
+        the pointer variable <code>num</code> is assigned this object. You can now reference the object using the
+        dereferencing operator <code>.</code> (a dot). </p>
+
+    <p>The <code>Exception</code> that you asked about occurs when you declare a variable but did not create an object.
+        If you attempt to dereference <code>num</code> BEFORE creating the object you get a
+        <code>NullPointerException</code>. In the most trivial cases, the compiler will catch the problem and let you
+        know that "num may not have been initialized" but sometimes you write code that does not directly create the
+        object.</p>
+
+    <p>For instance, you may have a method as follows:</p>
+
+    <pre><code>public void doSomething(SomeObject obj) {
+   //do something to obj
+}
+</code></pre>
+
+    <p>in which case you are not creating the object <code>obj</code>, rather assuming that it was created before the
+        <code>doSomething</code> method was called. Unfortunately, it is possible to call the method like this:</p>
+
+    <pre><code>doSomething(null);
+</code></pre>
+
+    <p>in which case <code>obj</code> is null. If the method is intended to do something to the passed-in object, it is
+        appropriate to throw the <code>NullPointerException</code> because it's a programmer error and the programmer
+        will need that information for debugging purposes.</p>
+
+    <p>Alternatively, there may be cases where the purpose of the method is not solely to operate on the passed in
+        object, and therefore a null parameter may be acceptable. In this case, you would need to check for a <strong>null
+            parameter</strong> and behave differently. You should also explain this in the documentation. For example,
+        <code>doSomething</code> could be written as:</p>
+
+    <pre><code>/**
+  * @param obj An optional foo for ____. May be null, in which case
+  *  the result will be ____.
+  */
+public void doSomething(SomeObject obj) {
+    if(obj != null) {
+       //do something
+    } else {
+       //do something else
+    }
+}
+</code></pre>
+
+    <p>Finally, <a href="https://stackoverflow.com/q/3988788/2775450">How to pinpoint the exception location &amp; cause
+        using Stack Trace</a></p>
+</div>
+
+{{template "footer" .}}
+</body>
+</html>
+{{end}}
