@@ -2,7 +2,7 @@
   "Server": "http://localhost:5858",
   "StaticServer": "",
   "StaticResourceVersion": "1521597972031",
-  "RuntimeMode": "prod",
+  "RuntimeMode": "dev",
   "LogLevel": "debug",
   "SessionSecret": "BEYOND",
   "SessionMaxAge": 86400,

@@ -61,10 +61,12 @@ func MapRoutes() *gin.Engine {
 	subTemplates, _ := filepath.Glob("view/template/*/*.html")
 	templates = append(templates, subTemplates...)
 	ret.LoadHTMLFiles(templates...)
+
 	ret.Static("/css", "view/css")
 	ret.Static("/js", "view/js")
 	ret.Static("/images", "view/images")
 	ret.GET("", showIndexAction)
+	ret.GET("/questions/*path", showQuestionAction)
 
 	return ret
 }
