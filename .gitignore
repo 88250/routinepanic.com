@@ -3,6 +3,8 @@
 *.dll
 *.so
 *.dylib
+routinepanic.com
+view/node_modules
 
 # Test binary, build with `go test -c`
 *.test
@@ -15,5 +17,3 @@
 
 # IDE
 .idea/
-view/node_modules
-routinepanic.com
