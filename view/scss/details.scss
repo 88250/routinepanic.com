@@ -1,0 +1,22 @@
+/**
+ * question.
+ *
+ * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
+ * @version 0.1.0.0, Apr 13, 2018
+ */
+@import 'variables';
+
+.details {
+  .question__tag {
+    margin: 0 12px 12px 0;
+  }
+
+  .question__title {
+    margin-bottom: 24px;
+  }
+
+  &__answer {
+    font-size: 20px;
+    margin: 24px 0;
+  }
+}

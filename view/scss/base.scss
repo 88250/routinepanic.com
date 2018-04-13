@@ -1,6 +1,59 @@
+/**
+ * basic.
+ *
+ * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
+ * @version 0.1.0.0, Apr 13, 2018
+ */
+
 @import 'basic';
 @import 'github';
+@import 'nav';
+
+.list {
+  &__item {
+    border: 1px solid #efefef;
+    background-color: #fff;
+    border-radius: 3px;
+    border-bottom: 1px solid #e2e2e2;
+    margin-bottom: 24px;
+    padding: 12px;
+    transition: $transition;
+    &:hover {
+      border: 1px solid #e2e2e2;
+    }
+  }
+}
+
+.question {
+  &__title {
+    color: $black;
+    font-size: 20px;
+    transition: $transition;
+    &:hover {
+      color: #000;
+    }
+  }
+
+  &__tag {
+    display: inline-block;
+    white-space: nowrap;
+    background-color: rgb(241, 248, 255);
+    padding: 3px 6px;
+    margin: 12px 12px 0 0;
+    border-radius: 3px;
+    font-size: 12px;
+
+    &:hover {
+      background-color: rgb(221, 238, 255);
+      text-decoration: none;
+    }
+  }
+}
 
 .footer {
-  background-color: #4285f4;
+  margin-top: 48px;
+  padding: 48px 0;
+  border-top: 1px solid #ddd;
+  font-size: 13px;
+  color: $gray;
 }

@@ -1,0 +1,52 @@
+/**
+ * nav.
+ *
+ * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
+ * @version 0.1.0.0, Apr 11, 2018
+ */
+
+.header {
+  position: fixed;
+  height: 32px;
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 3px 2px -2px rgba(200, 200, 200, 0.2);
+  width: 100%;
+  background-color: #fff;
+  top: 0;
+  z-index: 10;
+
+  &__logo {
+    height: 32px;
+    width: 32px;
+    @include image-bg;
+    background-image: url(../images/logo@48.png);
+    float: left;
+    margin-right: 17px;
+    background-color: #fff;
+  }
+
+  &__link {
+    color: $black;
+    float: left;
+    white-space: nowrap;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &__title {
+    font-size: 26px;
+    line-height: 32px;
+  }
+
+  &__input {
+    float: right;
+    padding: 6px;
+    width: 320px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+    box-shadow: inset 0 1px 1px rgba(200, 200, 200, 0.3);
+    border: 1px solid #e2e2e2;
+  }
+}

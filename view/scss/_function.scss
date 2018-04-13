@@ -2,10 +2,20 @@
  * function.
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.1.0.0, Apr 11, 2018
+ * @version 0.1.0.0, Apr 13, 2018
  */
 
 .fn {
+  &-wrap {
+    width: 980px;
+    padding: 0 16px;
+    margin: 0 auto;
+  }
+
+  &-content {
+    margin-top: 81px;
+  }
+
   &-flex {
     display: flex;
   }

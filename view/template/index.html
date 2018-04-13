@@ -3,10 +3,45 @@
 <html>
 <head>
     {{template "head" .}}
+    <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/css/index.css?{{.Conf.StaticResourceVersion}}"/>
 </head>
 <body>
-    <a href="question.html">Article</a>
+{{template "nav" .}}
+<div class="fn-content fn-wrap">
+    <article class="list__item">
+        <header><h2><a href="questions/abc" class="question__title">不忘初心，牢记使命，永远奋斗</a></h2></header>
+        <div>
+            <a class="question__tag" rel="tag" href="tags/tag">对内</a>
+            <a class="question__tag" rel="tag" href="tags/tag">对外</a>
+        </div>
+    </article>
+    <article class="list__item">
+        <header><h2><a href="questions/abc" class="question__title">不忘初心，牢记使命，永远奋斗</a></h2></header>
+        <div>
+            <a class="question__tag" rel="tag" href="tags/tag">对内</a>
+            <a class="question__tag" rel="tag" href="tags/tag">对外</a>
+        </div>
+    </article>
+    <div class="fn-clear">
+        <nav class="pagination fn-right">
+            <a aria-label="{{.I18n.PrePage}}"
+               class="pagination__item pagination__item--disabled"
+               href="?p={{$.Pagination.PreviousPageNum}}">
+                上一页
+            </a>
+            <a class="pagination__item" href="?p=1">1</a>
+            <a class="pagination__item pagination__item--current" href="?p=1">2</a>
+            <span class="pagination__item pagination__item--disabled">...</span>
+            <a class="pagination__item" href="?p=1">5</a>
+            <a aria-label="{{.I18n.PrePage}}"
+               class="pagination__item"
+               href="?p={{$.Pagination.PreviousPageNum}}">
+                下一页
+            </a>
+        </nav>
+    </div>
     {{template "footer" .}}
+</div>
 </body>
 </html>
 {{end}}
