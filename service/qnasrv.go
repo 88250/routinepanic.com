@@ -29,7 +29,7 @@ func (src *qnaService) Add(qnas []*spider.QnA) (err error) {
 			Assign(model.Question{
 				Title:     qna.Question.Title,
 				Tags:      qna.Question.Tags,
-				Content:   qna.Question.Content,
+				ContentEnUS:   qna.Question.ContentEnUS,
 				SourceURL: qna.Question.SourceURL,
 			}).FirstOrCreate(qna.Question).Error; nil != err {
 			return
@@ -38,7 +38,7 @@ func (src *qnaService) Add(qnas []*spider.QnA) (err error) {
 			answer.QuestionID = qna.Question.ID
 			if err = db.Where("`question_id` = ? AND `source_id` = ? AND `source` = ?", qna.Question.ID, answer.SourceID, answer.Source).
 				Assign(model.Answer{
-					Content:   answer.Content,
+					ContentEnUS:   answer.ContentEnUS,
 					SourceURL: answer.SourceURL,
 				}).FirstOrCreate(answer).Error; nil != err {
 				return

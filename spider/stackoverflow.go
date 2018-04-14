@@ -120,15 +120,15 @@ func (s *stackOverflow) ParseQuestion(url string) (question *model.Question, ans
 	}
 	question.Tags = tags
 	doc.Find("#question .post-text").Each(func(i int, s *goquery.Selection) {
-		question.Content, _ = s.Html()
-		question.Content = strings.TrimSpace(question.Content)
+		question.ContentEnUS, _ = s.Html()
+		question.ContentEnUS = strings.TrimSpace(question.ContentEnUS)
 	})
 	doc.Find("#answers .answer").EachWithBreak(func(i int, s *goquery.Selection) bool {
 		answerSrcID, _ := s.Attr("data-answerid")
 		content, _ := s.Find(".post-text").Html()
 		content = strings.TrimSpace(content)
 		answer := &model.Answer{
-			Content:  content,
+			ContentEnUS:  content,
 			Source:   model.SourceStackOverflow,
 			SourceID: answerSrcID,
 		}
