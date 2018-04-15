@@ -8,20 +8,16 @@
 <body>
 {{template "nav" .}}
 <div class="fn-content fn-wrap">
+{{range .Questions}}
     <article class="list__item">
-        <header><h2><a href="questions/abc" class="question__title">不忘初心，牢记使命，永远奋斗</a></h2></header>
+        <header><h2><a href="questions/abc" class="question__title">{{.Title}}</a></h2></header>
         <div>
-            <a class="question__tag" rel="tag" href="tags/tag">对内</a>
-            <a class="question__tag" rel="tag" href="tags/tag">对外</a>
+
+            <a class="question__tag" rel="tag" href="tags/tag">{{.Tags}}</a>
+
         </div>
     </article>
-    <article class="list__item">
-        <header><h2><a href="questions/abc" class="question__title">不忘初心，牢记使命，永远奋斗</a></h2></header>
-        <div>
-            <a class="question__tag" rel="tag" href="tags/tag">对内</a>
-            <a class="question__tag" rel="tag" href="tags/tag">对外</a>
-        </div>
-    </article>
+{{end}}
     <div class="fn-clear">
         <nav class="pagination fn-right">
             <a aria-label="{{.I18n.PrePage}}"

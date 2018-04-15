@@ -33,6 +33,12 @@ var Models = []interface{}{
 	&model.Question{}, &model.Answer{},
 }
 
+// Pagination parameters.
+const (
+	WindowSize = 20
+	PageSize   = 50
+)
+
 // Table prefix.
 const tablePrefix = "rp_"
 
