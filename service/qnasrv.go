@@ -23,7 +23,7 @@ func (srv *qnaService) GetQuestions(page int) (ret []*model.Question, pagination
 		Select("`id`, `created_at`, `title`, `tags`, `path`").
 		Order("`created_at` DESC").Count(&count).
 		Offset(offset).Limit(util.PageSize).
-		Find(&ret).Debug().Error; nil != err {
+		Find(&ret).Error; nil != err {
 		logger.Errorf("get questions failed: " + err.Error())
 	}
 
