@@ -32,7 +32,7 @@ func ConnectDB() {
 
 	db.DB().SetMaxIdleConns(10)
 	db.DB().SetMaxOpenConns(50)
-	db.LogMode(true)
+	//db.LogMode(true)
 }
 
 // DisconnectDB disconnects from the database.
