@@ -10,7 +10,6 @@ import (
 )
 
 func showQuestionAction(c *gin.Context) {
-	logger.Infof("path " + c.Request.RequestURI)
-	dataModel := &DataModel{}
+	dataModel := getDataModel(c)
 	c.HTML(http.StatusOK, "question.html", dataModel)
 }

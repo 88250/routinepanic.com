@@ -65,6 +65,8 @@ func MapRoutes() *gin.Engine {
 	ret.Static("/css", "view/css")
 	ret.Static("/js", "view/js")
 	ret.Static("/images", "view/images")
+
+	ret.Use(fillCommon)
 	ret.GET("", showIndexAction)
 	ret.GET("/questions/*path", showQuestionAction)
 
@@ -73,3 +75,16 @@ func MapRoutes() *gin.Engine {
 
 // DataModel represents data model.
 type DataModel map[string]interface{}
+
+func fillCommon(c *gin.Context) {
+	dataModel := &DataModel{}
+	c.Set("dataModel", dataModel)
+
+	(*dataModel)["Conf"] = util.Conf
+}
+
+func getDataModel(c *gin.Context) DataModel {
+	dataModelVal, _ := c.Get("dataModel")
+
+	return *(dataModelVal.(*DataModel))
+}

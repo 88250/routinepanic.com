@@ -71,36 +71,42 @@ func (s *stackOverflow) ParseQuestions(url string) []*QnA {
 
 	var ret []*QnA
 	for i, url := range questionURLs {
-		question, answers := s.ParseQuestion("https://stackoverflow.com" + url)
-		qna := &QnA{Question: question, Answers: answers}
+		qna := s.ParseQuestion("https://stackoverflow.com" + url)
+		if nil == qna {
+			continue
+		}
+
 		ret = append(ret, qna)
 
-		logger.Infof("parsed question #%d [%s]", i, question.TitleEnUS)
+		logger.Infof("parsed question #%d [%s]", i, qna.Question.TitleEnUS)
 	}
 
 	return ret
 }
 
-func (s *stackOverflow) ParseQuestion(url string) (question *model.Question, answers []*model.Answer) {
+func (s *stackOverflow) ParseQuestion(url string) *QnA {
 	request := gorequest.New()
 	response, body, errs := request.Set("User-Agent", uarand.GetRandom()).Get(url).End()
 	if nil != errs {
 		logger.Errorf("get [%s] failed: %s", url, errs)
 
-		return nil, nil
+		return nil
 	}
 	if 200 != response.StatusCode {
 		logger.Errorf("get [%s] status code is [%d]", response.StatusCode)
 
-		return nil, nil
+		return nil
 	}
 
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(body))
 	if nil != err {
 		logger.Errorf("parse [%s] failed: ", url, err)
 
-		return nil, nil
+		return nil
 	}
+
+	question := &model.Question{}
+	var answers []*model.Answer
 
 	urlParts := strings.Split(url, "/")
 	question = &model.Question{
@@ -139,5 +145,5 @@ func (s *stackOverflow) ParseQuestion(url string) (question *model.Question, ans
 		return i < 2
 	})
 
-	return
+	return &QnA{Question:question,Answers:answers}
 }

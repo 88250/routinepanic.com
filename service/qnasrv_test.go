@@ -9,6 +9,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/b3log/routinepanic.com/model"
 	"github.com/b3log/routinepanic.com/spider"
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/jinzhu/gorm"
@@ -57,15 +58,35 @@ func TestAddQuestionsByVotes(t *testing.T) {
 		for _, qna := range qnas {
 			qna.Question.TitleZhCN = Translation.Translate(qna.Question.TitleEnUS, "text")
 			qna.Question.ContentZhCN = Translation.Translate(qna.Question.ContentEnUS, "html")
-
 			for _, a := range qna.Answers {
 				a.ContentZhCN = Translation.Translate(a.ContentEnUS, "html")
 			}
 		}
 
-		err := QnA.Add(qnas)
-		if nil != err {
+		if err := QnA.AddAll(qnas); nil != err {
 			t.Errorf("add QnAs failed: " + err.Error())
+		}
+	}
+}
+
+func TestReAdd(t *testing.T) {
+	var questions []*model.Question
+
+	if err := db.Model(&model.Question{}).Where("`content_zh_cn` = ''").Find(&questions).Error; nil != err {
+		t.Fatalf("query queestion failed: " + err.Error())
+	}
+
+	for _, q := range questions {
+		qna := spider.StackOverflow.ParseQuestion(q.SourceURL)
+
+		qna.Question.TitleZhCN = Translation.Translate(qna.Question.TitleEnUS, "text")
+		qna.Question.ContentZhCN = Translation.Translate(qna.Question.ContentEnUS, "html")
+		for _, a := range qna.Answers {
+			a.ContentZhCN = Translation.Translate(a.ContentEnUS, "html")
+		}
+
+		if err := QnA.Add(qna); nil != err {
+			t.Errorf("add QnA failed: " + err.Error())
 		}
 	}
 }

@@ -13,7 +13,7 @@ import (
 )
 
 func showIndexAction(c *gin.Context) {
-	dataModel := DataModel{}
+	dataModel := getDataModel(c)
 
 	page := util.GetPage(c)
 	qModels, pagination := service.QnA.GetQuestions(page)
