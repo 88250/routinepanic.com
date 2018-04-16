@@ -21,9 +21,9 @@ func showQuestionAction(c *gin.Context) {
 
 		return
 	}
-
-	dataModel["Question"] = 	vo(qModel)
-
+	dataModel["Question"] = questionVo(qModel)
+	aModels := service.QnA.GetAnswers(qModel.ID)
+	dataModel["Answers"] = answersVos(aModels)
 
 	c.HTML(http.StatusOK, "question.html", dataModel)
 }

@@ -16,7 +16,17 @@ var QnA = &qnaService{}
 type qnaService struct {
 }
 
-func (src *qnaService) GetQuestionByPath(path string) (ret *model.Question) {
+func (srv *qnaService) GetAnswers(questionID uint64) (ret []*model.Answer) {
+	if err := db.Model(&model.Answer{}).Where("`question_id` = ?", questionID).Find(&ret).Error; nil != err {
+		logger.Errorf("get answers of question [id=%d] failed: %s", questionID, err)
+
+		return
+	}
+
+	return
+}
+
+func (srv *qnaService) GetQuestionByPath(path string) (ret *model.Question) {
 	ret = &model.Question{}
 	if err := db.Model(&model.Question{}).Where("`path` = ?", path).First(ret).Error; nil != err {
 		logger.Errorf("get question [path=" + path + "] failed: " + err.Error())

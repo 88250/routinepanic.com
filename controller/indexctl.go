@@ -5,42 +5,20 @@ package controller
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/b3log/routinepanic.com/service"
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/gin-gonic/gin"
-	"github.com/b3log/routinepanic.com/model"
-	"html/template"
 )
 
 func showIndexAction(c *gin.Context) {
 	dataModel := getDataModel(c)
-
 	page := util.GetPage(c)
-	qModels, pagination := service.QnA.GetQuestions(page)
-	questions := []*question{}
-	for _, qModel := range qModels {
-		q := vo(qModel)
-		questions = append(questions, q)
-	}
 
+	qModels, pagination := service.QnA.GetQuestions(page)
+	questions := questionsVos(qModels)
 	dataModel["Questions"] = questions
 	dataModel["Pagination"] = pagination
+
 	c.HTML(http.StatusOK, "index.html", dataModel)
-}
-
-func vo(qModel *model.Question) (q *question) {
-	q = &question{
-		ID:    qModel.ID,
-		Path:  qModel.Path,
-		Title: qModel.TitleZhCN,
-		Content: template.HTML(qModel.ContentZhCN),
-	}
-	tagStrs := strings.Split(qModel.Tags, ",")
-	for _, tagTitle := range tagStrs {
-		q.Tags = append(q.Tags, &tag{Title: tagTitle})
-	}
-
-	return
 }

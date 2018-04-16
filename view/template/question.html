@@ -19,7 +19,12 @@
     {{.Question.Content}}
     </div>
 </div>
-
+{{range $index, $answer := .Answers}}
+<div>
+    Q{{$index}}: <br>
+    {{$answer.Content}}
+</div>
+{{end}}
 {{template "footer" .}}
 <script src="{{.Conf.StaticServer}}/js/lib/highlight.min.js"></script>
 <script>
