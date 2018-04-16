@@ -79,7 +79,7 @@ func TestReAdd(t *testing.T) {
 	for _, q := range questions {
 		qna := spider.StackOverflow.ParseQuestion(q.SourceURL)
 
-		qna.Question.TitleZhCN = Translation.Translate(qna.Question.TitleEnUS, "text")
+		qna.Question.TitleZhCN = Translation.Translate(qna.Question.TitleEnUS, "html")
 		qna.Question.ContentZhCN = Translation.Translate(qna.Question.ContentEnUS, "html")
 		for _, a := range qna.Answers {
 			a.ContentZhCN = Translation.Translate(a.ContentEnUS, "html")
