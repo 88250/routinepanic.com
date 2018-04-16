@@ -8,6 +8,7 @@ import (
 )
 
 func TestTranslate(t *testing.T) {
-	text := Translation.Translate("Why is it faster to process a sorted array than an unsorted array?")
+	text := Translation.Translate("Why is it faster to process a sorted array than an unsorted array?",
+		"text")
 	t.Log(text)
 }

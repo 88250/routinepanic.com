@@ -16,7 +16,7 @@ var Translation = &translationService{}
 type translationService struct {
 }
 
-func (srv *translationService) Translate(text string) string {
+func (srv *translationService) Translate(text string, format string) string {
 	ctx := context.Background()
 	client, err := translate.NewClient(ctx)
 	if err != nil {
@@ -26,7 +26,7 @@ func (srv *translationService) Translate(text string) string {
 	}
 
 	translations, err := client.Translate(ctx, []string{text}, language.Chinese,
-		&translate.Options{Source: language.English, Format: translate.HTML, Model: "nmt"})
+		&translate.Options{Source: language.English, Format: translate.Format(format), Model: "nmt"})
 	if nil != err {
 		logger.Errorf("translate failed: " + err.Error())
 

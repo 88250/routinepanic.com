@@ -15,6 +15,16 @@ var QnA = &qnaService{}
 type qnaService struct {
 }
 
+func (src *qnaService) GetQuestionByPath(path string) (ret *model.Question) {
+	if err := db.Model(&model.Question{}).Where("`path`").Find(ret).Error; nil != err {
+		logger.Errorf("get question [path=" + path + "] failed: " + err.Error())
+
+		return nil
+	}
+
+	return
+}
+
 func (srv *qnaService) GetQuestions(page int) (ret []*model.Question, pagination *util.Pagination) {
 	offset := (page - 1) * util.PageSize
 	count := 0

@@ -102,7 +102,9 @@ func (s *stackOverflow) ParseQuestion(url string) (question *model.Question, ans
 		return nil, nil
 	}
 
+	urlParts := strings.Split(url, "/")
 	question = &model.Question{
+		Path:      urlParts[len(urlParts)-1],
 		Source:    model.SourceStackOverflow,
 		SourceURL: url,
 	}

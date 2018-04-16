@@ -4,8 +4,10 @@
 package controller
 
 type question struct {
+	ID    uint64
+	Path  string
 	Title string
-	Tags []*tag
+	Tags  []*tag
 }
 
 type tag struct {
