@@ -3,7 +3,12 @@
 
 package service
 
-import "github.com/parnurzeal/gorequest"
+import (
+	"context"
+
+	"cloud.google.com/go/translate"
+	"golang.org/x/text/language"
+)
 
 // Translation service.
 var Translation = &translationService{}
@@ -12,12 +17,21 @@ type translationService struct {
 }
 
 func (srv *translationService) Translate(text string) string {
-	_, ret, errs := gorequest.New().Post("http://47.89.254.198:6868").SendMap(map[string]string{"text": text}).End()
-	if nil != errs {
-		logger.Errorf("translate failed: %s", errs)
+	ctx := context.Background()
+	client, err := translate.NewClient(ctx)
+	if err != nil {
+		logger.Errorf("create translate client failed: " + err.Error())
 
 		return ""
 	}
 
-	return ret
+	translations, err := client.Translate(ctx, []string{text}, language.Chinese,
+		&translate.Options{Source: language.English, Format: translate.HTML, Model: "nmt"})
+	if nil != err {
+		logger.Errorf("translate failed: " + err.Error())
+
+		return ""
+	}
+
+	return translations[0].Text
 }
