@@ -51,7 +51,7 @@ func teardown() {
 }
 
 func TestAddQuestionsByVotes(t *testing.T) {
-	for page := 1; page < 2; page++ {
+	for page := 1; page < 10; page++ {
 		qnas := spider.StackOverflow.ParseQuestionsByVotes(page, page)
 
 		for _, qna := range qnas {

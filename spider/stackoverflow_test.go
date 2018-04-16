@@ -18,6 +18,6 @@ func TestParseQuestion(t *testing.T) {
 func TestParseQuestions(t *testing.T) {
 	qnas := StackOverflow.ParseQuestions("https://stackoverflow.com/questions?sort=votes")
 	for _, qna := range qnas {
-		t.Log(qna.Question.Title)
+		t.Log(qna.Question.TitleEnUS)
 	}
 }
