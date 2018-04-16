@@ -18,13 +18,15 @@
     <div class="content-reset">
     {{.Question.Content}}
     </div>
-</div>
-{{range $index, $answer := .Answers}}
-<div>
-    Q{{$index}}: <br>
-    {{$answer.Content}}
-</div>
+
+    <h2 class="details__answer">答案</h2>
+{{range .Answers}}
+    <div class="content-reset list__item">
+    {{.Content}}
+    </div>
 {{end}}
+</div>
+
 {{template "footer" .}}
 <script src="{{.Conf.StaticServer}}/js/lib/highlight.min.js"></script>
 <script>
