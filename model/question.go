@@ -7,7 +7,8 @@ package model
 type Question struct {
 	Model
 
-	Title       string `gorm:"type:text" json:"title"`
+	TitleEnUS   string `gorm:"type:text" json:"titleEnUS"`
+	TitleZhCN   string `gorm:"type:text" json:"titleZhCN"`
 	Tags        string `gorm:"type:text" json:"tags"`
 	ContentEnUS string `gorm:"type:mediumtext" json:"contentEnUS"`
 	ContentZhCN string `gorm:"type:mediumtext" json:"contentZhCN"`

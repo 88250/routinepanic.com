@@ -20,7 +20,7 @@ func (srv *qnaService) GetQuestions(page int) (ret []*model.Question, pagination
 	count := 0
 
 	if err := db.Model(&model.Question{}).
-		Select("`id`, `created_at`, `title`, `tags`, `path`").
+		Select("`id`, `created_at`, `title_zh_cn`, `tags`, `path`").
 		Order("`created_at` DESC").Count(&count).
 		Offset(offset).Limit(util.PageSize).
 		Find(&ret).Error; nil != err {
@@ -45,9 +45,11 @@ func (src *qnaService) Add(qnas []*spider.QnA) (err error) {
 	for _, qna := range qnas {
 		if err = db.Where("`source_id` = ? AND `source` = ?", qna.Question.SourceID, qna.Question.Source).
 			Assign(model.Question{
-				Title:       qna.Question.Title,
+				TitleEnUS:   qna.Question.TitleEnUS,
+				TitleZhCN:   qna.Question.TitleZhCN,
 				Tags:        qna.Question.Tags,
 				ContentEnUS: qna.Question.ContentEnUS,
+				ContentZhCN: qna.Question.ContentZhCN,
 				SourceURL:   qna.Question.SourceURL,
 			}).FirstOrCreate(qna.Question).Error; nil != err {
 			return

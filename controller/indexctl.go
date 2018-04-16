@@ -19,7 +19,7 @@ func showIndexAction(c *gin.Context) {
 	qModels, pagination := service.QnA.GetQuestions(page)
 	questions := []*question{}
 	for _, qModel := range qModels {
-		q := &question{Title: qModel.Title}
+		q := &question{Title: qModel.TitleZhCN}
 		tagStrs := strings.Split(qModel.Tags, ",")
 		for _, tagTitle := range tagStrs {
 			q.Tags = append(q.Tags, &tag{Title: tagTitle})

@@ -55,7 +55,7 @@ func TestAddQuestionsByVotes(t *testing.T) {
 		qnas := spider.StackOverflow.ParseQuestionsByVotes(page, page)
 
 		for _, qna := range qnas {
-			qna.Question.Title = Translation.Translate(qna.Question.Title)
+			qna.Question.TitleZhCN = Translation.Translate(qna.Question.TitleEnUS)
 			qna.Question.ContentZhCN = Translation.Translate(qna.Question.ContentEnUS)
 
 			for _, a := range qna.Answers {

@@ -75,7 +75,7 @@ func (s *stackOverflow) ParseQuestions(url string) []*QnA {
 		qna := &QnA{Question: question, Answers: answers}
 		ret = append(ret, qna)
 
-		logger.Infof("parsed question #%d [%s]", i, question.Title)
+		logger.Infof("parsed question #%d [%s]", i, question.TitleEnUS)
 	}
 
 	return ret
@@ -109,7 +109,7 @@ func (s *stackOverflow) ParseQuestion(url string) (question *model.Question, ans
 	questionSrcID, _ := doc.Find("#question").Attr("data-questionid")
 	question.SourceID = questionSrcID
 	doc.Find("#question-header h1").Each(func(i int, s *goquery.Selection) {
-		question.Title = strings.TrimSpace(s.Text())
+		question.TitleEnUS = strings.TrimSpace(s.Text())
 	})
 	tags := ""
 	doc.Find(".post-taglist a").Each(func(i int, s *goquery.Selection) {
@@ -128,9 +128,9 @@ func (s *stackOverflow) ParseQuestion(url string) (question *model.Question, ans
 		content, _ := s.Find(".post-text").Html()
 		content = strings.TrimSpace(content)
 		answer := &model.Answer{
-			ContentEnUS:  content,
-			Source:   model.SourceStackOverflow,
-			SourceID: answerSrcID,
+			ContentEnUS: content,
+			Source:      model.SourceStackOverflow,
+			SourceID:    answerSrcID,
 		}
 		answers = append(answers, answer)
 
