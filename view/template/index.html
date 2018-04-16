@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    {{template "head" .}}
+{{template "head" .}}
     <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/css/index.css?{{.Conf.StaticResourceVersion}}"/>
 </head>
 <body>
@@ -12,9 +12,9 @@
     <article class="list__item">
         <header><h2><a href="questions/{{.Path}}" class="question__title">{{.Title}}</a></h2></header>
         <div>
-            {{range .Tags}}
+        {{range .Tags}}
             <a class="question__tag" rel="tag" href="tags/tag">{{.Title}}</a>
-            {{end}}
+        {{end}}
         </div>
     </article>
 {{end}}
@@ -36,7 +36,7 @@
             </a>
         </nav>
     </div>
-    {{template "footer" .}}
+{{template "footer" .}}
 </div>
 </body>
 </html>

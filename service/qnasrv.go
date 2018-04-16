@@ -17,7 +17,8 @@ type qnaService struct {
 }
 
 func (src *qnaService) GetQuestionByPath(path string) (ret *model.Question) {
-	if err := db.Model(&model.Question{}).Where("`path`").Find(ret).Error; nil != err {
+	ret = &model.Question{}
+	if err := db.Model(&model.Question{}).Where("`path` = ?", path).First(ret).Error; nil != err {
 		logger.Errorf("get question [path=" + path + "] failed: " + err.Error())
 
 		return nil

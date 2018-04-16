@@ -15,6 +15,7 @@ import (
 	"github.com/b3log/routinepanic.com/log"
 	"github.com/b3log/routinepanic.com/util"
 	"path/filepath"
+	"net/http"
 )
 
 // Logger
@@ -87,4 +88,9 @@ func getDataModel(c *gin.Context) DataModel {
 	dataModelVal, _ := c.Get("dataModel")
 
 	return *(dataModelVal.(*DataModel))
+}
+
+func notFound(c *gin.Context) {
+	dataModel := getDataModel(c)
+	c.HTML(http.StatusNotFound, "404.html", dataModel)
 }
