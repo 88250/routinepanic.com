@@ -219,6 +219,12 @@
 			"revisionTime": "2017-08-26T15:59:43Z"
 		},
 		{
+			"checksumSHA1": "2t69sGCk/VeWx0rEhN5ejjeoPtA=",
+			"path": "github.com/vinta/pangu",
+			"revision": "f1cdb73eaf33f9057f38302f610a021bbca5b46a",
+			"revisionTime": "2016-01-23T16:33:02Z"
+		},
+		{
 			"checksumSHA1": "iASBoEMOkTso9Gu2cDR6AdZfhHE=",
 			"path": "go.opencensus.io/exporter/stackdriver/propagation",
 			"revision": ""
