@@ -21,17 +21,17 @@
     <div class="fn-clear">
         <nav class="pagination fn-right">
             <a aria-label="上一页"
-               class="pagination__item pagination__item--disabled"
-               href="?p={{$.Pagination.PreviousPageNum}}">
+               class="pagination__item{{if lt .Pagination.PreviousPageNum 1}} pagination__item--disabled{{end}}"
+               href="?p={{.Pagination.PreviousPageNum}}">
                 上一页
             </a>
-            <a class="pagination__item" href="?p=1">1</a>
-            <a class="pagination__item pagination__item--current" href="?p=1">2</a>
-            <span class="pagination__item pagination__item--disabled">...</span>
-            <a class="pagination__item" href="?p=1">5</a>
+        {{range .Pagination.PageNums}}
+            <a class="pagination__item{{if eq $.Pagination.CurrentPageNum .}} pagination__item--current{{end}}"
+               href="?p={{.}}">{{.}}</a>
+        {{end}}
             <a aria-label="下一页"
-               class="pagination__item"
-               href="?p={{$.Pagination.PreviousPageNum}}">
+               class="pagination__item{{if lt .Pagination.NextPageNum 1}} pagination__item--disabled{{end}}"
+               href="?p={{.Pagination.NextPageNum}}">
                 下一页
             </a>
         </nav>
