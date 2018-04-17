@@ -8,6 +8,7 @@ type Answer struct {
 	Model
 
 	QuestionID  uint64 `sql:"index" json:"questionID"`
+	Votes       int `json:"votes"`
 	ContentEnUS string `gorm:"type:mediumtext" json:"contentEnUS"`
 	ContentZhCN string `gorm:"type:mediumtext" json:"contentZhCN"`
 	Path        string `gorm:"type:text" json:"path"`

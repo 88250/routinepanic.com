@@ -6,6 +6,7 @@ package spider
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -13,7 +14,6 @@ import (
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/corpix/uarand"
 	"github.com/parnurzeal/gorequest"
-	"strconv"
 )
 
 var StackOverflow = &stackOverflow{}
@@ -79,8 +79,6 @@ func (s *stackOverflow) ParseQuestions(url string) []*QnA {
 		ret = append(ret, qna)
 
 		logger.Infof("parsed question #%d [%s]", i, qna.Question.TitleEnUS)
-
-		break;
 	}
 
 	return ret
@@ -151,9 +149,12 @@ func (s *stackOverflow) ParseQuestion(url string) *QnA {
 	}
 	doc.Find("#answers .answer").EachWithBreak(func(i int, s *goquery.Selection) bool {
 		answerSrcID, _ := s.Attr("data-answerid")
+		votesStr := s.Find(".vote-count-post.high-scored-post").First().Text()
+		votes, _ := strconv.Atoi(votesStr)
 		content, _ := s.Find(".post-text").Html()
 		content = strings.TrimSpace(content)
 		answer := &model.Answer{
+			Votes:       votes,
 			ContentEnUS: content,
 			Source:      model.SourceStackOverflow,
 			SourceID:    answerSrcID,
@@ -163,7 +164,7 @@ func (s *stackOverflow) ParseQuestion(url string) *QnA {
 		return i < 2
 	})
 
-	return &QnA{Question:question,Answers:answers}
+	return &QnA{Question: question, Answers: answers}
 }
 
 func between(value string, a string, b string) string {

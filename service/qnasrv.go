@@ -92,7 +92,7 @@ func (srv *qnaService) Add(qna *spider.QnA) (err error) {
 }
 
 func (srv *qnaService) add(tx *gorm.DB, qna *spider.QnA) (err error) {
-	if err = db.Where("`source_id` = ? AND `source` = ?", qna.Question.SourceID, qna.Question.Source).
+	if err = tx.Where("`source_id` = ? AND `source` = ?", qna.Question.SourceID, qna.Question.Source).
 		Assign(model.Question{
 			TitleEnUS:   qna.Question.TitleEnUS,
 			TitleZhCN:   qna.Question.TitleZhCN,
@@ -105,7 +105,7 @@ func (srv *qnaService) add(tx *gorm.DB, qna *spider.QnA) (err error) {
 	}
 	for _, answer := range qna.Answers {
 		answer.QuestionID = qna.Question.ID
-		if err = db.Where("`question_id` = ? AND `source_id` = ? AND `source` = ?", qna.Question.ID, answer.SourceID, answer.Source).
+		if err = tx.Where("`question_id` = ? AND `source_id` = ? AND `source` = ?", qna.Question.ID, answer.SourceID, answer.Source).
 			Assign(model.Answer{
 				ContentEnUS: answer.ContentEnUS,
 				ContentZhCN: answer.ContentZhCN,
@@ -155,13 +155,12 @@ func (srv *qnaService) UpdateSource(qna *spider.QnA) (err error) {
 }
 
 func (srv *qnaService) updateSource(tx *gorm.DB, qna *spider.QnA) (err error) {
-	if err = db.Model(qna.Question).Where("`source_id` = ? AND `source` = ?", qna.Question.SourceID, qna.Question.Source).
+	if err = tx.Model(qna.Question).Where("`source_id` = ? AND `source` = ?", qna.Question.SourceID, qna.Question.Source).
 		Update(qna.Question).Error; nil != err {
 		return
 	}
 	for _, answer := range qna.Answers {
-		answer.QuestionID = qna.Question.ID
-		if err = db.Model(answer).Where("`question_id` = ? AND `source_id` = ? AND `source` = ?", qna.Question.ID, answer.SourceID, answer.Source).
+		if err = tx.Model(answer).Where("`source_id` = ? AND `source` = ?", answer.SourceID, answer.Source).
 			Update(answer).Error; nil != err {
 			return
 		}
