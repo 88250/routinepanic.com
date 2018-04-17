@@ -10,6 +10,8 @@ type Question struct {
 	TitleEnUS   string `gorm:"type:text" json:"titleEnUS"`
 	TitleZhCN   string `gorm:"type:text" json:"titleZhCN"`
 	Tags        string `gorm:"type:text" json:"tags"`
+	Votes       int `json:"votes"`
+	Views       int `json:"views"`
 	ContentEnUS string `gorm:"type:mediumtext" json:"contentEnUS"`
 	ContentZhCN string `gorm:"type:mediumtext" json:"contentZhCN"`
 	Path        string `gorm:"type:text" json:"path"`

@@ -51,6 +51,16 @@ func teardown() {
 	log.Println("teardown tests")
 }
 
+func TestReQuestionsByVotes(t *testing.T) {
+	for page := 1; page < 10; page++ {
+		qnas := spider.StackOverflow.ParseQuestionsByVotes(page, page)
+
+		if err := QnA.UpdateSourceAll(qnas); nil != err {
+			t.Errorf("add QnAs failed: " + err.Error())
+		}
+	}
+}
+
 func TestAddQuestionsByVotes(t *testing.T) {
 	for page := 1; page < 10; page++ {
 		qnas := spider.StackOverflow.ParseQuestionsByVotes(page, page)
@@ -69,7 +79,7 @@ func TestAddQuestionsByVotes(t *testing.T) {
 	}
 }
 
-func TestReAdd(t *testing.T) {
+func TestTransEmpty(t *testing.T) {
 	var questions []*model.Question
 
 	if err := db.Model(&model.Question{}).Where("`content_zh_cn` = ''").Find(&questions).Error; nil != err {

@@ -13,6 +13,7 @@ import (
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/corpix/uarand"
 	"github.com/parnurzeal/gorequest"
+	"strconv"
 )
 
 var StackOverflow = &stackOverflow{}
@@ -28,8 +29,7 @@ type QnA struct {
 	Answers  []*model.Answer
 }
 
-func (s *stackOverflow) ParseQuestionsByVotes(fromPage, toPage int) []*QnA {
-	var ret []*QnA
+func (s *stackOverflow) ParseQuestionsByVotes(fromPage, toPage int) (ret []*QnA) {
 	for i := fromPage; i <= toPage; i++ {
 		qnas := s.ParseQuestions(fmt.Sprintf("https://stackoverflow.com/questions?page=%d&sort=votes", i))
 		if nil != qnas {
@@ -39,7 +39,7 @@ func (s *stackOverflow) ParseQuestionsByVotes(fromPage, toPage int) []*QnA {
 		logger.Infof("parsed voted questions [page=%d]", i)
 	}
 
-	return ret
+	return
 }
 
 func (s *stackOverflow) ParseQuestions(url string) []*QnA {
@@ -79,6 +79,8 @@ func (s *stackOverflow) ParseQuestions(url string) []*QnA {
 		ret = append(ret, qna)
 
 		logger.Infof("parsed question #%d [%s]", i, qna.Question.TitleEnUS)
+
+		break;
 	}
 
 	return ret
@@ -131,6 +133,22 @@ func (s *stackOverflow) ParseQuestion(url string) *QnA {
 		question.ContentEnUS, _ = s.Html()
 		question.ContentEnUS = strings.TrimSpace(question.ContentEnUS)
 	})
+	votesStr := doc.Find(".vote-count-post.high-scored-post").First().Text()
+	question.Votes, err = strconv.Atoi(votesStr)
+	if nil != err {
+		logger.Errorf("parse [%s] failed: ", url, err)
+
+		return nil
+	}
+	info := doc.Find("#qinfo").First().Text()
+	viewsStr := strings.TrimSpace(between(info, "viewed", "times"))
+	viewsStr = strings.Replace(viewsStr, ",", "", -1)
+	question.Views, err = strconv.Atoi(viewsStr)
+	if nil != err {
+		logger.Errorf("parse [%s] failed: ", url, err)
+
+		return nil
+	}
 	doc.Find("#answers .answer").EachWithBreak(func(i int, s *goquery.Selection) bool {
 		answerSrcID, _ := s.Attr("data-answerid")
 		content, _ := s.Find(".post-text").Html()
@@ -146,4 +164,20 @@ func (s *stackOverflow) ParseQuestion(url string) *QnA {
 	})
 
 	return &QnA{Question:question,Answers:answers}
+}
+
+func between(value string, a string, b string) string {
+	posFirst := strings.Index(value, a)
+	if posFirst == -1 {
+		return ""
+	}
+	posLast := strings.Index(value, b)
+	if posLast == -1 {
+		return ""
+	}
+	posFirstAdjusted := posFirst + len(a)
+	if posFirstAdjusted >= posLast {
+		return ""
+	}
+	return value[posFirstAdjusted:posLast]
 }
