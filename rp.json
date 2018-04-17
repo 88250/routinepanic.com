@@ -7,6 +7,5 @@
   "SessionSecret": "BEYOND",
   "SessionMaxAge": 86400,
   "MySQL": "root:@(localhost:3306)/rp?charset=utf8mb4&parseTime=True&loc=Local",
-  "StaticRoot": "",
   "Port": "5858"
 }
