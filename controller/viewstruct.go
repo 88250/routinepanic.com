@@ -13,11 +13,12 @@ import (
 )
 
 type question struct {
-	ID      uint64
-	Path    string
-	Title   string
-	Tags    []*tag
-	Content template.HTML
+	ID          uint64
+	Path        string
+	Title       string
+	Description string
+	Tags        []*tag
+	Content     template.HTML
 }
 
 type tag struct {
@@ -39,11 +40,20 @@ func questionsVos(qModels []*model.Question) (ret []*question) {
 }
 
 func questionVo(qModel *model.Question) (ret *question) {
+	desc := ""
+	doc, err := goquery.NewDocumentFromReader(strings.NewReader(qModel.ContentZhCN))
+	if nil != err {
+		logger.Errorf("extract description failed: " + err.Error())
+	} else {
+		desc = doc.Find("p").First().Text()
+	}
+
 	ret = &question{
-		ID:      qModel.ID,
-		Path:    qModel.Path,
-		Title:   pangu.SpacingText(qModel.TitleZhCN),
-		Content: template.HTML(panguSpace(qModel.ContentZhCN)),
+		ID:          qModel.ID,
+		Path:        qModel.Path,
+		Title:       pangu.SpacingText(qModel.TitleZhCN),
+		Description: desc,
+		Content:     template.HTML(panguSpace(qModel.ContentZhCN)),
 	}
 	tagStrs := strings.Split(qModel.Tags, ",")
 	for _, tagTitle := range tagStrs {

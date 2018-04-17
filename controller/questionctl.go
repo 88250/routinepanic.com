@@ -21,9 +21,13 @@ func showQuestionAction(c *gin.Context) {
 
 		return
 	}
-	dataModel["Question"] = questionVo(qModel)
+	question := questionVo(qModel)
+	dataModel["Question"] = question
 	aModels := service.QnA.GetAnswers(qModel.ID)
 	dataModel["Answers"] = answersVos(aModels)
+	dataModel["Title"] = question.Title + " - " + dataModel["Title"].(string)
+	dataModel["MetaKeywords"] = qModel.Tags
+	dataModel["MetaDescription"] = question.Description
 
 	c.HTML(http.StatusOK, "question.html", dataModel)
 }

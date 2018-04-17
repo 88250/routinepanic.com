@@ -82,6 +82,7 @@ func fillCommon(c *gin.Context) {
 	c.Set("dataModel", dataModel)
 
 	(*dataModel)["Conf"] = util.Conf
+	(*dataModel)["Title"] = "协慌网"
 }
 
 func getDataModel(c *gin.Context) DataModel {
