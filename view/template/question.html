@@ -11,7 +11,7 @@
 <div class="fn-wrap fn-content details">
     <div>
     {{range .Question.Tags}}
-        <a class="question__tag" rel="tag" href="tags/tag">{{.Title}}</a>
+        <a class="question__tag" rel="tag" href="/tags/{{.Title}}">{{.Title}}</a>
     {{end}}
     </div>
     <header><h2 class="question__title">{{.Question.Title}}</h2></header>
