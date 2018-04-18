@@ -20,7 +20,7 @@ import (
 )
 
 // Slogan
-const Slogan = "专注编程问题汉化"
+const Slogan = "专注编程问答汉化"
 
 // Logger
 var logger = log.NewLogger(os.Stdout)
