@@ -10,10 +10,10 @@
 <div class="fn-content fn-wrap">
 {{range .Questions}}
     <article class="list__item">
-        <header><h2><a href="questions/{{.Path}}" class="question__title">{{.Title}}</a></h2></header>
+        <header><h2><a href="/questions/{{.Path}}" class="question__title">{{.Title}}</a></h2></header>
         <div>
         {{range .Tags}}
-            <a class="/question__tag" rel="tag" href="/tags/{{.Title}}">{{.Title}}</a>
+            <a class="question__tag" rel="tag" href="/tags/{{.Title}}">{{.Title}}</a>
         {{end}}
         </div>
     </article>
