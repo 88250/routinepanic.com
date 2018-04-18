@@ -30,7 +30,7 @@ var Conf *Configuration
 
 // Models represents all models..
 var Models = []interface{}{
-	&model.Question{}, &model.Answer{},
+	&model.Question{}, &model.Answer{}, &model.Tag{}, &model.Correlation{},
 }
 
 // Pagination parameters.

@@ -51,6 +51,18 @@ func teardown() {
 	log.Println("teardown tests")
 }
 
+func TestTagQuestions(t *testing.T) {
+	var questions []*model.Question
+
+	if err := db.Model(&model.Question{}).Find(&questions).Error; nil != err {
+		t.Fatalf("query queestion failed: " + err.Error())
+	}
+
+	if err := QnA.TagAll(questions); nil != err {
+		t.Errorf("tag questions failed: " + err.Error())
+	}
+}
+
 func TestReQuestionsByVotes(t *testing.T) {
 	for page := 1; page < 10; page++ {
 		qnas := spider.StackOverflow.ParseQuestionsByVotes(page, page)

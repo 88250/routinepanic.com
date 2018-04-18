@@ -106,7 +106,7 @@ func (srv *qnaService) add(tx *gorm.DB, qna *spider.QnA) (err error) {
 		return
 	}
 
-	if err = tagArticle(tx, qna.Question); nil != err {
+	if err = tagQuestion(tx, qna.Question); nil != err {
 		return
 	}
 
@@ -118,6 +118,28 @@ func (srv *qnaService) add(tx *gorm.DB, qna *spider.QnA) (err error) {
 				ContentZhCN: answer.ContentZhCN,
 				SourceURL:   answer.SourceURL,
 			}).FirstOrCreate(answer).Error; nil != err {
+			return
+		}
+	}
+
+	return nil
+}
+
+func (srv *qnaService) TagAll(questions []*model.Question) (err error) {
+	tx := db.Begin()
+	defer func() {
+		if err == nil {
+			tx.Commit()
+		} else {
+			tx.Rollback()
+		}
+	}()
+
+	for _, question := range questions {
+		if err = removeTagQuestionRels(tx, question); nil != err {
+			return
+		}
+		if err = tagQuestion(tx, question); nil != err {
 			return
 		}
 	}
@@ -176,7 +198,7 @@ func (srv *qnaService) updateSource(tx *gorm.DB, qna *spider.QnA) (err error) {
 	return nil
 }
 
-func tagArticle(tx *gorm.DB, question *model.Question) error {
+func tagQuestion(tx *gorm.DB, question *model.Question) error {
 	tags := strings.Split(question.Tags, ",")
 	for _, tagTitle := range tags {
 		tag := &model.Tag{}
@@ -198,6 +220,31 @@ func tagArticle(tx *gorm.DB, question *model.Question) error {
 		if err := tx.Create(rel).Error; nil != err {
 			return err
 		}
+	}
+
+	return nil
+}
+
+func removeTagQuestionRels(tx *gorm.DB, question *model.Question) error {
+	var rels []*model.Correlation
+	if err := tx.Where("`id1` = ? AND `type` = ?",
+		question.ID, model.CorrelationQuestionTag).Find(&rels).Error; nil != err {
+		return err
+	}
+	for _, rel := range rels {
+		tag := &model.Tag{}
+		if err := tx.Where("`id` = ?", rel.ID2).First(tag).Error; nil != err {
+			continue
+		}
+		tag.QuestionCount -= 1
+		if err := tx.Save(tag).Error; nil != err {
+			continue
+		}
+	}
+
+	if err := tx.Where("`id1` = ? AND `type` = ?", question.ID, model.CorrelationQuestionTag).
+		Delete(&model.Correlation{}).Error; nil != err {
+		return err
 	}
 
 	return nil
