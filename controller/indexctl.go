@@ -20,5 +20,14 @@ func showIndexAction(c *gin.Context) {
 	dataModel["Questions"] = questions
 	dataModel["Pagination"] = pagination
 
+	tModels := service.Tag.GetTopTags(6)
+	keywords := ""
+	for _, t := range tModels {
+		keywords += t.Title + ","
+	}
+	keywords = keywords[:len(keywords)-1]
+	dataModel["MetaKeywords"] = "程序员,编程,代码,问答," + keywords
+	dataModel["MetaDescription"] = util.Slogan
+
 	c.HTML(http.StatusOK, "index.html", dataModel)
 }
