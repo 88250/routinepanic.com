@@ -4,6 +4,8 @@
 package service
 
 import (
+	"strings"
+
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/b3log/routinepanic.com/spider"
 	"github.com/b3log/routinepanic.com/util"
@@ -103,6 +105,11 @@ func (srv *qnaService) add(tx *gorm.DB, qna *spider.QnA) (err error) {
 		}).FirstOrCreate(qna.Question).Error; nil != err {
 		return
 	}
+
+	if err = tagArticle(tx, qna.Question); nil != err {
+		return
+	}
+
 	for _, answer := range qna.Answers {
 		answer.QuestionID = qna.Question.ID
 		if err = tx.Where("`question_id` = ? AND `source_id` = ? AND `source` = ?", qna.Question.ID, answer.SourceID, answer.Source).
@@ -163,6 +170,33 @@ func (srv *qnaService) updateSource(tx *gorm.DB, qna *spider.QnA) (err error) {
 		if err = tx.Model(answer).Where("`source_id` = ? AND `source` = ?", answer.SourceID, answer.Source).
 			Update(answer).Error; nil != err {
 			return
+		}
+	}
+
+	return nil
+}
+
+func tagArticle(tx *gorm.DB, question *model.Question) error {
+	tags := strings.Split(question.Tags, ",")
+	for _, tagTitle := range tags {
+		tag := &model.Tag{}
+		tx.Where("`title` = ?", tagTitle).First(tag)
+		if "" == tag.Title {
+			tag.Title = tagTitle
+			tag.QuestionCount = 1
+			if err := tx.Create(tag).Error; nil != err {
+				return err
+			}
+		} else {
+			tag.QuestionCount += 1
+			if err := tx.Model(tag).Updates(tag).Error; nil != err {
+				return err
+			}
+		}
+
+		rel := &model.Correlation{ID1: question.ID, ID2: tag.ID, Type: model.CorrelationQuestionTag}
+		if err := tx.Create(rel).Error; nil != err {
+			return err
 		}
 	}
 
