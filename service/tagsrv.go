@@ -20,3 +20,12 @@ func (srv *tagService) GetTopTags(size int) (ret []*model.Tag) {
 
 	return
 }
+
+func (srv *tagService) GetTagByTitle(title string) *model.Tag {
+	ret := &model.Tag{}
+	if err := db.Where("`title` = ?", title).First(ret).Error; nil != err {
+		return nil
+	}
+
+	return ret
+}

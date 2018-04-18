@@ -39,6 +39,35 @@ func (srv *qnaService) GetQuestionByPath(path string) (ret *model.Question) {
 	return
 }
 
+func (srv *qnaService) GetTagQuestions(tagID uint64, page int) (ret []*model.Question, pagination *util.Pagination) {
+	var rels []*model.Correlation
+	if err := db.Where("`id2` = ? AND `type` = ?", tagID, model.CorrelationQuestionTag).
+		Find(&rels).Error; nil != err {
+		return
+	}
+
+	var questionIDs []uint64
+	for _, questionTagRel := range rels {
+		questionIDs = append(questionIDs, questionTagRel.ID1)
+	}
+
+	offset := (page - 1) * util.PageSize
+	count := 0
+
+	if err := db.Model(&model.Question{}).
+		Select("`id`, `created_at`, `title_zh_cn`, `tags`, `path`").
+		Where("`id` IN (?)", questionIDs).
+		Order("`created_at` DESC").Count(&count).
+		Offset(offset).Limit(util.PageSize).
+		Find(&ret).Error; nil != err {
+		logger.Errorf("get tag questions failed: " + err.Error())
+	}
+
+	pagination = util.NewPagination(page, count)
+
+	return
+}
+
 func (srv *qnaService) GetQuestions(page int) (ret []*model.Question, pagination *util.Pagination) {
 	offset := (page - 1) * util.PageSize
 	count := 0

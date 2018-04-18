@@ -70,6 +70,7 @@ func MapRoutes() *gin.Engine {
 	ret.Use(fillCommon)
 	ret.GET("", showIndexAction)
 	ret.GET("/questions/*path", showQuestionAction)
+	ret.GET("/tags/*tag", showTagAction)
 
 	return ret
 }
