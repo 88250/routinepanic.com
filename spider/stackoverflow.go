@@ -52,7 +52,7 @@ func (s *stackOverflow) ParseQuestionsByVotes(page, pageSize int) (ret []*QnA) {
 		question := &model.Question{}
 		question.TitleEnUS = q["title"].(string)
 		tis := q["tags"].([]interface{})
-		tags := []string{}
+		var tags []string
 		for _, ti := range tis {
 			tags = append(tags, ti.(string))
 		}
@@ -73,7 +73,11 @@ func (s *stackOverflow) ParseQuestionsByVotes(page, pageSize int) (ret []*QnA) {
 		answers := s.ParseAnswers(qId)
 		qna := &QnA{Question: question, Answers: answers}
 		ret = append(ret, qna)
+
+		logger.Infof("parsed voted question [id=%s]", qna.Question.SourceID)
 	}
+
+	logger.Infof("parsed voted questions [page=%d]", page)
 
 	return
 }
@@ -104,7 +108,10 @@ func (s *stackOverflow) ParseAnswers(questionId string) (ret []*model.Answer) {
 		answer.SourceID = strconv.Itoa(int(a["answer_id"].(float64)))
 		owner := a["owner"].(map[string]interface{})
 		answer.AuthorName = owner["display_name"].(string)
-		answer.AuthorURL = owner["link"].(string)
+		l := owner["link"]
+		if nil != l {
+			answer.AuthorURL = l.(string)
+		}
 
 		ret = append(ret, answer)
 	}
