@@ -4,6 +4,7 @@
 package spider
 
 import (
+	"html"
 	"os"
 	"strconv"
 	"strings"
@@ -13,7 +14,6 @@ import (
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/parnurzeal/gorequest"
-	"html"
 )
 
 var StackOverflow = &stackOverflow{}
@@ -36,7 +36,7 @@ func (s *stackOverflow) ParseQuestionsByVotes(page, pageSize int) (ret []*QnA) {
 	request := gorequest.New()
 	var url = stackExchangeAPI + "/2.2/questions?page=" + strconv.Itoa(page) + "&pagesize=" + strconv.Itoa(pageSize) + "&order=desc&sort=votes&site=stackoverflow&filter=!9Z(-wwYGT"
 	data := map[string]interface{}{}
-	response, body, errs := request.Set("User-Agent", util.UserAgent).Get(url).Timeout(30 * time.Second).Retry(3, 5*time.Second).EndStruct(&data)
+	response, body, errs := request.Set("User-Agent", util.UserAgent).Get(url).Timeout(30*time.Second).Retry(3, 5*time.Second).EndStruct(&data)
 	logger.Info("questions requested [page=" + strconv.Itoa(page) + ", pageSize=" + strconv.Itoa(pageSize) + "]")
 	if nil != errs {
 		logger.Errorf("get [%s] failed: %s", url, errs)
@@ -95,7 +95,7 @@ func (s *stackOverflow) ParseAnswers(questionId string) (ret []*model.Answer) {
 	request := gorequest.New()
 	var url = stackExchangeAPI + "/2.2/questions/" + questionId + "/answers?pagesize=3&order=desc&sort=votes&site=stackoverflow&filter=!9Z(-wzu0T"
 	data := map[string]interface{}{}
-	response, _, errs := request.Set("User-Agent", util.UserAgent).Get(url).Timeout(30 * time.Second).Retry(3, 5*time.Second).EndStruct(&data)
+	response, _, errs := request.Set("User-Agent", util.UserAgent).Get(url).Timeout(30*time.Second).Retry(3, 5*time.Second).EndStruct(&data)
 	logger.Info("answer requested [questionId=" + questionId + "]")
 	if nil != errs {
 		logger.Errorf("get [%s] failed: %s", url, errs)
