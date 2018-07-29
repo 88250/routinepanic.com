@@ -28,6 +28,9 @@ var logger = log.NewLogger(os.Stdout)
 // Version of RP.
 const Version = "1.0.0"
 
+// User-Agent of RP.
+const UserAgent = "Mozilla/5.0 (compatible; RP/" + Version + "; +https://routinepanic.com)"
+
 // Conf of RP.
 var Conf *Configuration
 

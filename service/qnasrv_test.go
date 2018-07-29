@@ -65,7 +65,7 @@ func TestTagQuestions(t *testing.T) {
 
 func TestReQuestionsByVotes(t *testing.T) {
 	for page := 1; page < 10; page++ {
-		qnas := spider.StackOverflow.ParseQuestionsByVotes(page, page)
+		qnas := spider.StackOverflow.ParseQuestionsByVotes(page, 50)
 
 		if err := QnA.UpdateSourceAll(qnas); nil != err {
 			t.Errorf("add QnAs failed: " + err.Error())
@@ -75,7 +75,7 @@ func TestReQuestionsByVotes(t *testing.T) {
 
 func TestAddQuestionsByVotes(t *testing.T) {
 	for page := 1; page < 10; page++ {
-		qnas := spider.StackOverflow.ParseQuestionsByVotes(page, page)
+		qnas := spider.StackOverflow.ParseQuestionsByVotes(page, 50)
 
 		for _, qna := range qnas {
 			qna.Question.TitleZhCN = Translation.Translate(qna.Question.TitleEnUS, "text")
@@ -87,28 +87,6 @@ func TestAddQuestionsByVotes(t *testing.T) {
 
 		if err := QnA.AddAll(qnas); nil != err {
 			t.Errorf("add QnAs failed: " + err.Error())
-		}
-	}
-}
-
-func TestTransEmpty(t *testing.T) {
-	var questions []*model.Question
-
-	if err := db.Model(&model.Question{}).Where("`content_zh_cn` = ''").Find(&questions).Error; nil != err {
-		t.Fatalf("query queestion failed: " + err.Error())
-	}
-
-	for _, q := range questions {
-		qna := spider.StackOverflow.ParseQuestion(q.SourceURL)
-
-		qna.Question.TitleZhCN = Translation.Translate(qna.Question.TitleEnUS, "html")
-		qna.Question.ContentZhCN = Translation.Translate(qna.Question.ContentEnUS, "html")
-		for _, a := range qna.Answers {
-			a.ContentZhCN = Translation.Translate(a.ContentEnUS, "html")
-		}
-
-		if err := QnA.Add(qna); nil != err {
-			t.Errorf("add QnA failed: " + err.Error())
 		}
 	}
 }

@@ -4,15 +4,14 @@
 package spider
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
-	"github.com/PuerkitoBio/goquery"
 	"github.com/b3log/routinepanic.com/log"
 	"github.com/b3log/routinepanic.com/model"
-	"github.com/corpix/uarand"
+	"github.com/b3log/routinepanic.com/util"
 	"github.com/parnurzeal/gorequest"
 )
 
@@ -23,28 +22,67 @@ type stackOverflow struct{}
 // Logger
 var logger = log.NewLogger(os.Stdout)
 
+const stackExchangeAPI = "https://api.stackexchange.com"
+
 // QnA represents a question and its answers.
 type QnA struct {
 	Question *model.Question
 	Answers  []*model.Answer
 }
 
-func (s *stackOverflow) ParseQuestionsByVotes(fromPage, toPage int) (ret []*QnA) {
-	for i := fromPage; i <= toPage; i++ {
-		qnas := s.ParseQuestions(fmt.Sprintf("https://stackoverflow.com/questions?page=%d&sort=votes", i))
-		if nil != qnas {
-			ret = append(ret, qnas...)
-		}
+func (s *stackOverflow) ParseQuestionsByVotes(page, pageSize int) (ret []*QnA) {
+	request := gorequest.New()
+	var url = stackExchangeAPI + "/2.2/questions?page=" + strconv.Itoa(page) + "&pagesize=" + strconv.Itoa(pageSize) + "&order=desc&sort=votes&site=stackoverflow&filter=!9Z(-wwYGT"
+	data := map[string]interface{}{}
+	response, _, errs := request.Set("User-Agent", util.UserAgent).Get(url).Retry(3, 5*time.Second).EndStruct(&data)
+	if nil != errs {
+		logger.Errorf("get [%s] failed: %s", url, errs)
 
-		logger.Infof("parsed voted questions [page=%d]", i)
+		return nil
+	}
+	if 200 != response.StatusCode {
+		logger.Errorf("get [%s] status code is [%d]", response.StatusCode)
+
+		return nil
+	}
+
+	qs := data["items"].([]interface{})
+	for _, qi := range qs {
+		q := qi.(map[string]interface{})
+		question := &model.Question{}
+		question.TitleEnUS = q["title"].(string)
+		tis := q["tags"].([]interface{})
+		tags := []string{}
+		for _, ti := range tis {
+			tags = append(tags, ti.(string))
+		}
+		question.Tags = strings.Join(tags, ",")
+		question.Votes = int(q["score"].(float64))
+		question.Views = int(q["view_count"].(float64))
+		question.ContentEnUS = q["body"].(string)
+		link := q["link"].(string)
+		qId := strconv.Itoa(int(q["question_id"].(float64)))
+		question.Path = strings.Split(link, qId+"/")[1]
+		question.Source = model.SourceStackOverflow
+		question.SourceID = qId
+		question.SourceURL = link
+		owner := q["owner"].(map[string]interface{})
+		question.AuthorName = owner["display_name"].(string)
+		question.AuthorURL = owner["link"].(string)
+
+		answers := s.ParseAnswers(qId)
+		qna := &QnA{Question: question, Answers: answers}
+		ret = append(ret, qna)
 	}
 
 	return
 }
 
-func (s *stackOverflow) ParseQuestions(url string) []*QnA {
+func (s *stackOverflow) ParseAnswers(questionId string) (ret []*model.Answer) {
 	request := gorequest.New()
-	response, body, errs := request.Set("User-Agent", uarand.GetRandom()).Get(url).End()
+	var url = stackExchangeAPI + "/2.2/questions/" + questionId + "/answers?pagesize=3&order=desc&sort=votes&site=stackoverflow&filter=!9Z(-wzu0T"
+	data := map[string]interface{}{}
+	response, _, errs := request.Set("User-Agent", util.UserAgent).Get(url).Retry(3, 5*time.Second).EndStruct(&data)
 	if nil != errs {
 		logger.Errorf("get [%s] failed: %s", url, errs)
 
@@ -56,129 +94,20 @@ func (s *stackOverflow) ParseQuestions(url string) []*QnA {
 		return nil
 	}
 
-	doc, err := goquery.NewDocumentFromReader(strings.NewReader(body))
-	if nil != err {
-		logger.Errorf("parse [%s] failed: ", url, err)
+	as := data["items"].([]interface{})
+	for _, ai := range as {
+		a := ai.(map[string]interface{})
+		answer := &model.Answer{}
+		answer.Votes = int(a["score"].(float64))
+		answer.ContentEnUS = a["body"].(string)
+		answer.Source = model.SourceStackOverflow
+		answer.SourceID = strconv.Itoa(int(a["answer_id"].(float64)))
+		owner := a["owner"].(map[string]interface{})
+		answer.AuthorName = owner["display_name"].(string)
+		answer.AuthorURL = owner["link"].(string)
 
-		return nil
+		ret = append(ret, answer)
 	}
 
-	var questionURLs []string
-	doc.Find("#questions .summary h3 a").Each(func(i int, s *goquery.Selection) {
-		url, _ := s.Attr("href")
-		questionURLs = append(questionURLs, url)
-	})
-
-	var ret []*QnA
-	for i, url := range questionURLs {
-		qna := s.ParseQuestion("https://stackoverflow.com" + url)
-		if nil == qna {
-			continue
-		}
-
-		ret = append(ret, qna)
-
-		logger.Infof("parsed question #%d [%s]", i, qna.Question.TitleEnUS)
-	}
-
-	return ret
-}
-
-func (s *stackOverflow) ParseQuestion(url string) *QnA {
-	request := gorequest.New()
-	response, body, errs := request.Set("User-Agent", uarand.GetRandom()).Get(url).End()
-	if nil != errs {
-		logger.Errorf("get [%s] failed: %s", url, errs)
-
-		return nil
-	}
-	if 200 != response.StatusCode {
-		logger.Errorf("get [%s] status code is [%d]", response.StatusCode)
-
-		return nil
-	}
-
-	doc, err := goquery.NewDocumentFromReader(strings.NewReader(body))
-	if nil != err {
-		logger.Errorf("parse [%s] failed: ", url, err)
-
-		return nil
-	}
-
-	question := &model.Question{}
-	var answers []*model.Answer
-
-	urlParts := strings.Split(url, "/")
-	question = &model.Question{
-		Path:      urlParts[len(urlParts)-1],
-		Source:    model.SourceStackOverflow,
-		SourceURL: url,
-	}
-	questionSrcID, _ := doc.Find("#question").Attr("data-questionid")
-	question.SourceID = questionSrcID
-	doc.Find("#question-header h1").Each(func(i int, s *goquery.Selection) {
-		question.TitleEnUS = strings.TrimSpace(s.Text())
-	})
-	tags := ""
-	doc.Find(".post-taglist a").Each(func(i int, s *goquery.Selection) {
-		tags += strings.TrimSpace(s.Text()) + ","
-	})
-	if 0 < len(tags) {
-		tags = tags[:len(tags)-1]
-	}
-	question.Tags = tags
-	doc.Find("#question .post-text").Each(func(i int, s *goquery.Selection) {
-		question.ContentEnUS, _ = s.Html()
-		question.ContentEnUS = strings.TrimSpace(question.ContentEnUS)
-	})
-	votesStr := doc.Find(".vote-count-post.high-scored-post").First().Text()
-	question.Votes, err = strconv.Atoi(votesStr)
-	if nil != err {
-		logger.Errorf("parse [%s] failed: ", url, err)
-
-		return nil
-	}
-	info := doc.Find("#qinfo").First().Text()
-	viewsStr := strings.TrimSpace(between(info, "viewed", "times"))
-	viewsStr = strings.Replace(viewsStr, ",", "", -1)
-	question.Views, err = strconv.Atoi(viewsStr)
-	if nil != err {
-		logger.Errorf("parse [%s] failed: ", url, err)
-
-		return nil
-	}
-	doc.Find("#answers .answer").EachWithBreak(func(i int, s *goquery.Selection) bool {
-		answerSrcID, _ := s.Attr("data-answerid")
-		votesStr := s.Find(".vote-count-post.high-scored-post").First().Text()
-		votes, _ := strconv.Atoi(votesStr)
-		content, _ := s.Find(".post-text").Html()
-		content = strings.TrimSpace(content)
-		answer := &model.Answer{
-			Votes:       votes,
-			ContentEnUS: content,
-			Source:      model.SourceStackOverflow,
-			SourceID:    answerSrcID,
-		}
-		answers = append(answers, answer)
-
-		return i < 2
-	})
-
-	return &QnA{Question: question, Answers: answers}
-}
-
-func between(value string, a string, b string) string {
-	posFirst := strings.Index(value, a)
-	if posFirst == -1 {
-		return ""
-	}
-	posLast := strings.Index(value, b)
-	if posLast == -1 {
-		return ""
-	}
-	posFirstAdjusted := posFirst + len(a)
-	if posFirstAdjusted >= posLast {
-		return ""
-	}
-	return value[posFirstAdjusted:posLast]
+	return
 }
