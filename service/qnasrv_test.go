@@ -73,6 +73,7 @@ func TestReQuestionsByVotes(t *testing.T) {
 	}
 }
 
+// Generate data
 func TestAddQuestionsByVotes(t *testing.T) {
 	for page := 1; page < 10; page++ {
 		qnas := spider.StackOverflow.ParseQuestionsByVotes(page, 50)

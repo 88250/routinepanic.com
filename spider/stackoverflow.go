@@ -35,6 +35,7 @@ func (s *stackOverflow) ParseQuestionsByVotes(page, pageSize int) (ret []*QnA) {
 	var url = stackExchangeAPI + "/2.2/questions?page=" + strconv.Itoa(page) + "&pagesize=" + strconv.Itoa(pageSize) + "&order=desc&sort=votes&site=stackoverflow&filter=!9Z(-wwYGT"
 	data := map[string]interface{}{}
 	response, _, errs := request.Set("User-Agent", util.UserAgent).Get(url).Retry(3, 5*time.Second).EndStruct(&data)
+	logger.Info("question requested [" + url + "]")
 	if nil != errs {
 		logger.Errorf("get [%s] failed: %s", url, errs)
 
@@ -87,6 +88,7 @@ func (s *stackOverflow) ParseAnswers(questionId string) (ret []*model.Answer) {
 	var url = stackExchangeAPI + "/2.2/questions/" + questionId + "/answers?pagesize=3&order=desc&sort=votes&site=stackoverflow&filter=!9Z(-wzu0T"
 	data := map[string]interface{}{}
 	response, _, errs := request.Set("User-Agent", util.UserAgent).Get(url).Retry(3, 5*time.Second).EndStruct(&data)
+	logger.Info("answer requested [" + url + "]")
 	if nil != errs {
 		logger.Errorf("get [%s] failed: %s", url, errs)
 
