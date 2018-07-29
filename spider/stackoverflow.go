@@ -31,10 +31,11 @@ type QnA struct {
 }
 
 func (s *stackOverflow) ParseQuestionsByVotes(page, pageSize int) (ret []*QnA) {
+	logger.Info("question requesting [page=" + strconv.Itoa(page) + ", pageSize=" + strconv.Itoa(pageSize) + "]")
 	request := gorequest.New()
 	var url = stackExchangeAPI + "/2.2/questions?page=" + strconv.Itoa(page) + "&pagesize=" + strconv.Itoa(pageSize) + "&order=desc&sort=votes&site=stackoverflow&filter=!9Z(-wwYGT"
 	data := map[string]interface{}{}
-	response, _, errs := request.Set("User-Agent", util.UserAgent).Get(url).Retry(3, 5*time.Second).EndStruct(&data)
+	response, _, errs := request.Set("User-Agent", util.UserAgent).Get(url).Timeout(10 * time.Second).Retry(3, 5*time.Second).EndStruct(&data)
 	logger.Info("question requested [" + url + "]")
 	if nil != errs {
 		logger.Errorf("get [%s] failed: %s", url, errs)
@@ -69,7 +70,10 @@ func (s *stackOverflow) ParseQuestionsByVotes(page, pageSize int) (ret []*QnA) {
 		question.SourceURL = link
 		owner := q["owner"].(map[string]interface{})
 		question.AuthorName = owner["display_name"].(string)
-		question.AuthorURL = owner["link"].(string)
+		l := owner["link"]
+		if nil != l {
+			question.AuthorURL = l.(string)
+		}
 
 		answers := s.ParseAnswers(qId)
 		qna := &QnA{Question: question, Answers: answers}
@@ -84,11 +88,12 @@ func (s *stackOverflow) ParseQuestionsByVotes(page, pageSize int) (ret []*QnA) {
 }
 
 func (s *stackOverflow) ParseAnswers(questionId string) (ret []*model.Answer) {
+	logger.Info("answer requesting for question [id=" + questionId + "]")
 	request := gorequest.New()
 	var url = stackExchangeAPI + "/2.2/questions/" + questionId + "/answers?pagesize=3&order=desc&sort=votes&site=stackoverflow&filter=!9Z(-wzu0T"
 	data := map[string]interface{}{}
-	response, _, errs := request.Set("User-Agent", util.UserAgent).Get(url).Retry(3, 5*time.Second).EndStruct(&data)
-	logger.Info("answer requested [" + url + "]")
+	response, _, errs := request.Set("User-Agent", util.UserAgent).Get(url).Timeout(10 * time.Second).Retry(3, 5*time.Second).EndStruct(&data)
+	logger.Info("answer requested [" + url + ", questionId=" + questionId + "]")
 	if nil != errs {
 		logger.Errorf("get [%s] failed: %s", url, errs)
 
@@ -117,6 +122,8 @@ func (s *stackOverflow) ParseAnswers(questionId string) (ret []*model.Answer) {
 
 		ret = append(ret, answer)
 	}
+
+	logger.Info("parsed answers for question [id=" + questionId + "]")
 
 	return
 }
