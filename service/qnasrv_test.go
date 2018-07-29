@@ -12,7 +12,9 @@ import (
 	"github.com/b3log/routinepanic.com/spider"
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/jinzhu/gorm"
-	)
+	"golang.org/x/net/proxy"
+	"net/http"
+)
 
 func TestMain(m *testing.M) {
 	setup()
@@ -34,13 +36,13 @@ func setup() {
 
 	log.Println("setup tests")
 
-	//dialer, err := proxy.SOCKS5("tcp", "127.0.0.1:1081", nil, proxy.Direct)
-	//if err != nil {
-	//	log.Fatal("can't connect to the proxy: " + err.Error())
-	//}
-	//
-	//httpTransport := &http.Transport{Dial: dialer.Dial}
-	//http.DefaultClient.Transport = httpTransport
+	dialer, err := proxy.SOCKS5("tcp", "127.0.0.1:1081", nil, proxy.Direct)
+	if err != nil {
+		log.Fatal("can't connect to the proxy: " + err.Error())
+	}
+
+	httpTransport := &http.Transport{Dial: dialer.Dial}
+	http.DefaultClient.Transport = httpTransport
 }
 
 func teardown() {
