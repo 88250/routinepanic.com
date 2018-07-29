@@ -31,19 +31,19 @@ type QnA struct {
 }
 
 func (s *stackOverflow) ParseQuestionsByVotes(page, pageSize int) (ret []*QnA) {
-	logger.Info("question requesting [page=" + strconv.Itoa(page) + ", pageSize=" + strconv.Itoa(pageSize) + "]")
+	logger.Info("questions requesting [page=" + strconv.Itoa(page) + ", pageSize=" + strconv.Itoa(pageSize) + "]")
 	request := gorequest.New()
 	var url = stackExchangeAPI + "/2.2/questions?page=" + strconv.Itoa(page) + "&pagesize=" + strconv.Itoa(pageSize) + "&order=desc&sort=votes&site=stackoverflow&filter=!9Z(-wwYGT"
 	data := map[string]interface{}{}
-	response, _, errs := request.Set("User-Agent", util.UserAgent).Get(url).Timeout(10 * time.Second).Retry(3, 5*time.Second).EndStruct(&data)
-	logger.Info("question requested [" + url + "]")
+	response, body, errs := request.Set("User-Agent", util.UserAgent).Get(url).Timeout(30 * time.Second).Retry(3, 5*time.Second).EndStruct(&data)
+	logger.Info("questions requested [page=" + strconv.Itoa(page) + ", pageSize=" + strconv.Itoa(pageSize) + "]")
 	if nil != errs {
 		logger.Errorf("get [%s] failed: %s", url, errs)
 
 		return nil
 	}
 	if 200 != response.StatusCode {
-		logger.Errorf("get [%s] status code is [%d]", response.StatusCode)
+		logger.Errorf("get [%s] status code is [%d], response body is [%s]", url, response.StatusCode, body)
 
 		return nil
 	}
@@ -92,15 +92,15 @@ func (s *stackOverflow) ParseAnswers(questionId string) (ret []*model.Answer) {
 	request := gorequest.New()
 	var url = stackExchangeAPI + "/2.2/questions/" + questionId + "/answers?pagesize=3&order=desc&sort=votes&site=stackoverflow&filter=!9Z(-wzu0T"
 	data := map[string]interface{}{}
-	response, _, errs := request.Set("User-Agent", util.UserAgent).Get(url).Timeout(10 * time.Second).Retry(3, 5*time.Second).EndStruct(&data)
-	logger.Info("answer requested [" + url + ", questionId=" + questionId + "]")
+	response, _, errs := request.Set("User-Agent", util.UserAgent).Get(url).Timeout(30 * time.Second).Retry(3, 5*time.Second).EndStruct(&data)
+	logger.Info("answer requested [questionId=" + questionId + "]")
 	if nil != errs {
 		logger.Errorf("get [%s] failed: %s", url, errs)
 
 		return nil
 	}
 	if 200 != response.StatusCode {
-		logger.Errorf("get [%s] status code is [%d]", response.StatusCode)
+		logger.Errorf("get [%s] status code is [%d]", url, response.StatusCode)
 
 		return nil
 	}

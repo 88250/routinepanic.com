@@ -8,6 +8,8 @@ import (
 
 	"cloud.google.com/go/translate"
 	"golang.org/x/text/language"
+	"golang.org/x/net/proxy"
+	"net/http"
 )
 
 // Translation service.
@@ -17,6 +19,14 @@ type translationService struct {
 }
 
 func (srv *translationService) Translate(text string, format string) string {
+	dialer, err := proxy.SOCKS5("tcp", "127.0.0.1:1081", nil, proxy.Direct)
+	if err != nil {
+		logger.Fatal("can't connect to the proxy: " + err.Error())
+	}
+
+	httpTransport := &http.Transport{Dial: dialer.Dial}
+	http.DefaultClient.Transport = httpTransport
+
 	ctx := context.Background()
 	client, err := translate.NewClient(ctx)
 	if err != nil {
