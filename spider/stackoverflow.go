@@ -13,6 +13,7 @@ import (
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/parnurzeal/gorequest"
+	"html"
 )
 
 var StackOverflow = &stackOverflow{}
@@ -52,7 +53,9 @@ func (s *stackOverflow) ParseQuestionsByVotes(page, pageSize int) (ret []*QnA) {
 	for _, qi := range qs {
 		q := qi.(map[string]interface{})
 		question := &model.Question{}
-		question.TitleEnUS = q["title"].(string)
+		title := q["title"].(string)
+		title = html.UnescapeString(title)
+		question.TitleEnUS = title
 		tis := q["tags"].([]interface{})
 		var tags []string
 		for _, ti := range tis {
