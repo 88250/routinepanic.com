@@ -23,7 +23,7 @@ func TestMain(m *testing.M) {
 
 func setup() {
 	util.Conf = &util.Configuration{
-		MySQL: "root:@(localhost:3306)/rp?charset=utf8mb4&parseTime=True&loc=Local",
+		MySQL: "root:123456@(localhost:3306)/rp?charset=utf8mb4&parseTime=True&loc=Local",
 	}
 
 	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
