@@ -66,6 +66,7 @@ func MapRoutes() *gin.Engine {
 	ret.Static("/css", "view/css")
 	ret.Static("/js", "view/js")
 	ret.Static("/images", "view/images")
+	ret.StaticFile("/robots.txt", "view/robots.txt")
 
 	ret.Use(fillCommon)
 	ret.GET("", showIndexAction)
