@@ -5,11 +5,11 @@ package service
 
 import (
 	"context"
+	"net/http"
 
 	"cloud.google.com/go/translate"
-	"golang.org/x/text/language"
 	"golang.org/x/net/proxy"
-	"net/http"
+	"golang.org/x/text/language"
 )
 
 // Translation service.
