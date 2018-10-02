@@ -67,7 +67,7 @@ func (s *stackOverflow) ParseQuestionsByVotes(page, pageSize int) (ret []*QnA) {
 		question.Views = int(q["view_count"].(float64))
 		content := q["body"].(string)
 		doc, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
-		doc.Find("code").Each(func(i int, s *goquery.Selection) {
+		doc.Find("pre,code").Each(func(i int, s *goquery.Selection) {
 			s.SetAttr("translate", "no")
 		})
 		question.ContentEnUS, _ = doc.Find("body").Html()
