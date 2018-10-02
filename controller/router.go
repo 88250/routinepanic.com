@@ -6,16 +6,16 @@ package controller
 import (
 	"errors"
 	"html/template"
+	"net/http"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-gonic/gin"
 	"github.com/b3log/routinepanic.com/log"
 	"github.com/b3log/routinepanic.com/util"
-	"path/filepath"
-	"net/http"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-gonic/gin"
 )
 
 // Logger
@@ -71,6 +71,7 @@ func MapRoutes() *gin.Engine {
 	ret.GET("", showIndexAction)
 	ret.GET("/questions/*path", showQuestionAction)
 	ret.GET("/tags/*tag", showTagAction)
+	ret.GET("/baidu", submitURL)
 
 	return ret
 }

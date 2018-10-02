@@ -7,9 +7,9 @@ import (
 	"os"
 
 	"github.com/b3log/routinepanic.com/log"
+	"github.com/b3log/routinepanic.com/util"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql" // mysql
-	"github.com/b3log/routinepanic.com/util"
 )
 
 // Logger
