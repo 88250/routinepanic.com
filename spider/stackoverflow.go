@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/b3log/routinepanic.com/log"
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/b3log/routinepanic.com/util"
@@ -64,7 +65,12 @@ func (s *stackOverflow) ParseQuestionsByVotes(page, pageSize int) (ret []*QnA) {
 		question.Tags = strings.Join(tags, ",")
 		question.Votes = int(q["score"].(float64))
 		question.Views = int(q["view_count"].(float64))
-		question.ContentEnUS = q["body"].(string)
+		content := q["body"].(string)
+		doc, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
+		doc.Find("code").Each(func(i int, s *goquery.Selection) {
+			s.SetAttr("translate", "no")
+		})
+		question.ContentEnUS, _ = doc.Find("body").Html()
 		link := q["link"].(string)
 		qId := strconv.Itoa(int(q["question_id"].(float64)))
 		question.Path = strings.Split(link, qId+"/")[1]
