@@ -119,7 +119,12 @@ func (s *stackOverflow) ParseAnswers(questionId string) (ret []*model.Answer) {
 		a := ai.(map[string]interface{})
 		answer := &model.Answer{}
 		answer.Votes = int(a["score"].(float64))
-		answer.ContentEnUS = a["body"].(string)
+		content := a["body"].(string)
+		doc, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
+		doc.Find("pre,code").Each(func(i int, s *goquery.Selection) {
+			s.SetAttr("translate", "no")
+		})
+		answer.ContentEnUS, _ = doc.Find("body").Html()
 		answer.Source = model.SourceStackOverflow
 		answer.SourceID = strconv.Itoa(int(a["answer_id"].(float64)))
 		owner := a["owner"].(map[string]interface{})
