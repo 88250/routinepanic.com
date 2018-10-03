@@ -19,6 +19,7 @@ type question struct {
 	Description string
 	Tags        []*tag
 	Content     template.HTML
+	SourceURL   string
 }
 
 type tag struct {
@@ -54,6 +55,7 @@ func questionVo(qModel *model.Question) (ret *question) {
 		Title:       pangu.SpacingText(qModel.TitleZhCN),
 		Description: desc,
 		Content:     template.HTML(panguSpace(qModel.ContentZhCN)),
+		SourceURL:   qModel.SourceURL,
 	}
 	tagStrs := strings.Split(qModel.Tags, ",")
 	for _, tagTitle := range tagStrs {
