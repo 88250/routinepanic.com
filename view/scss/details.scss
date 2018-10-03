@@ -8,7 +8,7 @@
 
 .details {
   .question__tag {
-    margin: 0 12px 12px 0;
+    margin: 0 12px 0 0;
   }
 
   .question__title {
@@ -19,4 +19,60 @@
     font-size: 20px;
     margin: 24px 0;
   }
+
+  &__share {
+    position: relative;
+    #qrCode {
+      position: absolute;
+      height: 90px;
+      width: 90px;
+      top: 20px;
+      left: 44px;
+    }
+    .tooltipped {
+      display: inline-block;
+      margin-left: 12px;
+    }
+    svg {
+      height: 20px;
+      width: 20px;
+      color: $gray;
+    }
+    input {
+      position: fixed;
+      left: -100000px;
+    }
+  }
+}
+
+.icon-wechat:hover {
+  color: #3caf36;
+}
+
+.icon-qqz:hover {
+  color: #fdc200;
+}
+
+.icon-weibo:hover {
+  color: #ff9933;
+}
+
+.icon-google:hover {
+  color: #dc4A3d;
+}
+
+.icon-twitter:hover {
+  color: #18a3fa;
+}
+
+.icon-link:hover {
+  color: #4285f4;
+}
+
+.icon-qq:hover {
+  color: #47d6fa;
+}
+
+.icon-github:hover {
+  color: #24292e;
 }

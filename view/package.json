@@ -13,6 +13,9 @@
   "license": "GPLv3",
   "private": true,
   "author": "Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
+  "scripts": {
+    "dev": "gulp watch"
+  },
   "maintainers": [
     {
       "name": "Vanessa",
@@ -20,7 +23,7 @@
     }
   ],
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-sass": "^3.1.0"
+    "gulp": "^4.0.0",
+    "gulp-sass": "^4.0.1"
   }
 }

@@ -7,30 +7,126 @@
           href="{{.Conf.StaticServer}}/css/details.css?{{.Conf.StaticResourceVersion}}"/>
 </head>
 <body>
+<svg style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg"><defs>
+    <symbol id="iconLink" viewBox="0 0 32 32">
+        <path d="M29.187 2.933l-0.12-0.121c-2.813-2.812-7.415-2.812-10.228 0l-6.516 6.517c-2.812 2.812-2.812 7.415 0 10.227l0.12 0.12c0.234 0.234 0.482 0.446 0.739 0.641l2.386-2.386c-0.278-0.164-0.542-0.361-0.78-0.599l-0.121-0.121c-1.527-1.527-1.527-4.012 0-5.539l6.517-6.516c1.527-1.527 4.012-1.527 5.539 0l0.121 0.12c1.527 1.527 1.527 4.012 0 5.539l-2.948 2.948c0.512 1.264 0.754 2.611 0.733 3.955l4.559-4.559c2.812-2.812 2.812-7.415-0-10.227zM19.557 12.323c-0.234-0.234-0.482-0.446-0.739-0.641l-2.386 2.385c0.278 0.164 0.542 0.361 0.78 0.599l0.121 0.121c1.527 1.527 1.527 4.012 0 5.539l-6.517 6.517c-1.527 1.527-4.012 1.527-5.539 0l-0.121-0.121c-1.527-1.527-1.527-4.012 0-5.539l2.948-2.948c-0.512-1.264-0.754-2.611-0.733-3.955l-4.559 4.559c-2.812 2.812-2.812 7.415 0 10.228l0.12 0.12c2.813 2.812 7.415 2.812 10.228 0l6.516-6.517c2.812-2.812 2.812-7.415 0-10.228l-0.12-0.12z"></path>
+    </symbol>
+    <symbol id="iconWechat" viewBox="0 0 32 32">
+        <path d="M9.062 9.203q0-0.641-0.391-1.031t-1.031-0.391q-0.672 0-1.188 0.398t-0.516 1.023q0 0.609 0.516 1.008t1.188 0.398q0.641 0 1.031-0.383t0.391-1.023zM20.672 17.125q0-0.438-0.398-0.781t-1.023-0.344q-0.422 0-0.773 0.352t-0.352 0.773q0 0.438 0.352 0.789t0.773 0.352q0.625 0 1.023-0.344t0.398-0.797zM16.984 9.203q0-0.641-0.383-1.031t-1.023-0.391q-0.672 0-1.188 0.398t-0.516 1.023q0 0.609 0.516 1.008t1.188 0.398q0.641 0 1.023-0.383t0.383-1.023zM26.906 17.125q0-0.438-0.406-0.781t-1.016-0.344q-0.422 0-0.773 0.352t-0.352 0.773q0 0.438 0.352 0.789t0.773 0.352q0.609 0 1.016-0.344t0.406-0.797zM22.75 10.922q-0.484-0.063-1.094-0.063-2.641 0-4.859 1.203t-3.492 3.258-1.273 4.492q0 1.219 0.359 2.375-0.547 0.047-1.062 0.047-0.406 0-0.781-0.023t-0.859-0.102-0.695-0.109-0.852-0.164-0.781-0.164l-3.953 1.984 1.125-3.406q-4.531-3.172-4.531-7.656 0-2.641 1.523-4.859t4.125-3.492 5.68-1.273q2.75 0 5.195 1.031t4.094 2.852 2.133 4.070zM32 19.688q0 1.828-1.070 3.492t-2.898 3.023l0.859 2.828-3.109-1.703q-2.344 0.578-3.406 0.578-2.641 0-4.859-1.102t-3.492-2.992-1.273-4.125 1.273-4.125 3.492-2.992 4.859-1.102q2.516 0 4.734 1.102t3.555 3 1.336 4.117z"></path>
+    </symbol>
+    <symbol id="iconTwitter" viewBox="0 0 32 32">
+        <path d="M32 6.077c-1.175 0.525-2.443 0.875-3.768 1.031 1.356-0.812 2.393-2.1 2.887-3.631-1.268 0.75-2.674 1.3-4.168 1.593-1.2-1.275-2.906-2.068-4.793-2.068-3.624 0-6.561 2.937-6.561 6.561 0 0.512 0.056 1.012 0.169 1.493-5.455-0.275-10.292-2.887-13.529-6.861-0.562 0.969-0.887 2.1-0.887 3.299 0 2.275 1.156 4.287 2.918 5.461-1.075-0.031-2.087-0.331-2.974-0.819 0 0.025 0 0.056 0 0.081 0 3.181 2.262 5.836 5.268 6.436-0.55 0.15-1.131 0.231-1.731 0.231-0.425 0-0.831-0.044-1.237-0.119 0.837 2.606 3.262 4.505 6.13 4.562-2.25 1.762-5.074 2.812-8.155 2.812-0.531 0-1.050-0.031-1.568-0.094 2.912 1.868 6.361 2.949 10.067 2.949 12.073 0 18.678-10.004 18.678-18.678 0-0.287-0.006-0.569-0.019-0.85 1.281-0.919 2.393-2.075 3.274-3.393z"></path>
+    </symbol>
+    <symbol id="iconGoogle" viewBox="0 0 32 32">
+        <path d="M19.958 16.236q0 2.889-1.208 5.146t-3.444 3.528-5.125 1.271q-2.069 0-3.958-0.806t-3.25-2.167-2.167-3.25-0.806-3.958 0.806-3.958 2.167-3.25 3.25-2.167 3.958-0.806q3.972 0 6.819 2.667l-2.764 2.653q-1.625-1.569-4.056-1.569-1.708 0-3.16 0.861t-2.299 2.34-0.847 3.229 0.847 3.229 2.299 2.34 3.16 0.861q1.153 0 2.118-0.319t1.59-0.799 1.090-1.090 0.681-1.153 0.299-1.028h-5.778v-3.5h9.611q0.167 0.875 0.167 1.694zM32 14.542v2.917h-2.903v2.903h-2.917v-2.903h-2.903v-2.917h2.903v-2.903h2.917v2.903h2.903z"></path>
+    </symbol>
+    <symbol id="iconWeibo" viewBox="0 0 32 32">
+        <path d="M13.242 27.106c-5.22 0.517-9.727-1.847-10.065-5.27-0.339-3.429 3.62-6.618 8.834-7.135 5.22-0.517 9.727 1.847 10.059 5.27 0.345 3.429-3.614 6.624-8.828 7.135zM23.677 15.735c-0.443-0.135-0.751-0.222-0.517-0.806 0.505-1.268 0.554-2.358 0.006-3.14-1.022-1.459-3.823-1.385-7.030-0.037 0 0-1.010 0.437-0.751-0.357 0.492-1.588 0.419-2.912-0.351-3.681-1.742-1.742-6.372 0.068-10.342 4.038-2.967 2.961-4.691 6.119-4.691 8.846 0 5.208 6.686 8.379 13.224 8.379 8.569 0 14.276-4.98 14.276-8.933 0-2.395-2.013-3.749-3.823-4.309z"></path><path d="M29.371 6.193c-2.069-2.296-5.122-3.17-7.942-2.573v0c-0.653 0.142-1.065 0.782-0.923 1.428 0.142 0.653 0.776 1.065 1.428 0.923 2.007-0.425 4.174 0.197 5.645 1.828s1.872 3.854 1.237 5.799v0c-0.203 0.634 0.142 1.311 0.776 1.521 0.634 0.203 1.311-0.142 1.521-0.776v-0.006c0.887-2.721 0.326-5.848-1.742-8.145z"></path><path d="M26.189 9.068c-1.010-1.12-2.499-1.545-3.866-1.25-0.56 0.117-0.917 0.677-0.8 1.237 0.123 0.56 0.677 0.917 1.231 0.794v0c0.671-0.142 1.397 0.068 1.89 0.609 0.492 0.548 0.628 1.293 0.412 1.945v0c-0.172 0.542 0.123 1.133 0.671 1.311 0.548 0.172 1.133-0.123 1.311-0.671 0.431-1.336 0.16-2.863-0.85-3.977z"></path><path d="M13.531 20.907c-0.185 0.314-0.585 0.462-0.899 0.332-0.314-0.123-0.406-0.48-0.228-0.782 0.185-0.302 0.573-0.449 0.88-0.332 0.308 0.111 0.419 0.462 0.246 0.782zM11.863 23.037c-0.505 0.806-1.588 1.157-2.401 0.788-0.8-0.363-1.040-1.299-0.536-2.087 0.499-0.782 1.545-1.133 2.352-0.794 0.819 0.351 1.084 1.28 0.585 2.093zM13.759 17.336c-2.481-0.646-5.288 0.591-6.366 2.776-1.102 2.229-0.037 4.709 2.469 5.522 2.598 0.837 5.664-0.449 6.729-2.85 1.053-2.358-0.259-4.777-2.832-5.448z"></path>
+    </symbol>
+    <symbol id="iconQQZ" viewBox="0 0 32 32">
+        <path d="M23.799 13.702l-9.541 7.185s3.829 0.596 9.604 0.527l-0.263-1.188 8.229-7.485c0.151-0.138 0.209-0.357 0.147-0.556s-0.231-0.342-0.431-0.359l-10.848-0.978-4.238-10.529c-0.077-0.193-0.258-0.319-0.458-0.319s-0.381 0.126-0.458 0.319l-4.238 10.529-10.848 0.978c-0.199 0.018-0.369 0.159-0.431 0.359s-0.004 0.419 0.147 0.556l8.228 7.485-2.466 11.134c-0.045 0.204 0.030 0.417 0.192 0.541 0.162 0.122 0.378 0.131 0.55 0.023l9.323-5.903 9.323 5.903c0.080 0.052 0.169 0.075 0.257 0.075 0.103 0 0.206-0.033 0.293-0.098 0.162-0.124 0.237-0.338 0.192-0.541l-1.95-8.805c0.837-0.442 1.758-1.189 1.758-1.189s-3.651 1.872-16.759 0.958l9.5-7.228s-0.373-0.61-12.279-1.045c-0.797-0.029 9.706-2.091 17.464-0.349z"></path>
+    </symbol></defs></svg>
 {{template "nav" .}}
 <div class="fn-wrap fn-content details">
-    <div>
-    {{range .Question.Tags}}
-        <a class="question__tag" rel="tag" href="/tags/{{.Title}}">{{.Title}}</a>
-    {{end}}
-    </div>
-    <header><h2 class="question__title">{{.Question.Title}}</h2></header>
-    <div class="content-reset">
-    {{.Question.Content}}
+    <header class="fn-flex">
+        <h2 class="question__title fn-flex-1">{{.Question.Title}}</h2>
+        <a href="{{.Question.SourceURL}}" class="tooltipped tooltipped--n" aria-label="stack overflow 源" >
+            <img width="30" src="{{.Conf.StaticServer}}/images/stackoverflow.png">
+        </a>
+    </header>
+    <div class="list__item">
+        <div class="content-reset">
+            {{.Question.Content}}
+        </div>
+        <div class="fn-clear">
+            {{range .Question.Tags}}
+            <a class="question__tag" rel="tag" href="/tags/{{.Title}}">{{.Title}}</a>
+            {{end}}
+
+            <div class="fn-right details__share">
+                <div id="qrCode" class="fn-none"></div>
+                <span class="tooltipped tooltipped--n" aria-label="share to qq zone" data-type="qqz"><svg class="icon-qqz"><use
+                        xlink:href="#iconQQZ"></use></svg></span>
+                <span class="tooltipped tooltipped--n" aria-label="share to wechat" data-type="wechat"><svg class="icon-wechat"><use
+                        xlink:href="#iconWechat"></use></svg></span>
+                <span class="tooltipped tooltipped--n" aria-label="share to weibo" data-type="weibo"><svg class="icon-weibo"><use
+                        xlink:href="#iconWeibo"></use></svg></span>
+                <span class="tooltipped tooltipped--n" aria-label="share to twitter" data-type="twitter"><svg class="icon-twitter"><use
+                        xlink:href="#iconTwitter"></use></svg></span>
+                <span class="tooltipped tooltipped--n" aria-label="share to google" data-type="google"><svg class="icon-google"><use
+                        xlink:href="#iconGoogle"></use></svg></span>
+                <span class="tooltipped tooltipped--n" data-type="copy" onclick="copy(this)" onmouseenter="$(this).attr('aria-label', '复制')"
+                      aria-label="复制"><svg class="icon-link"><use xlink:href="#iconLink"></use></svg></span>
+                <input type="text"
+                       value="{{.Conf.Server}}/questions/{{.Question.Path}}"/>
+            </div>
+        </div>
     </div>
 
     <h2 class="details__answer">答案</h2>
-{{range .Answers}}
-    <div class="content-reset list__item">
-    {{.Content}}
-    </div>
-{{end}}
+    {{range .Answers}}
+        <div class="content-reset list__item">
+        {{.Content}}
+        </div>
+    {{end}}
 </div>
 
 {{template "footer" .}}
+<script src="{{.Conf.StaticServer}}/js/lib/jquery-3.3.1.min.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/qrious.min.js"></script>
 <script src="{{.Conf.StaticServer}}/js/lib/highlight.min.js"></script>
 <script>
+  var copy = function (it) {
+    $('.details__share input')[0].select()
+    try {
+      // Now that we've selected the anchor text, execute the copy command
+      const successful = document.execCommand('copy')
+      if (successful) {
+        $(it).attr('aria-label', '已复制')
+      }
+    } catch (err) {
+      console.log('Oops, unable to copy')
+    }
+    window.getSelection().removeAllRanges()
+  };
+
+  (function () {
+    // share
+    const qr = new QRious({
+      element: $('#qrCode')[0],
+      value: '{{.Conf.Server}}/questions/{{.Question.Path}}',
+      size: 90,
+    })
+    $('#qrCode').css('background-image', `url(${qr.toDataURL('image/jpeg')})`).hide()
+    $('body').click(function () {
+      $('#qrCode').slideUp()
+    })
+
+    $('.details__share > span').click(function () {
+      var key = $(this).data('type')
+      if (key === 'wechat') {
+        $('#qrCode').slideToggle()
+        return false
+      }
+      if (key === 'copy') {
+        return false
+      }
+
+      const shareURL = encodeURIComponent('{{.Conf.Server}}/questions/{{.Question.Path}}')
+      const title = encodeURIComponent('{{.Question.Title}} - 协慌网')
+      const avatarURL = '{{.Conf.StaticServer}}/images/logo@48.png'
+      const urls = {
+        weibo: 'http://v.t.sina.com.cn/share/share.php?title=' + title + '&url=' + shareURL + '&pic=' + avatarURL,
+        qqz: 'https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + shareURL + '&sharesource=qzone&title=' + title + '&pics=' + avatarURL,
+        google: 'https://plus.google.com/share?url=' + shareURL,
+        twitter: 'https://twitter.com/intent/tweet?status=' + title + ' ' + shareURL,
+      }
+      window.open(urls[key], '_blank', 'top=100,left=200,width=648,height=618')
+    })
+
+    // hljs
     hljs.initHighlightingOnLoad()
+  })()
 </script>
 </body>
 </html>
