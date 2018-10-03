@@ -20,5 +20,7 @@ type Model struct {
 func (model *Model) BeforeCreate(scope *gorm.Scope) error {
 	scope.SetColumn("ID", time.Now().UnixNano())
 
+	time.Sleep(50 * time.Millisecond)
+
 	return nil
 }
