@@ -1,13 +1,34 @@
 {{define "head"}}
 <meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
 <title>{{.Title}}</title>
+<meta name="robots" content="index,follow,archive">
 <meta name="keywords" content="{{.MetaKeywords}}"/>
 <meta name="description" content="{{.MetaDescription}}"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="copyright" content="B3log"/>
+<link rel="canonical" href="{{.Conf.Server}}">
+<link rel="apple-touch-icon" href="{{.Conf.StaticServer}}/images/logo@48.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta http-equiv="Window-target" content="_top"/>
-<meta name="baidu-site-verification" content="cVEZLSSXCD" />
-<link rel="icon" type="image/x-icon" href="{{.Conf.StaticServer}}/images/logo@48.png">
+<link rel="icon" type="image/png" href="{{.Conf.StaticServer}}/images/logo@48.png"/>
 <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/css/base.css?{{.Conf.StaticResourceVersion}}"/>
+<meta property="og:locale" content="zh_CN"/>
+<meta property="og:title" content="{{.Title}}"/>
+<meta property="og:description" content="{{.MetaDescription}}"/>
+<meta property="og:image" content="{{.Conf.StaticServer}}/images/logo@128.png"/>
+<meta property="og:url" content="{{.Conf.Server}}"/>
+<meta property="og:site_name" content="协慌网"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:description" content="{{.MetaDescription}}"/>
+<meta name="twitter:title" content="{{.Title}}"/>
+<meta name="twitter:image" content="{{.Conf.StaticServer}}/images/logo@128.png"/>
+<meta name="twitter:url" content="{{.Conf.Server}}"/>
+<meta name="twitter:site" content="@b3logos"/>
+<meta name="twitter:creator" content="@b3logos"/>
+<meta name="baidu-site-verification" content="cVEZLSSXCD" />
+
 <script>
     var _hmt = _hmt || [];
     (function() {
