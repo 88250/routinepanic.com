@@ -3,7 +3,11 @@
 
 package model
 
-import "time"
+import (
+	"time"
+
+	"github.com/jinzhu/gorm"
+)
 
 // Model represents meta data of entity.
 type Model struct {
@@ -11,4 +15,10 @@ type Model struct {
 	CreatedAt time.Time  `json:"createdAt"`
 	UpdatedAt time.Time  `json:"updatedAt"`
 	DeletedAt *time.Time `sql:"index" json:"deletedAt"`
+}
+
+func (model *Model) BeforeCreate(scope *gorm.Scope) error {
+	scope.SetColumn("ID", time.Now().UnixNano())
+
+	return nil
 }
