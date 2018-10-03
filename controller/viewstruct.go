@@ -9,6 +9,7 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/b3log/routinepanic.com/model"
+	"github.com/b3log/routinepanic.com/util"
 	"github.com/vinta/pangu"
 )
 
@@ -49,12 +50,15 @@ func questionVo(qModel *model.Question) (ret *question) {
 		desc = doc.Find("p").First().Text()
 	}
 
+	content := qModel.ContentZhCN
+	content = util.TuneHTML(content)
+
 	ret = &question{
 		ID:          qModel.ID,
 		Path:        qModel.Path,
 		Title:       pangu.SpacingText(qModel.TitleZhCN),
 		Description: desc,
-		Content:     template.HTML(panguSpace(qModel.ContentZhCN)),
+		Content:     template.HTML(content),
 		SourceURL:   qModel.SourceURL,
 	}
 	tagStrs := strings.Split(qModel.Tags, ",")
@@ -75,38 +79,13 @@ func answersVos(aModels []*model.Answer) (ret []*answer) {
 }
 
 func answerVo(aModel *model.Answer) (ret *answer) {
+	content := aModel.ContentZhCN
+	content = util.TuneHTML(content)
+
 	ret = &answer{
 		ID:      aModel.ID,
-		Content: template.HTML(panguSpace(aModel.ContentZhCN)),
+		Content: template.HTML(content),
 	}
 
 	return
-}
-
-func panguSpace(html string) string {
-	doc, err := goquery.NewDocumentFromReader(strings.NewReader(html))
-	if nil != err {
-		logger.Errorf("pangu space failed: " + err.Error())
-
-		return html
-	}
-	doc.Find("*").Contents().FilterFunction(func(i int, ele *goquery.Selection) bool {
-		if "#text" != goquery.NodeName(ele) {
-			return false
-		}
-		parent := goquery.NodeName(ele.Parent())
-		return parent != "code" && parent != "pre"
-	}).Each(func(i int, ele *goquery.Selection) {
-		text := pangu.SpacingText(ele.Text())
-		text = pangu.SpacingText(text)
-		ele.ReplaceWithHtml(text)
-	})
-	ret, err := doc.Find("body").Html()
-	if nil != err {
-		logger.Errorf("pangu space failed: " + err.Error())
-
-		return html
-	}
-
-	return ret
 }

@@ -1,0 +1,45 @@
+package util
+
+import (
+	"strings"
+
+	"github.com/PuerkitoBio/goquery"
+	"github.com/vinta/pangu"
+)
+
+func TuneHTML(html string) string {
+	if "" == html {
+		return ""
+	}
+
+	doc, err := goquery.NewDocumentFromReader(strings.NewReader(html))
+	if nil != err {
+		logger.Errorf("pangu space failed: " + err.Error())
+
+		return html
+	}
+	doc.Find("*").Contents().FilterFunction(func(i int, ele *goquery.Selection) bool {
+		if "#text" != goquery.NodeName(ele) {
+			return false
+		}
+		parent := goquery.NodeName(ele.Parent())
+
+		return parent != "code" && parent != "pre"
+	}).Each(func(i int, ele *goquery.Selection) {
+		text := pangu.SpacingText(ele.Text())
+		text = pangu.SpacingText(text)
+		ele.ReplaceWithHtml(text)
+	})
+	doc.Find("pre").Each(func(i int, ele *goquery.Selection) {
+		html, _ := ele.Html()
+		ele.SetHtml(strings.TrimSpace(html))
+	})
+	ret, err := doc.Find("body").Html()
+	if nil != err {
+		logger.Errorf("pangu space failed: " + err.Error())
+
+		return html
+	}
+
+	return ret
+}
