@@ -15,7 +15,7 @@ func submitURL(c *gin.Context) {
 	for i := 1; i < 256; i++ {
 		questions, pagination := service.QnA.GetQuestions(i)
 		if i > pagination.LastPageNum {
-			logger.Infof("submit completed [p=%d]", i)
+			logger.Infof("submit completed [p=%d]", pagination.LastPageNum)
 
 			break
 		}
