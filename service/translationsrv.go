@@ -75,7 +75,7 @@ func (srv *translationService) Translate(text string, format string) string {
 				pCount++
 			}
 
-			if 5 < pCount {
+			if 3 < pCount {
 				ret += translateFragment(client, ctx, fragment)
 				fragment = ""
 				pCount = 0
