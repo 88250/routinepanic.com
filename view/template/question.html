@@ -28,50 +28,51 @@
     </symbol></defs></svg>
 {{template "nav" .}}
 <div class="fn-wrap fn-content details">
-    <header class="fn-flex">
-        <h2 class="question__title fn-flex-1">{{.Question.Title}}</h2>
-        <a href="{{.Question.SourceURL}}" class="tooltipped tooltipped--n" aria-label="Stack Overflow 源" target="_blank">
-            <img width="30" src="{{.Conf.StaticServer}}/images/stackoverflow.png">
-        </a>
-    </header>
-    <div class="list__item">
-        <div class="content-reset">
-            {{.Question.Content}}
-        </div>
-        <div class="fn-clear">
-            {{range .Question.Tags}}
-            <a class="question__tag" rel="tag" href="/tags/{{.Title}}">{{.Title}}</a>
-            {{end}}
+    <div class="fn-flex-1">
+        <header class="fn-flex">
+            <h2 class="question__title fn-flex-1">{{.Question.Title}}</h2>
+            <a href="{{.Question.SourceURL}}" class="tooltipped tooltipped--n" aria-label="Stack Overflow 源" target="_blank">
+                <img width="30" src="{{.Conf.StaticServer}}/images/stackoverflow.png">
+            </a>
+        </header>
+        <div class="list__item">
+            <div class="content-reset">
+                {{.Question.Content}}
+            </div>
+            <div class="fn-clear">
+                {{range .Question.Tags}}
+                <a class="question__tag" rel="tag" href="/tags/{{.Title}}">{{.Title}}</a>
+                {{end}}
 
-            <div class="fn-right details__share">
-                <div id="qrCode" class="fn-none"></div>
-                <span class="tooltipped tooltipped--n" aria-label="share to qq zone" data-type="qqz"><svg class="icon-qqz"><use
-                        xlink:href="#iconQQZ"></use></svg></span>
-                <span class="tooltipped tooltipped--n" aria-label="share to wechat" data-type="wechat"><svg class="icon-wechat"><use
-                        xlink:href="#iconWechat"></use></svg></span>
-                <span class="tooltipped tooltipped--n" aria-label="share to weibo" data-type="weibo"><svg class="icon-weibo"><use
-                        xlink:href="#iconWeibo"></use></svg></span>
-                <span class="tooltipped tooltipped--n" aria-label="share to twitter" data-type="twitter"><svg class="icon-twitter"><use
-                        xlink:href="#iconTwitter"></use></svg></span>
-                <span class="tooltipped tooltipped--n" aria-label="share to google" data-type="google"><svg class="icon-google"><use
-                        xlink:href="#iconGoogle"></use></svg></span>
-                <span class="tooltipped tooltipped--n" data-type="copy" onclick="copy(this)" onmouseenter="$(this).attr('aria-label', '复制')"
-                      aria-label="复制"><svg class="icon-link"><use xlink:href="#iconLink"></use></svg></span>
-                <input type="text"
-                       value="{{.Conf.Server}}/questions/{{.Question.Path}}"/>
+                <div class="fn-right details__share">
+                    <div id="qrCode" class="fn-none"></div>
+                    <span class="tooltipped tooltipped--n" aria-label="share to qq zone" data-type="qqz"><svg class="icon-qqz"><use
+                            xlink:href="#iconQQZ"></use></svg></span>
+                    <span class="tooltipped tooltipped--n" aria-label="share to wechat" data-type="wechat"><svg class="icon-wechat"><use
+                            xlink:href="#iconWechat"></use></svg></span>
+                    <span class="tooltipped tooltipped--n" aria-label="share to weibo" data-type="weibo"><svg class="icon-weibo"><use
+                            xlink:href="#iconWeibo"></use></svg></span>
+                    <span class="tooltipped tooltipped--n" aria-label="share to twitter" data-type="twitter"><svg class="icon-twitter"><use
+                            xlink:href="#iconTwitter"></use></svg></span>
+                    <span class="tooltipped tooltipped--n" aria-label="share to google" data-type="google"><svg class="icon-google"><use
+                            xlink:href="#iconGoogle"></use></svg></span>
+                    <span class="tooltipped tooltipped--n" data-type="copy" onclick="copy(this)" onmouseenter="$(this).attr('aria-label', '复制')"
+                          aria-label="复制"><svg class="icon-link"><use xlink:href="#iconLink"></use></svg></span>
+                    <input type="text"
+                           value="{{.Conf.Server}}/questions/{{.Question.Path}}"/>
+                </div>
             </div>
         </div>
-    </div>
 
-    <h2 class="details__answer">答案</h2>
-    {{range .Answers}}
+        <h2 class="details__answer">答案</h2>
+        {{range .Answers}}
         <div class="content-reset list__item">
-        {{.Content}}
+            {{.Content}}
         </div>
-    {{end}}
+        {{end}}
+    </div>
+    {{template "footer" .}}
 </div>
-
-{{template "footer" .}}
 <script src="{{.Conf.StaticServer}}/js/lib/jquery-3.3.1.min.js"></script>
 <script src="{{.Conf.StaticServer}}/js/lib/qrious.min.js"></script>
 <script src="{{.Conf.StaticServer}}/js/lib/highlight.min.js"></script>

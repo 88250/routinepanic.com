@@ -8,33 +8,35 @@
 <body>
 {{template "nav" .}}
 <div class="fn-content fn-wrap">
-{{range .Questions}}
-    <article class="list__item">
-        <header><h2><a href="/questions/{{.Path}}" class="question__title">{{.Title}}</a></h2></header>
-        <div>
-        {{range .Tags}}
-            <a class="question__tag" rel="tag" href="/tags/{{.Title}}">{{.Title}}</a>
+    <div class="fn-flex-1">
+        {{range .Questions}}
+        <article class="list__item">
+            <header><h2><a href="/questions/{{.Path}}" class="question__title">{{.Title}}</a></h2></header>
+            <div>
+                {{range .Tags}}
+                <a class="question__tag" rel="tag" href="/tags/{{.Title}}">{{.Title}}</a>
+                {{end}}
+            </div>
+        </article>
         {{end}}
+        <div class="fn-clear">
+            <nav class="pagination fn-right">
+                <a aria-label="上一页"
+                   class="pagination__item{{if lt .Pagination.PreviousPageNum 1}} pagination__item--disabled{{end}}"
+                   href="?p={{.Pagination.PreviousPageNum}}">
+                    上一页
+                </a>
+                {{range .Pagination.PageNums}}
+                <a class="pagination__item{{if eq $.Pagination.CurrentPageNum .}} pagination__item--current{{end}}"
+                   href="?p={{.}}">{{.}}</a>
+                {{end}}
+                <a aria-label="下一页"
+                   class="pagination__item{{if lt .Pagination.NextPageNum 1}} pagination__item--disabled{{end}}"
+                   href="?p={{.Pagination.NextPageNum}}">
+                    下一页
+                </a>
+            </nav>
         </div>
-    </article>
-{{end}}
-    <div class="fn-clear">
-        <nav class="pagination fn-right">
-            <a aria-label="上一页"
-               class="pagination__item{{if lt .Pagination.PreviousPageNum 1}} pagination__item--disabled{{end}}"
-               href="?p={{.Pagination.PreviousPageNum}}">
-                上一页
-            </a>
-        {{range .Pagination.PageNums}}
-            <a class="pagination__item{{if eq $.Pagination.CurrentPageNum .}} pagination__item--current{{end}}"
-               href="?p={{.}}">{{.}}</a>
-        {{end}}
-            <a aria-label="下一页"
-               class="pagination__item{{if lt .Pagination.NextPageNum 1}} pagination__item--disabled{{end}}"
-               href="?p={{.Pagination.NextPageNum}}">
-                下一页
-            </a>
-        </nav>
     </div>
 {{template "footer" .}}
 </div>

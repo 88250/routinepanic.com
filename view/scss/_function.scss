@@ -2,7 +2,7 @@
  * function.
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.1.0.0, Apr 13, 2018
+ * @version 0.1.0.1, Oct 4, 2018
  */
 
 .fn {
@@ -13,7 +13,11 @@
   }
 
   &-content {
-    margin-top: 81px;
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding-top: 81px;
+    display: flex;
+    flex-direction: column;
   }
 
   &-flex {
