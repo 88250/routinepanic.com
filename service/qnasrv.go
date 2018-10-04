@@ -152,6 +152,8 @@ func (srv *qnaService) add(tx *gorm.DB, qna *spider.QnA) (err error) {
 		}
 	}
 
+	logger.Info("added a QnA [" + qna.Question.TitleEnUS + ", " + qna.Question.TitleZhCN + "]")
+
 	return nil
 }
 
