@@ -32,6 +32,8 @@ func importSO(c *gin.Context) {
 		for _, a := range qna.Answers {
 			a.ContentZhCN = service.Translation.Translate(a.ContentEnUS, "html")
 		}
+
+		logger.Info("translated a QnA [" + qna.Question.TitleEnUS + ", " + qna.Question.TitleZhCN + "]")
 	}
 
 	if err := service.QnA.AddAll(qnas); nil != err {
