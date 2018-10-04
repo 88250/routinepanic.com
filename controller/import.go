@@ -1,10 +1,12 @@
 package controller
 
 import (
+	"net/http"
 	"strconv"
 
 	"github.com/b3log/routinepanic.com/service"
 	"github.com/b3log/routinepanic.com/spider"
+	"github.com/b3log/routinepanic.com/util"
 	"github.com/gin-gonic/gin"
 )
 
@@ -41,4 +43,6 @@ func importSO(c *gin.Context) {
 	}
 
 	importing = false
+
+	c.Redirect(http.StatusTemporaryRedirect, util.Conf.Server)
 }

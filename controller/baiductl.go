@@ -4,9 +4,11 @@
 package controller
 
 import (
+	"net/http"
 	"time"
 
 	"github.com/b3log/routinepanic.com/service"
+	"github.com/b3log/routinepanic.com/util"
 	"github.com/gin-gonic/gin"
 	"github.com/parnurzeal/gorequest"
 )
@@ -37,4 +39,6 @@ func submitURL(c *gin.Context) {
 
 		logger.Info(string(data))
 	}
+
+	c.Redirect(http.StatusTemporaryRedirect, util.Conf.Server)
 }
