@@ -8,7 +8,7 @@
 <body>
 {{template "nav" .}}
 <div class="fn-content fn-wrap">
-    <form class="form fn-flex-1" method="post" action="{{.Conf.Server}}/contri/answer/{{.Answer.ID}}">
+    <form class="form fn-flex-1" method="post" action="{{.Conf.Server}}/contri/answers/{{.Answer.ID}}">
         <div class="list__item fn-clear">
             <textarea rows="10" name="content">{{.Answer.ContentZhCN}}</textarea>
             <div class="fn-hr"></div>
