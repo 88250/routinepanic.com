@@ -4,6 +4,8 @@
 <head>
     {{template "head" .}}
     <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/css/base.css?{{.Conf.StaticResourceVersion}}"/>
+    <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/lib/codemirror.css"/>
+    <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/foldgutter.css"/>
 </head>
 <body>
 {{template "nav" .}}
@@ -12,7 +14,7 @@
         <div class="list__item fn-clear">
             <input type="text" value="{{.Question.TitleZhCN}}" name="title">
             <div class="fn-hr"></div>
-            <textarea rows="10" name="content">{{.Question.ContentZhCN}}</textarea>
+            <textarea id="content" rows="10" name="content">{{.Question.ContentZhCN}}</textarea>
             <div class="fn-hr"></div>
             <input placeholder="内测码" name="password" type="text">
             <div class="fn-hr"></div>
@@ -21,6 +23,22 @@
     </form>
     {{template "footer" .}}
 </div>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/lib/codemirror.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/edit/closetag.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/xml-fold.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/foldcode.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/foldgutter.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/brace-fold.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/xml-fold.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/indent-fold.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/comment-fold.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/mode/xml/xml.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/mode/javascript/javascript.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/mode/css/css.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/mode/htmlmixed/htmlmixed.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/util/formatting.js"></script>
+
+<script src="{{.Conf.StaticServer}}/js/contri.js"></script>
 </body>
 </html>
 {{end}}
