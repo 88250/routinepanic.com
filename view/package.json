@@ -14,7 +14,8 @@
   "private": true,
   "author": "Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
   "scripts": {
-    "dev": "gulp watch"
+    "dev": "gulp watch",
+    "build": "gulp"
   },
   "maintainers": [
     {
@@ -24,6 +25,9 @@
   ],
   "devDependencies": {
     "gulp": "^4.0.0",
-    "gulp-sass": "^4.0.1"
+    "gulp-clean-css": "^3.10.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^4.0.1",
+    "gulp-uglify": "^3.0.1"
   }
 }
