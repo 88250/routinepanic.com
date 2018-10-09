@@ -77,6 +77,8 @@ func contriAction(c *gin.Context) {
 		return
 	}
 
+	session := util.GetSession(c)
+	authorName := session.UName
 	questionPath := ""
 
 	if model.DataTypeQuestion == dataType {
@@ -88,7 +90,7 @@ func contriAction(c *gin.Context) {
 		}
 
 		question.ContentZhCN = dataContent
-		if err := service.QnA.ContriQuestion(question); nil != err {
+		if err := service.QnA.ContriQuestion(authorName, question); nil != err {
 			logger.Errorf("contribute to question [%d] failed: %s", dataId, err.Error())
 			c.Status(http.StatusInternalServerError)
 
@@ -113,7 +115,7 @@ func contriAction(c *gin.Context) {
 		questionPath = question.Path
 
 		answer.ContentZhCN = dataContent
-		if err := service.QnA.ContriAnswer(answer); nil != err {
+		if err := service.QnA.ContriAnswer(authorName, answer); nil != err {
 			logger.Errorf("contribute to answer [%d] failed: %s", dataId, err.Error())
 			c.Status(http.StatusInternalServerError)
 

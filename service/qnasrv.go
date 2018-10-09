@@ -4,13 +4,13 @@
 package service
 
 import (
-	"github.com/xrash/smetrics"
 	"strings"
 
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/b3log/routinepanic.com/spider"
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/jinzhu/gorm"
+	"github.com/xrash/smetrics"
 )
 
 // QnA service.
@@ -19,10 +19,10 @@ var QnA = &qnaService{}
 type qnaService struct {
 }
 
-func (srv *qnaService) ContriAnswer(answer *model.Answer) (err error) {
+func (srv *qnaService) ContriAnswer(authorName string, answer *model.Answer) (err error) {
 	old := srv.GetAnswerByID(answer.ID)
 	distance := smetrics.WagnerFischer(old.ContentZhCN, answer.ContentZhCN, 1, 1, 2)
-	logger.Info(distance)
+	logger.Info(authorName, distance)
 
 	tx := db.Begin()
 	defer func() {
@@ -32,6 +32,16 @@ func (srv *qnaService) ContriAnswer(answer *model.Answer) (err error) {
 			tx.Rollback()
 		}
 	}()
+
+	reversion := &model.Reversion{
+		DataType:   model.DataTypeAnswer,
+		DataId:     answer.ID,
+		Data:       old.ContentZhCN,
+		AuthorName: authorName,
+	}
+	if err = tx.Save(reversion).Error; nil != err {
+		return
+	}
 
 	if err = tx.Model(&model.Question{}).Updates(answer).Error; nil != err {
 		return
@@ -40,10 +50,10 @@ func (srv *qnaService) ContriAnswer(answer *model.Answer) (err error) {
 	return nil
 }
 
-func (srv *qnaService) ContriQuestion(question *model.Question) (err error) {
+func (srv *qnaService) ContriQuestion(authorName string, question *model.Question) (err error) {
 	old := srv.GetQuestionByID(question.ID)
 	distance := smetrics.WagnerFischer(old.ContentZhCN, question.ContentZhCN, 1, 1, 2)
-	logger.Info(distance)
+	logger.Info(authorName, distance)
 
 	tx := db.Begin()
 	defer func() {
@@ -53,6 +63,16 @@ func (srv *qnaService) ContriQuestion(question *model.Question) (err error) {
 			tx.Rollback()
 		}
 	}()
+
+	reversion := &model.Reversion{
+		DataType:   model.DataTypeQuestion,
+		DataId:     question.ID,
+		Data:       old.ContentZhCN,
+		AuthorName: authorName,
+	}
+	if err = tx.Save(reversion).Error; nil != err {
+		return
+	}
 
 	if err = tx.Model(&model.Question{}).Updates(question).Error; nil != err {
 		return
