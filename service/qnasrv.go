@@ -18,6 +18,62 @@ var QnA = &qnaService{}
 type qnaService struct {
 }
 
+func (srv *qnaService) ContriAnswer(answer *model.Answer) (err error) {
+	tx := db.Begin()
+	defer func() {
+		if err == nil {
+			tx.Commit()
+		} else {
+			tx.Rollback()
+		}
+	}()
+
+	if err = tx.Model(answer).Updates(answer).Error; nil != err {
+		return
+	}
+
+	return nil
+}
+
+func (srv *qnaService) ContriQuestion(question *model.Question) (err error) {
+	tx := db.Begin()
+	defer func() {
+		if err == nil {
+			tx.Commit()
+		} else {
+			tx.Rollback()
+		}
+	}()
+
+	if err = tx.Model(question).Updates(question).Error; nil != err {
+		return
+	}
+
+	return nil
+}
+
+func (srv *qnaService) GetAnswerByID(id uint64) (ret *model.Answer) {
+	ret = &model.Answer{}
+	if err := db.Model(&model.Answer{}).Where("`id` = ?", id).First(ret).Error; nil != err {
+		logger.Errorf("get answer [id=%d] failed: "+err.Error(), id)
+
+		return nil
+	}
+
+	return
+}
+
+func (srv *qnaService) GetQuestionByID(id uint64) (ret *model.Question) {
+	ret = &model.Question{}
+	if err := db.Model(&model.Question{}).Where("`id` = ?", id).First(ret).Error; nil != err {
+		logger.Errorf("get question [id=%d] failed: "+err.Error(), id)
+
+		return nil
+	}
+
+	return
+}
+
 func (srv *qnaService) GetAnswers(questionID uint64) (ret []*model.Answer) {
 	if err := db.Model(&model.Answer{}).Where("`question_id` = ?", questionID).Find(&ret).Error; nil != err {
 		logger.Errorf("get answers of question [id=%d] failed: %s", questionID, err)

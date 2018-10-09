@@ -75,6 +75,9 @@ func MapRoutes() *gin.Engine {
 	ret.GET("/baidu", submitURL)
 	ret.GET("/import/so", importSO)
 
+	ret.GET("/contri/:dataType/:id", showContriAction)
+	ret.POST("/contri/:dataType/:id", contriAction)
+
 	return ret
 }
 

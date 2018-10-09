@@ -26,3 +26,9 @@ type Question struct {
 const (
 	SourceStackOverflow = iota
 )
+
+// Data types
+const (
+	DataTypeQuestion = iota
+	DataTypeAnswer
+)
