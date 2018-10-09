@@ -259,6 +259,12 @@
 			"revisionTime": "2016-01-23T16:33:02Z"
 		},
 		{
+			"checksumSHA1": "lzE3IDmBnp4kWs4t3C+H8HTtm9Q=",
+			"path": "github.com/xrash/smetrics",
+			"revision": "a3153f7040e90324c58c6287535e26a0ac5c1cc1",
+			"revisionTime": "2017-02-18T16:04:15Z"
+		},
+		{
 			"checksumSHA1": "iASBoEMOkTso9Gu2cDR6AdZfhHE=",
 			"path": "go.opencensus.io/exporter/stackdriver/propagation",
 			"revision": ""

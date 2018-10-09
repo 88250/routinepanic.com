@@ -4,6 +4,7 @@
 package service
 
 import (
+	"github.com/xrash/smetrics"
 	"strings"
 
 	"github.com/b3log/routinepanic.com/model"
@@ -19,6 +20,10 @@ type qnaService struct {
 }
 
 func (srv *qnaService) ContriAnswer(answer *model.Answer) (err error) {
+	old := srv.GetAnswerByID(answer.ID)
+	distance := smetrics.WagnerFischer(old.ContentZhCN, answer.ContentZhCN, 1, 1, 2)
+	logger.Info(distance)
+
 	tx := db.Begin()
 	defer func() {
 		if err == nil {
@@ -28,7 +33,7 @@ func (srv *qnaService) ContriAnswer(answer *model.Answer) (err error) {
 		}
 	}()
 
-	if err = tx.Model(answer).Updates(answer).Error; nil != err {
+	if err = tx.Model(&model.Question{}).Updates(answer).Error; nil != err {
 		return
 	}
 
@@ -36,6 +41,10 @@ func (srv *qnaService) ContriAnswer(answer *model.Answer) (err error) {
 }
 
 func (srv *qnaService) ContriQuestion(question *model.Question) (err error) {
+	old := srv.GetQuestionByID(question.ID)
+	distance := smetrics.WagnerFischer(old.ContentZhCN, question.ContentZhCN, 1, 1, 2)
+	logger.Info(distance)
+
 	tx := db.Begin()
 	defer func() {
 		if err == nil {
@@ -45,7 +54,7 @@ func (srv *qnaService) ContriQuestion(question *model.Question) (err error) {
 		}
 	}()
 
-	if err = tx.Model(question).Updates(question).Error; nil != err {
+	if err = tx.Model(&model.Question{}).Updates(question).Error; nil != err {
 		return
 	}
 
