@@ -44,6 +44,10 @@ const initEditor = () => {
 
   editor.edit.on('change', function (cm) {
     document.getElementById('contentValue').value = cm.getValue()
+    const preview = document.getElementById('contriPreview')
+    if (preview.className.indexOf('contri__preview--active') > -1) {
+      preview.innerHTML = editor.edit.getValue()
+    }
   })
 }
 

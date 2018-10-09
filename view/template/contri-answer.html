@@ -3,14 +3,28 @@
 <html>
 <head>
     {{template "head" .}}
-    <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/css/base.css?{{.Conf.StaticResourceVersion}}"/>
+    <link type="text/css" rel="stylesheet"
+          href="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/codemirror.min.css"/>
+    <link type="text/css" rel="stylesheet"
+          href="{{.Conf.StaticServer}}/css/contri.css?{{.Conf.StaticResourceVersion}}"/>
 </head>
 <body>
 {{template "nav" .}}
 <div class="fn-content fn-wrap">
     <form class="form fn-flex-1" method="post" action="{{.Conf.Server}}/contri/answers/{{.Answer.ID}}">
         <div class="list__item fn-clear">
-            <textarea rows="10" name="content">{{.Answer.ContentZhCN}}</textarea>
+            <div class="fn-clear contri__toolbar">
+                <div class="fn-right">
+                    <button type="button" onclick="preview()">预览</button>
+                </div>
+                <div class="contri__preview content-reset" id="contriPreview"></div>
+            </div>
+            <div class="fn-hr"></div>
+
+            <div id="content" class="contri__content"></div>
+            <textarea id="contentEn" class="fn-none">{{.Answer.ContentEnUS}}</textarea>
+            <textarea id="contentZh" class="fn-none">{{.Answer.ContentZhCN}}</textarea>
+            <textarea id="contentValue" class="fn-none" name="content">{{.Answer.ContentZhCN}}</textarea>
             <div class="fn-hr"></div>
             <input placeholder="内测码" name="password" type="text">
             <div class="fn-hr"></div>
@@ -19,6 +33,8 @@
     </form>
     {{template "footer" .}}
 </div>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/codemirror.min.js"></script>
+<script src="{{.Conf.StaticServer}}/js/contri.js"></script>
 </body>
 </html>
 {{end}}
