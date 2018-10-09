@@ -18,11 +18,10 @@ import (
 const nilB3id = "H9oxzSym"
 
 func fillUser(c *gin.Context) {
-	dataModel := &DataModel{}
-	c.Set("dataModel", dataModel)
 	session := util.GetSession(c)
-	(*dataModel)["User"] = session
-	if 0 != session.UID {
+	dataModel := getDataModel(c)
+	dataModel.Put("User", session)
+	if "" != session.UName {
 		c.Next()
 
 		return
@@ -81,7 +80,7 @@ func fillUser(c *gin.Context) {
 			result.Msg = "saves session failed: " + err.Error()
 		}
 
-		(*dataModel)["User"] = session
+		dataModel.Put("User", session)
 		c.Next()
 	}
 }

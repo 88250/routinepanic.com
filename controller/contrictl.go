@@ -31,7 +31,7 @@ func showContriAction(c *gin.Context) {
 			return
 		}
 
-		dataModel["Question"] = question
+		dataModel.Put("Question", question)
 
 		c.HTML(http.StatusOK, "contri-question.html", dataModel)
 	} else {
@@ -42,7 +42,7 @@ func showContriAction(c *gin.Context) {
 			return
 		}
 
-		dataModel["Answer"] = answer
+		dataModel.Put("Answer", answer)
 
 		c.HTML(http.StatusOK, "contri-answer.html", dataModel)
 	}

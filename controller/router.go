@@ -53,7 +53,7 @@ func MapRoutes() *gin.Engine {
 		Secure:   strings.HasPrefix(util.Conf.Server, "https"),
 		HttpOnly: true,
 	})
-	ret.Use(sessions.Sessions("rp", store))
+	ret.Use(sessions.Sessions("rp", store), fillCommon, fillUser)
 
 	templates, err := filepath.Glob("view/template/*.html")
 	if nil != err {
@@ -68,9 +68,8 @@ func MapRoutes() *gin.Engine {
 	ret.Static("/images", "view/images")
 	ret.StaticFile("/robots.txt", "view/robots.txt")
 
-	ret.Use(fillCommon)
 	ret.GET("", showIndexAction)
-	ret.GET("/questions/*path", showQuestionAction)
+	ret.GET("/questions/:path", showQuestionAction)
 	ret.GET("/tags/*tag", showTagAction)
 	ret.GET("/baidu", submitURL)
 	ret.GET("/import/so", importSO)
@@ -84,6 +83,14 @@ func MapRoutes() *gin.Engine {
 // DataModel represents data model.
 type DataModel map[string]interface{}
 
+func (dataModel *DataModel) Put(key string, value interface{}) {
+	(*dataModel)[key] = value
+}
+
+func (dataModel *DataModel) GetStr(key string) string {
+	return (*dataModel)[key].(string)
+}
+
 func fillCommon(c *gin.Context) {
 	dataModel := &DataModel{}
 	c.Set("dataModel", dataModel)
@@ -93,10 +100,10 @@ func fillCommon(c *gin.Context) {
 	(*dataModel)["Slogan"] = util.Slogan
 }
 
-func getDataModel(c *gin.Context) DataModel {
+func getDataModel(c *gin.Context) *DataModel {
 	dataModelVal, _ := c.Get("dataModel")
 
-	return *(dataModelVal.(*DataModel))
+	return dataModelVal.(*DataModel)
 }
 
 func notFound(c *gin.Context) {
