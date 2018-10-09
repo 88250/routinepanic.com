@@ -25,13 +25,29 @@
     </symbol>
     <symbol id="iconQQZ" viewBox="0 0 32 32">
         <path d="M23.799 13.702l-9.541 7.185s3.829 0.596 9.604 0.527l-0.263-1.188 8.229-7.485c0.151-0.138 0.209-0.357 0.147-0.556s-0.231-0.342-0.431-0.359l-10.848-0.978-4.238-10.529c-0.077-0.193-0.258-0.319-0.458-0.319s-0.381 0.126-0.458 0.319l-4.238 10.529-10.848 0.978c-0.199 0.018-0.369 0.159-0.431 0.359s-0.004 0.419 0.147 0.556l8.228 7.485-2.466 11.134c-0.045 0.204 0.030 0.417 0.192 0.541 0.162 0.122 0.378 0.131 0.55 0.023l9.323-5.903 9.323 5.903c0.080 0.052 0.169 0.075 0.257 0.075 0.103 0 0.206-0.033 0.293-0.098 0.162-0.124 0.237-0.338 0.192-0.541l-1.95-8.805c0.837-0.442 1.758-1.189 1.758-1.189s-3.651 1.872-16.759 0.958l9.5-7.228s-0.373-0.61-12.279-1.045c-0.797-0.029 9.706-2.091 17.464-0.349z"></path>
-    </symbol></defs></svg>
+    </symbol>
+    <symbol id="iconAnswer" viewBox="0 0 24 24">
+        <path d="M22.36 10.633l1.64 1.64-11.098 11.098-5.904-5.959 1.64-1.64 4.264 4.319zM4.647 9.977h4.811l-2.405-6.451zM11.699 15.772l-1.367-3.499h-6.56l-1.312 3.499h-2.46l5.959-15.144h2.187l5.959 15.144h-2.405z"></path>
+    </symbol>
+    <symbol id="iconEdit" viewBox="0 0 24 24">
+        <path d="M2.182 18.545h4.364c0.327 0 0.545-0.109 0.764-0.327l12-12c0.436-0.436 0.436-1.091 0-1.527l-4.364-4.364c-0.436-0.436-1.091-0.436-1.527 0l-12 12c-0.218 0.218-0.327 0.436-0.327 0.764v4.364c0 0.655 0.436 1.091 1.091 1.091zM3.273 13.527l10.909-10.909 2.836 2.836-10.909 10.909h-2.836v-2.836z"></path>
+        <path d="M21.818 21.818h-19.636c-0.655 0-1.091 0.436-1.091 1.091s0.436 1.091 1.091 1.091h19.636c0.655 0 1.091-0.436 1.091-1.091s-0.436-1.091-1.091-1.091z"></path>
+    </symbol>
+</defs></svg>
 {{template "nav" .}}
 <div class="fn-wrap fn-content details">
     <div class="fn-flex-1">
         <header class="fn-flex">
             <h2 class="question__title fn-flex-1">{{.Question.Title}}</h2>
-            <a href="{{.Question.SourceURL}}" class="tooltipped tooltipped--n" aria-label="Stack Overflow 源" target="_blank">
+            <a href="{{.Conf.Server}}/contri/questions/{{.Question.ID}}"
+               class="tooltipped tooltipped--n details__action" aria-label="修改" target="_blank">
+                <svg><use xlink:href="#iconEdit"></use></svg>
+            </a>
+            <a href="#answers" class="tooltipped tooltipped--n details__action" aria-label="答案">
+                <svg><use xlink:href="#iconAnswer"></use></svg>
+            </a>
+            <a href="{{.Question.SourceURL}}"
+               class="tooltipped tooltipped--n" aria-label="Stack Overflow 源" target="_blank">
                 <img width="30" src="{{.Conf.StaticServer}}/images/stackoverflow.png">
             </a>
         </header>
@@ -64,7 +80,7 @@
             </div>
         </div>
 
-        <h2 class="details__answer">答案</h2>
+        <h2 id="answers" class="details__answer">答案</h2>
         {{range .Answers}}
         <div class="content-reset list__item">
             {{.Content}}

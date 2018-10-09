@@ -43,6 +43,18 @@
       left: -100000px;
     }
   }
+
+  &__action {
+    color: $gray;
+    margin: 6px;
+    &:hover {
+      color: $fade;
+    }
+    svg {
+      height: 20px;
+      width: 20px;
+    }
+  }
 }
 
 .icon-wechat:hover {
