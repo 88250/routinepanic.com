@@ -1,0 +1,80 @@
+/**
+ * form.
+ *
+ * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
+ * @version 0.1.0.0, Oct 9, 2018
+ */
+
+/* start form */
+.form input[type=text],
+.form input[type=datetime],
+.form input[type=datetime-local],
+.form input[type=password],
+.form input[type=number],
+.form select,
+.form textarea {
+  border: 1px solid #d1d5da;
+  background-color: #FAFAFA;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 2px rgba(27, 31, 35, 0.075);
+  padding: 7px 8px;
+  width: 100%;
+  line-height: 17px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.form input[type=text]:focus,
+.form input[type=datetime]:focus,
+.form input[type=datetime-local]:focus,
+.form input[type=password]:focus,
+.form input[type=number]:focus,
+.form select:focus,
+.form textarea:focus {
+  background-color: #FFF;
+  box-shadow: inset 0 1px 2px rgba(27, 31, 35, 0.075), 0 0 0 0.2em #dbedff;
+  border: 1px solid $blue;
+}
+
+.form input[type=file] {
+  width: 1px;
+  opacity: 0.001;
+  height: 16px;
+  overflow: hidden;
+}
+
+.form select {
+  height: 33px;
+  padding-top: 5px;
+}
+
+button {
+  cursor: pointer;
+  color: $black;
+  border-radius: 3px;
+  padding: 6px 12px;
+  background-color: rgba(255, 255, 255, .58);
+  border: 1px solid #D5D5D5;
+  border-bottom-color: #E1E1E1;
+  box-sizing: border-box;
+  line-height: 19px;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+button:disabled {
+  opacity: 0.3;
+}
+
+button:hover {
+  text-decoration: none;
+  border-color: #eee;
+  background-color: rgba(255, 255, 255, .8);
+}
+
+button:active {
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.25) inset;
+}
+
+/* end form */

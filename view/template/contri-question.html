@@ -3,16 +3,21 @@
 <html>
 <head>
     {{template "head" .}}
-    <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/css/index.css?{{.Conf.StaticResourceVersion}}"/>
+    <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/css/base.css?{{.Conf.StaticResourceVersion}}"/>
 </head>
 <body>
 {{template "nav" .}}
 <div class="fn-content fn-wrap">
-    <form method="post" action="{{.Conf.Server}}/contri/questions/{{.Question.ID}}">
-        <input value="{{.Question.TitleZhCN}}" name="title">
-        <textarea name="content">{{.Question.ContentZhCN}}</textarea>
-        <input name="password" type="password">
-        <button type="submit">提交</button>
+    <form class="form fn-flex-1" method="post" action="{{.Conf.Server}}/contri/questions/{{.Question.ID}}">
+        <div class="list__item fn-clear">
+            <input type="text" value="{{.Question.TitleZhCN}}" name="title">
+            <div class="fn-hr"></div>
+            <textarea rows="10" name="content">{{.Question.ContentZhCN}}</textarea>
+            <div class="fn-hr"></div>
+            <input placeholder="密码" name="password" type="password">
+            <div class="fn-hr"></div>
+            <button type="submit" class="fn-right">提交</button>
+        </div>
     </form>
     {{template "footer" .}}
 </div>

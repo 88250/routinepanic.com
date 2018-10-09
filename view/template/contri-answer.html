@@ -2,19 +2,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-{{template "head" .}}
-    <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/css/index.css?{{.Conf.StaticResourceVersion}}"/>
+    {{template "head" .}}
+    <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/css/base.css?{{.Conf.StaticResourceVersion}}"/>
 </head>
 <body>
 {{template "nav" .}}
 <div class="fn-content fn-wrap">
-    <input value="{{.Question.TitleZhCN}}">
-    <textarea>{{.Question.ContentZhCN}}</textarea>
-    <input>
-{{template "footer" .}}
+    <form class="form fn-flex-1" method="post" action="{{.Conf.Server}}/contri/answer/{{.Answer.ID}}">
+        <div class="list__item fn-clear">
+            <textarea rows="10" name="content">{{.Answer.ContentZhCN}}</textarea>
+            <div class="fn-hr"></div>
+            <input placeholder="密码" name="password" type="password">
+            <div class="fn-hr"></div>
+            <button type="submit" class="fn-right">提交</button>
+        </div>
+    </form>
+    {{template "footer" .}}
 </div>
-<script src="{{.Conf.StaticServer}}/js/lib/jquery-3.3.1.min.js"></script>
-<script src="{{.Conf.StaticServer}}/js/contri.js"></script>
 </body>
 </html>
 {{end}}
