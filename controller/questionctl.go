@@ -13,8 +13,7 @@ import (
 func showQuestionAction(c *gin.Context) {
 	dataModel := getDataModel(c)
 
-	path := c.Request.RequestURI
-	path = path[len("/questions/"):]
+	path := c.Param("path")
 	qModel := service.QnA.GetQuestionByPath(path)
 	if nil == qModel {
 		notFound(c)
@@ -22,12 +21,12 @@ func showQuestionAction(c *gin.Context) {
 		return
 	}
 	question := questionVo(qModel)
-	dataModel["Question"] = question
+	dataModel.Put("Question", question)
 	aModels := service.QnA.GetAnswers(qModel.ID)
-	dataModel["Answers"] = answersVos(aModels)
-	dataModel["Title"] = question.Title + " - " + dataModel["Title"].(string)
-	dataModel["MetaKeywords"] = qModel.Tags
-	dataModel["MetaDescription"] = question.Description
+	dataModel.Put("Answers", answersVos(aModels))
+	dataModel.Put("Title", question.Title + " - " + dataModel.GetStr("Title"))
+	dataModel.Put("MetaKeywords", qModel.Tags)
+	dataModel.Put("MetaDescription", question.Description)
 
 	c.HTML(http.StatusOK, "question.html", dataModel)
 }

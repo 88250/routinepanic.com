@@ -17,8 +17,8 @@ func showIndexAction(c *gin.Context) {
 
 	qModels, pagination := service.QnA.GetQuestions(page)
 	questions := questionsVos(qModels)
-	dataModel["Questions"] = questions
-	dataModel["Pagination"] = pagination
+	dataModel.Put("Questions", questions)
+	dataModel.Put("Pagination", pagination)
 
 	tModels := service.Tag.GetTopTags(6)
 	keywords := ""
@@ -26,8 +26,8 @@ func showIndexAction(c *gin.Context) {
 		keywords += t.Title + ","
 	}
 	keywords = keywords[:len(keywords)-1]
-	dataModel["MetaKeywords"] = "程序员,编程,代码,问答," + keywords
-	dataModel["MetaDescription"] = util.Slogan
+	dataModel.Put("MetaKeywords", "程序员,编程,代码,问答," + keywords)
+	dataModel.Put("MetaDescription", util.Slogan)
 
 	c.HTML(http.StatusOK, "index.html", dataModel)
 }

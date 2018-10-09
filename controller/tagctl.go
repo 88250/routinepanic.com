@@ -26,11 +26,11 @@ func showTagAction(c *gin.Context) {
 
 	qModels, pagination := service.QnA.GetTagQuestions(tagModel.ID, page)
 	questions := questionsVos(qModels)
-	dataModel["Questions"] = questions
-	dataModel["Pagination"] = pagination
+	dataModel.Put("Questions", questions)
+	dataModel.Put("Pagination", pagination)
 
-	dataModel["MetaKeywords"] = "程序员,编程,代码,问答," + tagModel.Title
-	dataModel["MetaDescription"] = util.Slogan
+	dataModel.Put("MetaKeywords", "程序员,编程,代码,问答,"+tagModel.Title)
+	dataModel.Put("MetaDescription", util.Slogan)
 
 	c.HTML(http.StatusOK, "tag.html", dataModel)
 }
