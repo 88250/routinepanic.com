@@ -3,18 +3,35 @@
 <html>
 <head>
     {{template "head" .}}
-    <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/css/base.css?{{.Conf.StaticResourceVersion}}"/>
-    <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/lib/codemirror.css"/>
-    <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/foldgutter.css"/>
+    <link type="text/css" rel="stylesheet"
+          href="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/codemirror.min.css"/>
+    <link type="text/css" rel="stylesheet"
+          href="{{.Conf.StaticServer}}/css/contri.css?{{.Conf.StaticResourceVersion}}"/>
 </head>
 <body>
 {{template "nav" .}}
 <div class="fn-content fn-wrap">
     <form class="form fn-flex-1" method="post" action="{{.Conf.Server}}/contri/questions/{{.Question.ID}}">
         <div class="list__item fn-clear">
-            <input type="text" value="{{.Question.TitleZhCN}}" name="title">
+            <div class="fn-flex">
+                <input type="text" class="fn-flex-1" value="{{.Question.TitleEnUS}}" disabled>
+                <div class="contri__diff"></div>
+                <input type="text" class="fn-flex-1" value="{{.Question.TitleZhCN}}" name="title">
+            </div>
+
             <div class="fn-hr"></div>
-            <textarea id="content" rows="10" name="content">{{.Question.ContentZhCN}}</textarea>
+            <div class="fn-clear contri__toolbar">
+                <div class="fn-right">
+                    <button type="button" onclick="preview()">预览</button>
+                </div>
+                <div class="contri__preview content-reset" id="contriPreview"></div>
+            </div>
+            <div class="fn-hr"></div>
+
+            <div id="content" class="contri__content"></div>
+            <textarea id="contentEn" class="fn-none">{{.Question.ContentEnUS}}</textarea>
+            <textarea id="contentZh" class="fn-none">{{.Question.ContentZhCN}}</textarea>
+            <textarea id="contentValue" class="fn-none" name="content">{{.Question.ContentZhCN}}</textarea>
             <div class="fn-hr"></div>
             <input placeholder="内测码" name="password" type="text">
             <div class="fn-hr"></div>
@@ -23,21 +40,7 @@
     </form>
     {{template "footer" .}}
 </div>
-<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/lib/codemirror.js"></script>
-<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/edit/closetag.js"></script>
-<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/xml-fold.js"></script>
-<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/foldcode.js"></script>
-<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/foldgutter.js"></script>
-<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/brace-fold.js"></script>
-<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/xml-fold.js"></script>
-<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/indent-fold.js"></script>
-<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/addon/fold/comment-fold.js"></script>
-<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/mode/xml/xml.js"></script>
-<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/mode/javascript/javascript.js"></script>
-<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/mode/css/css.js"></script>
-<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/mode/htmlmixed/htmlmixed.js"></script>
-<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/util/formatting.js"></script>
-
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/codemirror.min.js"></script>
 <script src="{{.Conf.StaticServer}}/js/contri.js"></script>
 </body>
 </html>

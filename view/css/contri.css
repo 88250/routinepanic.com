@@ -1,0 +1,1 @@
+.list__item>.CodeMirror.cm-s-default{display:none !important}.contri__content{height:352px}.contri__diff{width:6%}.contri__toolbar{position:relative}.contri__preview{position:absolute;transition:all 0.15s ease-in-out;left:0;width:0;height:352px;top:45px;background-color:#fff;z-index:7;box-sizing:border-box}.contri__preview--active{border:1px solid #e2e2e2;padding:12px;width:53%}

@@ -1,0 +1,39 @@
+/**
+ * contri.
+ *
+ * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
+ * @version 0.1.0.0, Oct 9, 2018
+ */
+@import 'variables';
+
+.list__item > .CodeMirror.cm-s-default {
+  display: none !important;
+}
+
+.contri {
+  &__content {
+    height: 352px;
+  }
+  &__diff {
+    width: 6%;
+  }
+  &__toolbar {
+    position: relative;
+  }
+  &__preview {
+    position: absolute;
+    transition: $transition;
+    left: 0;
+    width: 0;
+    height: 352px;
+    top: 45px;
+    background-color: #fff;
+    z-index: 7;
+    box-sizing: border-box;
+    &--active {
+      border: 1px solid #e2e2e2;
+      padding: 12px;
+      width: 53%;
+    }
+  }
+}
