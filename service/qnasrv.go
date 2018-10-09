@@ -24,6 +24,10 @@ func (srv *qnaService) ContriAnswer(authorName string, answer *model.Answer) (er
 	distance := smetrics.WagnerFischer(old.ContentZhCN, answer.ContentZhCN, 1, 1, 2)
 	logger.Info(authorName, distance)
 
+	if 0 == distance {
+		return
+	}
+
 	tx := db.Begin()
 	defer func() {
 		if err == nil {
@@ -54,6 +58,10 @@ func (srv *qnaService) ContriQuestion(authorName string, question *model.Questio
 	old := srv.GetQuestionByID(question.ID)
 	distance := smetrics.WagnerFischer(old.ContentZhCN, question.ContentZhCN, 1, 1, 2)
 	logger.Info(authorName, distance)
+
+	if 0 == distance {
+		return
+	}
 
 	tx := db.Begin()
 	defer func() {
