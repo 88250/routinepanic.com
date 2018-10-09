@@ -57,6 +57,12 @@ func contriAction(c *gin.Context) {
 	dataIdStr := c.Param("id")
 	dataId, _ := strconv.ParseUint(dataIdStr, 0, 64)
 	dataContent := c.PostForm("content")
+	password := c.PostForm("password")
+	if "rp" != password {
+		c.Status(http.StatusForbidden)
+
+		return
+	}
 
 	questionPath := ""
 
