@@ -1,0 +1,21 @@
+{{define "tag.html"}}
+<!DOCTYPE html>
+<html>
+<head>
+    {{template "head" .}}
+    <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/css/index.css?{{.Conf.StaticResourceVersion}}"/>
+</head>
+<body>
+{{template "nav" .}}
+<div class="fn-content fn-wrap">
+    <form method="post" action="{{.Conf.Server}}/contri/questions/{{.Question.ID}}">
+        <input value="{{.Question.TitleZhCN}}" name="title">
+        <textarea name="content">{{.Question.ContentZhCN}}</textarea>
+        <input name="password" type="password">
+        <button type="submit">提交</button>
+    </form>
+    {{template "footer" .}}
+</div>
+</body>
+</html>
+{{end}}

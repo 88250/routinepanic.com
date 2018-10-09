@@ -1,0 +1,20 @@
+{{define "tag.html"}}
+<!DOCTYPE html>
+<html>
+<head>
+{{template "head" .}}
+    <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/css/index.css?{{.Conf.StaticResourceVersion}}"/>
+</head>
+<body>
+{{template "nav" .}}
+<div class="fn-content fn-wrap">
+    <input value="{{.Question.TitleZhCN}}">
+    <textarea>{{.Question.ContentZhCN}}</textarea>
+    <input>
+{{template "footer" .}}
+</div>
+<script src="{{.Conf.StaticServer}}/js/lib/jquery-3.3.1.min.js"></script>
+<script src="{{.Conf.StaticServer}}/js/contri.js"></script>
+</body>
+</html>
+{{end}}

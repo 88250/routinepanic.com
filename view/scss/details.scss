@@ -2,7 +2,7 @@
  * question.
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.1.0.0, Apr 13, 2018
+ * @version 0.2.0.0, Oct 9, 2018
  */
 @import 'variables';
 
@@ -46,7 +46,10 @@
 
   &__action {
     color: $gray;
-    margin: 6px;
+    height: 20px;
+    &--margin {
+      margin: 6px;
+    }
     &:hover {
       color: $fade;
     }

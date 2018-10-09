@@ -40,10 +40,10 @@
         <header class="fn-flex">
             <h2 class="question__title fn-flex-1">{{.Question.Title}}</h2>
             <a href="{{.Conf.Server}}/contri/questions/{{.Question.ID}}"
-               class="tooltipped tooltipped--n details__action" aria-label="修改" target="_blank">
+               class="tooltipped tooltipped--n details__action details__action--margin" aria-label="修改" target="_blank">
                 <svg><use xlink:href="#iconEdit"></use></svg>
             </a>
-            <a href="#answers" class="tooltipped tooltipped--n details__action" aria-label="答案">
+            <a href="#answers" class="tooltipped tooltipped--n details__action details__action--margin" aria-label="答案">
                 <svg><use xlink:href="#iconAnswer"></use></svg>
             </a>
             <a href="{{.Question.SourceURL}}"
@@ -83,6 +83,12 @@
         <h2 id="answers" class="details__answer">答案</h2>
         {{range .Answers}}
         <div class="content-reset list__item">
+            <div class="fn-clear">
+                <a href="{{$.Conf.Server}}/contri/answer/{{.ID}}"
+                   class="tooltipped tooltipped--w details__action fn-right" aria-label="修改" target="_blank">
+                    <svg><use xlink:href="#iconEdit"></use></svg>
+                </a>
+            </div>
             {{.Content}}
         </div>
         {{end}}
