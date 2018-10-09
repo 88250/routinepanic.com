@@ -14,8 +14,8 @@ type Question struct {
 	Views       int    `json:"views"`
 	ContentEnUS string `gorm:"type:mediumtext" json:"contentEnUS"`
 	ContentZhCN string `gorm:"type:mediumtext" json:"contentZhCN"`
-	Path        string `gorm:"type:text" json:"path"`
-	Source      int    `sql:"index" json:"source"`
+	Path        string `gorm:"type:text" sql:"unique_index" json:"path"`
+	Source      int    `sql:"unique_index" json:"source"`
 	SourceID    string `gorm:"size:255" sql:"index"`
 	SourceURL   string `gorm:"size:255" sql:"index" json:"sourceURL"`
 	AuthorName  string `json:"authorName"`
