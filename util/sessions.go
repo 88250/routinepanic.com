@@ -28,6 +28,12 @@ func (sd *SessionData) Save(c *gin.Context) error {
 	return session.Save()
 }
 
+func IsLoggedIn(c *gin.Context) bool {
+	session := GetSession(c)
+
+	return "" != session.UName
+}
+
 // GetSession returns session of the specified context.
 func GetSession(c *gin.Context) *SessionData {
 	ret := &SessionData{}

@@ -4,15 +4,22 @@
 package controller
 
 import (
+	"net/http"
+	"strconv"
+
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/b3log/routinepanic.com/service"
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/gin-gonic/gin"
-	"net/http"
-	"strconv"
 )
 
 func showContriAction(c *gin.Context) {
+	if !util.IsLoggedIn(c) {
+		c.Status(http.StatusUnauthorized)
+
+		return
+	}
+
 	dataModel := getDataModel(c)
 
 	dataTypeStr := c.Param("dataType")
@@ -49,6 +56,12 @@ func showContriAction(c *gin.Context) {
 }
 
 func contriAction(c *gin.Context) {
+	if !util.IsLoggedIn(c) {
+		c.Status(http.StatusUnauthorized)
+
+		return
+	}
+
 	dataTypeStr := c.Param("dataType")
 	dataType := model.DataTypeQuestion
 	if "answers" == dataTypeStr {
