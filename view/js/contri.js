@@ -1,5 +1,16 @@
 let editor
 
+const _getPreview = (preview) => {
+  $.ajax({
+    url: '/html',
+    type: 'POST',
+    data: JSON.stringify({html: editor.edit.getValue()}),
+    success: function (result) {
+      preview.innerHTML = result.data
+    },
+  })
+}
+
 const preview = () => {
   const preview = document.getElementById('contriPreview')
   if (preview.className.indexOf('contri__preview--active') > -1) {
@@ -8,9 +19,7 @@ const preview = () => {
   } else {
     $('#dictionary').html('')
     preview.className = 'contri__preview--active contri__preview content-reset'
-    setTimeout(() => {
-      preview.innerHTML = editor.edit.getValue()
-    }, 150)
+    _getPreview(preview)
   }
 }
 
@@ -60,7 +69,7 @@ const initEditor = () => {
     document.getElementById('contentValue').value = cm.getValue()
     const preview = document.getElementById('contriPreview')
     if (preview.className.indexOf('contri__preview--active') > -1) {
-      preview.innerHTML = editor.edit.getValue()
+      _getPreview(preview)
     }
   })
 
@@ -89,7 +98,8 @@ const initEditor = () => {
     <source = src="${result.data.phAmMP3}" type="audio/mp3">
   </audio>`
           }
-          dicHTML += `</div><div class="ft-12">${result.data.means.replace(/\n/g, '<br>')}</div></div>`
+          dicHTML += `</div><div class="ft-12">${result.data.means.replace(
+            /\n/g, '<br>')}</div></div>`
         }
         $('#dictionary').html(dicHTML)
       },
