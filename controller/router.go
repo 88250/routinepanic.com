@@ -76,6 +76,7 @@ func MapRoutes() *gin.Engine {
 
 	ret.GET("/contri/:dataType/:id", showContriAction)
 	ret.POST("/contri/:dataType/:id", contriAction)
+	ret.POST("/html", tuneHTMLAction)
 
 	ret.GET("/words/:name", getWordAction)
 
