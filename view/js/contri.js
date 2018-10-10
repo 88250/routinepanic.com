@@ -6,6 +6,7 @@ const preview = () => {
     preview.className = 'contri__preview content-reset'
     preview.innerHTML = ''
   } else {
+    $('#dictionary').html('')
     preview.className = 'contri__preview--active contri__preview content-reset'
     setTimeout(() => {
       preview.innerHTML = editor.edit.getValue()
@@ -67,6 +68,7 @@ const initEditor = () => {
   // dictionary
   editor.leftOriginal().on('dblclick', function (cm) {
     if ($.trim(cm.doc.getSelection()) === '') {
+      $('#dictionary').html('')
       return
     }
     $.ajax({
@@ -74,19 +76,22 @@ const initEditor = () => {
       success: function (result) {
         if (result.code !== 0) {
           alert(result.msg)
+          $('#dictionary').html('')
           return
         }
         let dicHTML = ''
         if (result.data) {
-          dicHTML = `<div class="fn-flex-center">
-  <span>${result.data.name}&nbsp;&nbsp;</span>
-  <span class="ft-fade ft-12">[${result.data.phAm}]&nbsp;&nbsp;</span>
-  <svg class="fn-pointer ft-gray contri__vice"><use xlink:href="#iconVice"></use></svg>
+          dicHTML = `<div class="contri__dic"><div class="fn-flex-center"><span>${result.data.name}&nbsp;&nbsp;</span>`
+          if (result.data.phAm) {
+            dicHTML += `<span class="ft-fade ft-12">[${result.data.phAm}]&nbsp;&nbsp;</span>`
+          }
+          if (result.data.phAmMP3) {
+            dicHTML += `<svg class="fn-pointer ft-gray contri__vice"><use xlink:href="#iconVice"></use></svg>
   <audio>
     <source = src="${result.data.phAmMP3}" type="audio/mp3">
-  </audio>
-</div>
-<div class="ft-12 ft-fade">${result.data.means}</div>`
+  </audio>`
+          }
+          dicHTML += `</div><div class="ft-12">${result.data.means.replace(/\n/g, '<br>')}</div></div>`
         }
         $('#dictionary').html(dicHTML)
       },

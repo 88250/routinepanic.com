@@ -25,6 +25,17 @@
     display: flex;
     flex-direction: column;
   }
+  &__dic {
+    position: absolute;
+    z-index: 8;
+    width: 47%;
+    box-sizing: border-box;
+    padding: 6px;
+    background-color: #FFF8DC;
+    border: 1px solid #E0DCBF;
+    border-radius: 3px;
+    box-shadow: 0 2px 8px rgba(59,64,69,0.1);
+  }
   &__diff {
     width: 6%;
   }
