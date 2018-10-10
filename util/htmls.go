@@ -30,7 +30,7 @@ func TuneHTML(html string) string {
 		text = pangu.SpacingText(text)
 		ele.ReplaceWithHtml(text)
 	})
-	doc.Find("pre").Each(func(i int, ele *goquery.Selection) {
+	doc.Find("pre,code").Each(func(i int, ele *goquery.Selection) {
 		html, _ := ele.Html()
 		ele.SetHtml(strings.TrimSpace(html))
 	})
