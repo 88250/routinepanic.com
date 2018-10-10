@@ -39,7 +39,21 @@ func (srv *qnaService) QContributors(question *model.Question) (ret []*model.Use
 }
 
 func (srv *qnaService) AContributors(answer *model.Answer) (ret []*model.User) {
-	return nil
+	ret = []*model.User{}
+	revisions := []*model.Revision{}
+	if err := db.Model(&model.Revision{}).Select("`author_id`").
+		Where("`data_id` = ? AND `data_type` = ?", answer.ID, model.DataTypeAnswer).Find(&revisions).Error; nil != err {
+		return
+	}
+
+	for _, revision := range revisions {
+		contributor := User.Get(revision.AuthorID)
+		if nil != contributor {
+			ret = append(ret, contributor)
+		}
+	}
+
+	return
 }
 
 func (srv *qnaService) ContriAnswer(author *model.User, answer *model.Answer) (err error) {

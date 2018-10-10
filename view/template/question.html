@@ -48,11 +48,15 @@
         <div class="list__item">
             <div class="fn-flex">
                 <div class="details__contri fn-flex-center fn-flex-1">
-                    <div class="tooltipped tooltipped--n" aria-label="修缮者">
+                    {{if ne 0 (len .Question.Contributors)}}
+                    <div class="tooltipped tooltipped--n" aria-label="贡献者">
                         <svg class="ft-info"><use xlink:href="#iconContri"></use></svg>
                     </div>
-                    <a href="#" aria-label="name" target="_blank" class="avatar tooltipped tooltipped--n"
-                       style="background-image: url({{$.Conf.StaticServer}}/images/stackoverflow.png)"></a>
+                    {{range .Question.Contributors}}
+                    <a href="https://hacpai.com/member/{{.Name}}" aria-label="{{.Name}}" target="_blank" class="avatar tooltipped tooltipped--n"
+                       style="background-image: url({{.Avatar}}"></a>
+                    {{end}}
+                    {{end}}
                 </div>
                 <div class="fn-flex-center">
                     {{if ne "" .User.UName}}
@@ -112,11 +116,15 @@
         <div class="list__item">
             <div class="fn-flex">
                 <div class="details__contri fn-flex-center fn-flex-1">
-                    <div class="tooltipped tooltipped--n" aria-label="修缮者">
+                     {{if ne 0 (len .Contributors)}}
+                    <div class="tooltipped tooltipped--n" aria-label="贡献者">
                         <svg class="ft-info"><use xlink:href="#iconContri"></use></svg>
                     </div>
-                    <a href="#" aria-label="name" target="_blank" class="avatar tooltipped tooltipped--n"
-                       style="background-image: url({{$.Conf.StaticServer}}/images/stackoverflow.png)"></a>
+                     {{range .Contributors}}
+                         <a href="https://hacpai.com/member/{{.Name}}" aria-label="{{.Name}}" target="_blank" class="avatar tooltipped tooltipped--n"
+                            style="background-image: url({{.Avatar}}"></a>
+                    {{end}}
+                    {{end}}
                 </div>
                 {{if ne "" $.User.UName}}
                 <a href="{{$.Conf.Server}}/contri/answers/{{.ID}}" rel="nofollow"

@@ -4,9 +4,10 @@
 package controller
 
 import (
-	"github.com/b3log/routinepanic.com/service"
 	"html/template"
 	"strings"
+
+	"github.com/b3log/routinepanic.com/service"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/b3log/routinepanic.com/model"
@@ -39,6 +40,8 @@ type answer struct {
 	Content      template.HTML
 	Contributors []*contributor
 }
+
+const QINIU_IMG_STYLE_AVATAR = "imageView2/1/w/64/h/64/interlace/0/q/100"
 
 func questionsVos(qModels []*model.Question) (ret []*question) {
 	for _, qModel := range qModels {
@@ -80,7 +83,7 @@ func questionVo(qModel *model.Question) (ret *question) {
 	for _, contributorUser := range contributorUsers {
 		ret.Contributors = append(ret.Contributors, &contributor{
 			Name:   contributorUser.Name,
-			Avatar: contributorUser.Avatar,
+			Avatar: contributorUser.Avatar + "?" + QINIU_IMG_STYLE_AVATAR,
 		})
 	}
 
@@ -103,6 +106,15 @@ func answerVo(aModel *model.Answer) (ret *answer) {
 	ret = &answer{
 		ID:      aModel.ID,
 		Content: template.HTML(content),
+	}
+
+	contributorUsers := service.QnA.AContributors(aModel)
+	ret.Contributors = []*contributor{}
+	for _, contributorUser := range contributorUsers {
+		ret.Contributors = append(ret.Contributors, &contributor{
+			Name:   contributorUser.Name,
+			Avatar: contributorUser.Avatar + "?" + QINIU_IMG_STYLE_AVATAR,
+		})
 	}
 
 	return
