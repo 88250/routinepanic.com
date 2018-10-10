@@ -20,10 +20,32 @@ var QnA = &qnaService{}
 type qnaService struct {
 }
 
-func (srv *qnaService) ContriAnswer(authorName string, answer *model.Answer) (err error) {
+func (srv *qnaService) QContributors(question *model.Question) (ret []*model.User) {
+	ret = []*model.User{}
+	revisions := []*model.Revision{}
+	if err := db.Model(&model.Revision{}).Select("`author_id`").
+		Where("`data_id` = ? AND `data_type` = ?", question.ID, model.DataTypeQuestion).Find(&revisions).Error; nil != err {
+		return
+	}
+
+	for _, revision := range revisions {
+		contributor := User.Get(revision.AuthorID)
+		if nil != contributor {
+			ret = append(ret, contributor)
+		}
+	}
+
+	return
+}
+
+func (srv *qnaService) AContributors(answer *model.Answer) (ret []*model.User) {
+	return nil
+}
+
+func (srv *qnaService) ContriAnswer(author *model.User, answer *model.Answer) (err error) {
 	old := srv.GetAnswerByID(answer.ID)
 	distance := smetrics.WagnerFischer(old.ContentZhCN, answer.ContentZhCN, 1, 1, 2)
-	logger.Info(authorName+" ", distance)
+	logger.Info(author.Name+" ", distance)
 
 	if 0 == distance {
 		return
@@ -43,10 +65,10 @@ func (srv *qnaService) ContriAnswer(authorName string, answer *model.Answer) (er
 	}
 	revisionBytes, _ := json.Marshal(revisionData)
 	reversion := &model.Revision{
-		DataType:   model.DataTypeAnswer,
-		DataId:     answer.ID,
-		Data:       string(revisionBytes),
-		AuthorName: authorName,
+		DataType: model.DataTypeAnswer,
+		DataId:   answer.ID,
+		Data:     string(revisionBytes),
+		AuthorID: author.ID,
 	}
 	if err = tx.Save(reversion).Error; nil != err {
 		return
@@ -59,11 +81,11 @@ func (srv *qnaService) ContriAnswer(authorName string, answer *model.Answer) (er
 	return nil
 }
 
-func (srv *qnaService) ContriQuestion(authorName string, question *model.Question) (err error) {
+func (srv *qnaService) ContriQuestion(author *model.User, question *model.Question) (err error) {
 	old := srv.GetQuestionByID(question.ID)
 	titleDistance := smetrics.WagnerFischer(old.TitleZhCN, question.TitleZhCN, 1, 1, 2)
 	contentDistance := smetrics.WagnerFischer(old.ContentZhCN, question.ContentZhCN, 1, 1, 2)
-	logger.Info(authorName+" ", titleDistance, " ", contentDistance)
+	logger.Info(author.Name+" ", titleDistance, " ", contentDistance)
 
 	if 0 == titleDistance && 0 == contentDistance {
 		return
@@ -84,10 +106,10 @@ func (srv *qnaService) ContriQuestion(authorName string, question *model.Questio
 	}
 	revisionBytes, _ := json.Marshal(revisionData)
 	reversion := &model.Revision{
-		DataType:   model.DataTypeQuestion,
-		DataId:     question.ID,
-		Data:       string(revisionBytes),
-		AuthorName: authorName,
+		DataType: model.DataTypeQuestion,
+		DataId:   question.ID,
+		Data:     string(revisionBytes),
+		AuthorID: author.ID,
 	}
 	if err = tx.Save(reversion).Error; nil != err {
 		return

@@ -4,6 +4,7 @@
 package controller
 
 import (
+	"github.com/b3log/routinepanic.com/service"
 	"html/template"
 	"strings"
 
@@ -14,22 +15,29 @@ import (
 )
 
 type question struct {
-	ID          uint64
-	Path        string
-	Title       string
-	Description string
-	Tags        []*tag
-	Content     template.HTML
-	SourceURL   string
+	ID           uint64
+	Path         string
+	Title        string
+	Description  string
+	Tags         []*tag
+	Content      template.HTML
+	SourceURL    string
+	Contributors []*contributor
 }
 
 type tag struct {
 	Title string
 }
 
+type contributor struct {
+	Name   string
+	Avatar string
+}
+
 type answer struct {
-	ID      uint64
-	Content template.HTML
+	ID           uint64
+	Content      template.HTML
+	Contributors []*contributor
 }
 
 func questionsVos(qModels []*model.Question) (ret []*question) {
@@ -65,6 +73,15 @@ func questionVo(qModel *model.Question) (ret *question) {
 	tagStrs := strings.Split(qModel.Tags, ",")
 	for _, tagTitle := range tagStrs {
 		ret.Tags = append(ret.Tags, &tag{Title: tagTitle})
+	}
+
+	contributorUsers := service.QnA.QContributors(qModel)
+	ret.Contributors = []*contributor{}
+	for _, contributorUser := range contributorUsers {
+		ret.Contributors = append(ret.Contributors, &contributor{
+			Name:   contributorUser.Name,
+			Avatar: contributorUser.Avatar,
+		})
 	}
 
 	return

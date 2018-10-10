@@ -98,7 +98,7 @@ func contriAction(c *gin.Context) {
 	dataContent := strings.TrimSpace(c.PostForm("content"))
 
 	session := util.GetSession(c)
-	authorName := session.UName
+	author := service.User.Get(session.UID)
 	questionPath := ""
 
 	if model.DataTypeQuestion == dataType {
@@ -112,7 +112,7 @@ func contriAction(c *gin.Context) {
 		title := strings.TrimSpace(c.PostForm("title"))
 		question.TitleZhCN = title
 		question.ContentZhCN = dataContent
-		if err := service.QnA.ContriQuestion(authorName, question); nil != err {
+		if err := service.QnA.ContriQuestion(author, question); nil != err {
 			logger.Errorf("contribute to question [%d] failed: %s", dataId, err.Error())
 			c.Status(http.StatusInternalServerError)
 
@@ -137,7 +137,7 @@ func contriAction(c *gin.Context) {
 		questionPath = question.Path
 
 		answer.ContentZhCN = dataContent
-		if err := service.QnA.ContriAnswer(authorName, answer); nil != err {
+		if err := service.QnA.ContriAnswer(author, answer); nil != err {
 			logger.Errorf("contribute to answer [%d] failed: %s", dataId, err.Error())
 			c.Status(http.StatusInternalServerError)
 

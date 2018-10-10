@@ -4,6 +4,8 @@
 package controller
 
 import (
+	"github.com/b3log/routinepanic.com/model"
+	"github.com/b3log/routinepanic.com/service"
 	"net/http"
 	"net/url"
 	"strings"
@@ -50,8 +52,8 @@ func fillUser(c *gin.Context) {
 		return
 	default:
 		result := util.NewResult()
-		_, _, errs := gorequest.New().Get("https://hacpai.com/apis/check-b3-identity?b3id="+b3id).
-			Set("user-agent", util.UserAgent).Timeout(5*time.Second).
+		_, _, errs := gorequest.New().Get("https://hacpai.com/apis/check-b3-identity?b3id=" + b3id).
+			Set("user-agent", util.UserAgent).Timeout(5 * time.Second).
 			Retry(3, 2*time.Second, http.StatusInternalServerError).EndStruct(result)
 		if nil != errs {
 			logger.Errorf("check b3 identity failed: %s", errs)
@@ -70,9 +72,19 @@ func fillUser(c *gin.Context) {
 		username := data["userName"].(string)
 		userAvatar := data["userAvatarURL"].(string)
 
+		user := &model.User{
+			Name:   username,
+			Avatar: userAvatar,
+		}
+		if err := service.User.AddOrUpdate(user); nil != err {
+			result.Code = -1
+			result.Msg = "saves user failed: " + err.Error()
+		}
+
 		session = &util.SessionData{
-			UName:   username,
-			UAvatar: userAvatar,
+			UID:     user.ID,
+			UName:   user.Name,
+			UAvatar: user.Avatar,
 		}
 
 		if err := session.Save(c); nil != err {

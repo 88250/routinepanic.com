@@ -12,6 +12,7 @@ import (
 
 // SessionData represents the session.
 type SessionData struct {
+	UID     uint64 // user id
 	UName   string // username
 	UAvatar string // user avatar URL
 }

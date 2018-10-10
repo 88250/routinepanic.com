@@ -25,7 +25,7 @@ func showQuestionAction(c *gin.Context) {
 	aModels := service.QnA.GetAnswers(qModel.ID)
 	dataModel.Put("Answers", answersVos(aModels))
 	dataModel.Put("Title", question.Title+" - "+dataModel.GetStr("Title"))
-	dataModel.Put("MetaKeywords", qModel.Tags)
+ 	dataModel.Put("MetaKeywords", qModel.Tags)
 	dataModel.Put("MetaDescription", question.Description)
 
 	c.HTML(http.StatusOK, "question.html", dataModel)
