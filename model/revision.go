@@ -3,8 +3,8 @@
 
 package model
 
-// Reversion model.
-type Reversion struct {
+// Revision model.
+type Revision struct {
 	Model
 
 	DataType   int    `json:"dataType"`

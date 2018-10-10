@@ -4,6 +4,7 @@
 package service
 
 import (
+	json "encoding/json"
 	"strings"
 
 	"github.com/b3log/routinepanic.com/model"
@@ -22,7 +23,7 @@ type qnaService struct {
 func (srv *qnaService) ContriAnswer(authorName string, answer *model.Answer) (err error) {
 	old := srv.GetAnswerByID(answer.ID)
 	distance := smetrics.WagnerFischer(old.ContentZhCN, answer.ContentZhCN, 1, 1, 2)
-	logger.Info(authorName, distance)
+	logger.Info(authorName+" ", distance)
 
 	if 0 == distance {
 		return
@@ -37,17 +38,21 @@ func (srv *qnaService) ContriAnswer(authorName string, answer *model.Answer) (er
 		}
 	}()
 
-	reversion := &model.Reversion{
+	revisionData := map[string]interface{}{
+		"content": answer.ContentZhCN,
+	}
+	revisionBytes, _ := json.Marshal(revisionData)
+	reversion := &model.Revision{
 		DataType:   model.DataTypeAnswer,
 		DataId:     answer.ID,
-		Data:       old.ContentZhCN,
+		Data:       string(revisionBytes),
 		AuthorName: authorName,
 	}
 	if err = tx.Save(reversion).Error; nil != err {
 		return
 	}
 
-	if err = tx.Model(&model.Question{}).Updates(answer).Error; nil != err {
+	if err = tx.Model(&model.Answer{}).Updates(answer).Error; nil != err {
 		return
 	}
 
@@ -57,7 +62,7 @@ func (srv *qnaService) ContriAnswer(authorName string, answer *model.Answer) (er
 func (srv *qnaService) ContriQuestion(authorName string, question *model.Question) (err error) {
 	old := srv.GetQuestionByID(question.ID)
 	distance := smetrics.WagnerFischer(old.ContentZhCN, question.ContentZhCN, 1, 1, 2)
-	logger.Info(authorName, distance)
+	logger.Info(authorName+" ", distance)
 
 	if 0 == distance {
 		return
@@ -72,10 +77,15 @@ func (srv *qnaService) ContriQuestion(authorName string, question *model.Questio
 		}
 	}()
 
-	reversion := &model.Reversion{
+	revisionData := map[string]interface{}{
+		"title":   question.TitleZhCN,
+		"content": question.ContentZhCN,
+	}
+	revisionBytes, _ := json.Marshal(revisionData)
+	reversion := &model.Revision{
 		DataType:   model.DataTypeQuestion,
 		DataId:     question.ID,
-		Data:       old.ContentZhCN,
+		Data:       string(revisionBytes),
 		AuthorName: authorName,
 	}
 	if err = tx.Save(reversion).Error; nil != err {
