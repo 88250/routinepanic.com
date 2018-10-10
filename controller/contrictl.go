@@ -6,6 +6,7 @@ package controller
 import (
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/b3log/routinepanic.com/service"
@@ -62,6 +63,13 @@ func contriAction(c *gin.Context) {
 		return
 	}
 
+	password := c.PostForm("password")
+	if "rp" != password {
+		c.Status(http.StatusForbidden)
+
+		return
+	}
+
 	dataTypeStr := c.Param("dataType")
 	dataType := model.DataTypeQuestion
 	if "answers" == dataTypeStr {
@@ -69,13 +77,7 @@ func contriAction(c *gin.Context) {
 	}
 	dataIdStr := c.Param("id")
 	dataId, _ := strconv.ParseUint(dataIdStr, 0, 64)
-	dataContent := c.PostForm("content")
-	password := c.PostForm("password")
-	if "rp" != password {
-		c.Status(http.StatusForbidden)
-
-		return
-	}
+	dataContent := strings.TrimSpace(c.PostForm("content"))
 
 	session := util.GetSession(c)
 	authorName := session.UName
@@ -89,6 +91,8 @@ func contriAction(c *gin.Context) {
 			return
 		}
 
+		title := strings.TrimSpace(c.PostForm("title"))
+		question.TitleZhCN = title
 		question.ContentZhCN = dataContent
 		if err := service.QnA.ContriQuestion(authorName, question); nil != err {
 			logger.Errorf("contribute to question [%d] failed: %s", dataId, err.Error())
