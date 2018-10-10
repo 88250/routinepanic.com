@@ -128,10 +128,12 @@ func (s *stackOverflow) ParseAnswers(questionId string) (ret []*model.Answer) {
 		answer.Source = model.SourceStackOverflow
 		answer.SourceID = strconv.Itoa(int(a["answer_id"].(float64)))
 		owner := a["owner"].(map[string]interface{})
-		answer.AuthorName = owner["display_name"].(string)
-		l := owner["link"]
-		if nil != l {
-			answer.AuthorURL = l.(string)
+		if nil != owner {
+			answer.AuthorName = owner["display_name"].(string)
+			l := owner["link"]
+			if nil != l {
+				answer.AuthorURL = l.(string)
+			}
 		}
 
 		ret = append(ret, answer)
