@@ -16,6 +16,11 @@
 }
 
 .contri {
+  &__vice {
+    &:hover {
+      color: $blue;
+    }
+  }
   &__form {
     display: flex;
     flex-direction: column;
@@ -23,16 +28,12 @@
   &__diff {
     width: 6%;
   }
-  &__toolbar {
-    position: relative;
-  }
   &__preview {
     position: absolute;
     transition: $transition;
     left: 0;
     width: 0;
-    height: 352px;
-    top: 45px;
+    top: 0;
     background-color: #fff;
     z-index: 7;
     box-sizing: border-box;

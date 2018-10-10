@@ -29,9 +29,15 @@
     min-width: 1px;
   }
 
+  &-flex-center {
+    display: inline-flex;
+    align-items: center;
+  }
+
   &-pointer {
     cursor: pointer;
   }
+
   &-relative {
     position: relative;
   }
@@ -88,6 +94,7 @@
   &-level4 {
     color: $black;
   }
+
   &-hr {
     height: 12px;
     display: block;

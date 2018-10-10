@@ -31,8 +31,6 @@ const initEditor = () => {
   editorEn.autoFormatRange(editorEn.getCursor(true), editorEn.getCursor(false))
 
   // init content
-  const contentHeight = window.innerHeight -
-    (document.querySelector('.contri__diff') ? 313 : 268)
   editor = CodeMirror.MergeView(document.getElementById('content'), {
     autoCloseTags: true,
     lineNumbers: true,
@@ -44,14 +42,18 @@ const initEditor = () => {
     origLeft: editorEn.getValue(),
     connect: 'align',
     showDifferences: false,
-    height: contentHeight,
   })
 
   // resize
-  editor.edit.setSize('100%', contentHeight)
-  editor.leftOriginal().setSize('100%', contentHeight)
-  document.querySelector('.CodeMirror-merge').style.height = contentHeight +
-    'px'
+  $(window).resize(function () {
+    const contentHeight = $(window).height() -
+      (document.querySelector('.contri__diff') ? 313 : 268)
+    editor.edit.setSize('100%', contentHeight)
+    editor.leftOriginal().setSize('100%', contentHeight)
+    $('.CodeMirror-merge').height(contentHeight)
+    $('#contriPreview').outerHeight(contentHeight + 2)
+  })
+  $(window).resize()
 
   // preview
   editor.edit.on('change', function (cm) {
@@ -64,8 +66,26 @@ const initEditor = () => {
 
   // dictionary
   editor.leftOriginal().on('dblclick', function (cm) {
-
-    console.log(cm, cm.doc.getSelection())
+    $.ajax({
+      url: '/words/' + cm.doc.getSelection(),
+      success: function (result) {
+        if (result.code !== 0) {
+          alert(result.msg)
+          return
+        }
+        console.log(result)
+        let dicHTML = ''
+        if (result.data) {
+          dicHTML = `<div class="fn-flex-center">
+  <span>${result.data.name}&nbsp;&nbsp;</span>
+  <span class="ft-fade ft-12">[${result.data.phAm}]&nbsp;&nbsp;</span>
+  <svg class="fn-pointer ft-gray contri__vice"><use xlink:href="#iconVice"></use></svg>
+</div>
+<div class="ft-12 ft-fade">${result.data.means}</div>`
+        }
+        $('#dictionary').html(dicHTML)
+      },
+    })
   })
 }
 
