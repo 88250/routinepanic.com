@@ -66,6 +66,9 @@ const initEditor = () => {
 
   // dictionary
   editor.leftOriginal().on('dblclick', function (cm) {
+    if ($.trim(cm.doc.getSelection()) === '') {
+      return
+    }
     $.ajax({
       url: '/words/' + cm.doc.getSelection(),
       success: function (result) {
@@ -73,19 +76,24 @@ const initEditor = () => {
           alert(result.msg)
           return
         }
-        console.log(result)
         let dicHTML = ''
         if (result.data) {
           dicHTML = `<div class="fn-flex-center">
   <span>${result.data.name}&nbsp;&nbsp;</span>
   <span class="ft-fade ft-12">[${result.data.phAm}]&nbsp;&nbsp;</span>
   <svg class="fn-pointer ft-gray contri__vice"><use xlink:href="#iconVice"></use></svg>
+  <audio>
+    <source = src="${result.data.phAmMP3}" type="audio/mp3">
+  </audio>
 </div>
 <div class="ft-12 ft-fade">${result.data.means}</div>`
         }
         $('#dictionary').html(dicHTML)
       },
     })
+  })
+  $('#dictionary').on('mouseover', 'svg', function () {
+    $('#dictionary audio')[0].play()
   })
 }
 
