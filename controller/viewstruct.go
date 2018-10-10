@@ -52,11 +52,12 @@ func questionVo(qModel *model.Question) (ret *question) {
 
 	content := qModel.ContentZhCN
 	content = util.TuneHTML(content)
+	title := pangu.SpacingText(qModel.TitleZhCN)
 
 	ret = &question{
 		ID:          qModel.ID,
 		Path:        qModel.Path,
-		Title:       pangu.SpacingText(qModel.TitleZhCN),
+		Title:       title,
 		Description: desc,
 		Content:     template.HTML(content),
 		SourceURL:   qModel.SourceURL,

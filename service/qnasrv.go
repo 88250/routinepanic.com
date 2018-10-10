@@ -4,7 +4,7 @@
 package service
 
 import (
-	json "encoding/json"
+	"encoding/json"
 	"strings"
 
 	"github.com/b3log/routinepanic.com/model"
@@ -61,10 +61,11 @@ func (srv *qnaService) ContriAnswer(authorName string, answer *model.Answer) (er
 
 func (srv *qnaService) ContriQuestion(authorName string, question *model.Question) (err error) {
 	old := srv.GetQuestionByID(question.ID)
-	distance := smetrics.WagnerFischer(old.ContentZhCN, question.ContentZhCN, 1, 1, 2)
-	logger.Info(authorName+" ", distance)
+	titleDistance := smetrics.WagnerFischer(old.TitleZhCN, question.TitleZhCN, 1, 1, 2)
+	contentDistance := smetrics.WagnerFischer(old.ContentZhCN, question.ContentZhCN, 1, 1, 2)
+	logger.Info(authorName+" ", titleDistance, " ", contentDistance)
 
-	if 0 == distance {
+	if 0 == titleDistance && 0 == contentDistance {
 		return
 	}
 
