@@ -11,27 +11,27 @@
 <body>
 {{template "nav" .}}
 <div class="fn-content fn-wrap">
-    <form class="form fn-flex-1" method="post" action="{{.Conf.Server}}/contri/answers/{{.Answer.ID}}">
-        <div class="list__item fn-clear">
-            <div class="fn-clear contri__toolbar">
-                <div class="fn-right">
-                    <button type="button" onclick="preview()">预览</button>
-                </div>
-                <div class="contri__preview content-reset" id="contriPreview"></div>
+    <form class="form fn-flex-1 list__item contri__form"
+          method="post" action="{{.Conf.Server}}/contri/answers/{{.Answer.ID}}">
+        <div class="fn-clear contri__toolbar">
+            <div class="fn-right">
+                <button type="button" onclick="preview()">预览</button>
             </div>
-            <div class="fn-hr"></div>
+            <div class="contri__preview content-reset" id="contriPreview"></div>
+        </div>
+        <div class="fn-hr"></div>
 
-            <div id="content" class="contri__content"></div>
-            <textarea id="contentEn" class="fn-none">{{.Answer.ContentEnUS}}</textarea>
-            <textarea id="contentZh" class="fn-none">{{.Answer.ContentZhCN}}</textarea>
-            <textarea id="contentValue" class="fn-none" name="content">{{.Answer.ContentZhCN}}</textarea>
-            <div class="fn-hr"></div>
-            <input placeholder="内测码" name="password" type="text">
-            <div class="fn-hr"></div>
+        <div id="content" class="fn-flex-1"></div>
+        <textarea id="contentEn" class="fn-none">{{.Answer.ContentEnUS}}</textarea>
+        <textarea id="contentZh" class="fn-none">{{.Answer.ContentZhCN}}</textarea>
+        <textarea id="contentValue" class="fn-none" name="content">{{.Answer.ContentZhCN}}</textarea>
+        <div class="fn-hr"></div>
+        <input placeholder="内测码" name="password" type="text">
+        <div class="fn-hr"></div>
+        <div class="fn-clear">
             <button type="submit" class="fn-right">提交</button>
         </div>
     </form>
-    {{template "footer" .}}
 </div>
 <script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/codemirror.min.js"></script>
 <script src="{{.Conf.StaticServer}}/js/contri.js"></script>

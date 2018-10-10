@@ -14,9 +14,7 @@ const preview = () => {
 }
 
 const initEditor = () => {
-  const content = document.getElementById('content')
-  const contentHeight = window.innerHeight - 311
-  content.style.height = contentHeight + 'px'
+  // format zh
   const editorZh = CodeMirror.fromTextArea(document.getElementById('contentZh'),
     {
       mode: 'text/html',
@@ -24,6 +22,7 @@ const initEditor = () => {
   CodeMirror.commands['selectAll'](editorZh)
   editorZh.autoFormatRange(editorZh.getCursor(true), editorZh.getCursor(false))
 
+  // format en
   const editorEn = CodeMirror.fromTextArea(document.getElementById('contentEn'),
     {
       mode: 'text/html',
@@ -31,7 +30,10 @@ const initEditor = () => {
   CodeMirror.commands['selectAll'](editorEn)
   editorEn.autoFormatRange(editorEn.getCursor(true), editorEn.getCursor(false))
 
-  editor = CodeMirror.MergeView(content, {
+  // init content
+  const contentHeight = window.innerHeight -
+    (document.querySelector('.contri__diff') ? 313 : 268)
+  editor = CodeMirror.MergeView(document.getElementById('content'), {
     autoCloseTags: true,
     lineNumbers: true,
     lineWrapping: true,
@@ -42,9 +44,16 @@ const initEditor = () => {
     origLeft: editorEn.getValue(),
     connect: 'align',
     showDifferences: false,
-    height: contentHeight
+    height: contentHeight,
   })
 
+  // resize
+  editor.edit.setSize('100%', contentHeight)
+  editor.leftOriginal().setSize('100%', contentHeight)
+  document.querySelector('.CodeMirror-merge').style.height = contentHeight +
+    'px'
+
+  // preview
   editor.edit.on('change', function (cm) {
     document.getElementById('contentValue').value = cm.getValue()
     const preview = document.getElementById('contriPreview')
@@ -53,8 +62,11 @@ const initEditor = () => {
     }
   })
 
-  editor.edit.setSize('100%', contentHeight)
-  document.querySelector('.CodeMirror-merge').style.height = contentHeight + 'px'
+  // dictionary
+  editor.leftOriginal().on('dblclick', function (cm) {
+
+    console.log(cm, cm.doc.getSelection())
+  })
 }
 
 initEditor()
