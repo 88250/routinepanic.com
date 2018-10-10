@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/parnurzeal/gorequest"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -17,7 +18,7 @@ func getWordAction(c *gin.Context) {
 	result := util.NewResult()
 	defer c.JSON(http.StatusOK, result)
 
-	wordName := c.Param("name")
+	wordName := strings.ToLower(c.Param("name"))
 	word := service.Dic.GetWord(wordName)
 	if nil == word {
 		wordResult := map[string]interface{}{}
