@@ -10,9 +10,20 @@
   display: none !important;
 }
 
+.fn-wrap {
+  max-width: 100%;
+  width: 100%;
+}
+
+.CodeMirror-merge-left,
+.CodeMirror-merge-left > .CodeMirror {
+  height: 100%;
+}
+
 .contri {
-  &__content {
-    height: 352px;
+  &__form {
+    display: flex;
+    flex-direction: column;
   }
   &__diff {
     width: 6%;

@@ -7,14 +7,14 @@
 
 .fn {
   &-wrap {
-    width: 980px;
-    padding: 0 16px;
+    max-width: 980px;
+    box-sizing: border-box;
+    padding: 0 24px;
     margin: 0 auto;
   }
 
   &-content {
     min-height: 100vh;
-    box-sizing: border-box;
     padding-top: 81px;
     display: flex;
     flex-direction: column;

@@ -14,6 +14,9 @@ const preview = () => {
 }
 
 const initEditor = () => {
+  const content = document.getElementById('content')
+  const contentHeight = window.innerHeight - 311
+  content.style.height = contentHeight + 'px'
   const editorZh = CodeMirror.fromTextArea(document.getElementById('contentZh'),
     {
       mode: 'text/html',
@@ -28,7 +31,7 @@ const initEditor = () => {
   CodeMirror.commands['selectAll'](editorEn)
   editorEn.autoFormatRange(editorEn.getCursor(true), editorEn.getCursor(false))
 
-  editor = CodeMirror.MergeView(document.getElementById('content'), {
+  editor = CodeMirror.MergeView(content, {
     autoCloseTags: true,
     lineNumbers: true,
     lineWrapping: true,
@@ -37,9 +40,9 @@ const initEditor = () => {
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     value: editorZh.getValue(),
     origLeft: editorEn.getValue(),
-    highlightDifferences: true,
     connect: 'align',
-    collapseIdentical: false,
+    showDifferences: false,
+    height: contentHeight
   })
 
   editor.edit.on('change', function (cm) {
@@ -49,6 +52,9 @@ const initEditor = () => {
       preview.innerHTML = editor.edit.getValue()
     }
   })
+
+  editor.edit.setSize('100%', contentHeight)
+  document.querySelector('.CodeMirror-merge').style.height = contentHeight + 'px'
 }
 
 initEditor()
