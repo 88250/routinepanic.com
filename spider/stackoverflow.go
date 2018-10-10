@@ -37,7 +37,7 @@ func (s *stackOverflow) ParseQuestionsByVotes(page, pageSize int) (ret []*QnA) {
 	request := gorequest.New()
 	var url = stackExchangeAPI + "/2.2/questions?page=" + strconv.Itoa(page) + "&pagesize=" + strconv.Itoa(pageSize) + "&order=desc&sort=votes&site=stackoverflow&filter=!9Z(-wwYGT"
 	data := map[string]interface{}{}
-	response, body, errs := request.Set("User-Agent", util.UserAgent).Get(url).Timeout(30*time.Second).Retry(3, 5*time.Second).EndStruct(&data)
+	response, body, errs := request.Set("User-Agent", util.UserAgent).Get(url).Timeout(30 * time.Second).Retry(3, 5*time.Second).EndStruct(&data)
 	logger.Info("questions requested [page=" + strconv.Itoa(page) + ", pageSize=" + strconv.Itoa(pageSize) + "]")
 	if nil != errs {
 		logger.Errorf("get [%s] failed: %s", url, errs)
@@ -101,7 +101,7 @@ func (s *stackOverflow) ParseAnswers(questionId string) (ret []*model.Answer) {
 	request := gorequest.New()
 	var url = stackExchangeAPI + "/2.2/questions/" + questionId + "/answers?pagesize=3&order=desc&sort=votes&site=stackoverflow&filter=!9Z(-wzu0T"
 	data := map[string]interface{}{}
-	response, _, errs := request.Set("User-Agent", util.UserAgent).Get(url).Timeout(30*time.Second).Retry(3, 5*time.Second).EndStruct(&data)
+	response, _, errs := request.Set("User-Agent", util.UserAgent).Get(url).Timeout(30 * time.Second).Retry(3, 5*time.Second).EndStruct(&data)
 	logger.Info("answer requested [questionId=" + questionId + "]")
 	if nil != errs {
 		logger.Errorf("get [%s] failed: %s", url, errs)
@@ -129,7 +129,10 @@ func (s *stackOverflow) ParseAnswers(questionId string) (ret []*model.Answer) {
 		answer.SourceID = strconv.Itoa(int(a["answer_id"].(float64)))
 		owner := a["owner"].(map[string]interface{})
 		if nil != owner {
-			answer.AuthorName = owner["display_name"].(string)
+			n := owner["display_name"]
+			if nil != n {
+				answer.AuthorName = n.(string)
+			}
 			l := owner["link"]
 			if nil != l {
 				answer.AuthorURL = l.(string)
