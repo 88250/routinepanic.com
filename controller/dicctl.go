@@ -73,7 +73,12 @@ func parseWordResult(wordResult map[string]interface{}) *model.Word {
 	}
 
 	symbol := symbols[0].(map[string]interface{})
-	parts := symbol["parts"].([]interface{})
+	val, ok = symbol["parts"]
+	if !ok {
+		return nil
+	}
+
+	parts := val.([]interface{})
 	if 1 > len(parts) {
 		return nil
 	}
@@ -81,7 +86,12 @@ func parseWordResult(wordResult map[string]interface{}) *model.Word {
 	meansBuilder := ""
 	for _, pVal := range parts {
 		part := pVal.(map[string]interface{})
-		meansBuilder += part["part"].(string) + " "
+		val, ok = part["part"]
+		if !ok {
+			return nil
+		}
+
+		meansBuilder += val.(string) + " "
 		means := part["means"].([]interface{})
 		for i, mVal := range means {
 			mean := mVal.(string)

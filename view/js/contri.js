@@ -75,7 +75,6 @@ const initEditor = () => {
       url: '/words/' + cm.doc.getSelection(),
       success: function (result) {
         if (result.code !== 0) {
-          alert(result.msg)
           $('#dictionary').html('')
           return
         }
