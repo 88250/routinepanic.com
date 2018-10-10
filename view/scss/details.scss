@@ -7,12 +7,26 @@
 @import 'variables';
 
 .details {
+  .content-reset {
+    margin-top: 12px;
+  }
   .question__tag {
     margin: 0 12px 0 0;
   }
 
   .question__title {
     margin-bottom: 24px;
+  }
+
+  &__contri {
+    & > div {
+      margin-right: 12px;
+      display: inherit;
+    }
+    svg {
+      height: 20px;
+      width: 20px;
+    }
   }
 
   &__answer {
@@ -22,6 +36,7 @@
 
   &__share {
     position: relative;
+    height: 20px;
     #qrCode {
       position: absolute;
       height: 90px;
@@ -48,7 +63,7 @@
     color: $gray;
     height: 20px;
     &--margin {
-      margin: 6px;
+      margin-right: 12px;
     }
     &:hover {
       color: $fade;

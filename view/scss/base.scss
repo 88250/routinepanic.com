@@ -25,6 +25,13 @@
   }
 }
 
+.avatar {
+  height: 20px;
+  width: 20px;
+  background-size: cover;
+  background-position: center center;
+}
+
 .question {
   &__title {
     color: $black;
@@ -43,6 +50,7 @@
     margin: 12px 12px 0 0;
     border-radius: 3px;
     font-size: 12px;
+    line-height: 14px;
 
     &:hover {
       background-color: rgb(221, 238, 255);
