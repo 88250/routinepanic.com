@@ -66,6 +66,9 @@ const initEditor = () => {
 
   // dictionary
   editor.leftOriginal().on('dblclick', function (cm) {
+    if ($.trim(cm.doc.getSelection()) === '') {
+      return
+    }
     $.ajax({
       url: '/words/' + cm.doc.getSelection(),
       success: function (result) {
@@ -90,7 +93,7 @@ const initEditor = () => {
     })
   })
   $('#dictionary').on('mouseover', 'svg', function () {
-    $('#dictionary audio')[0].play();
+    $('#dictionary audio')[0].play()
   })
 }
 
