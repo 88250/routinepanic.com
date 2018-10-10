@@ -41,7 +41,6 @@ const initEditor = () => {
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
     value: editorZh.getValue(),
     origLeft: editorEn.getValue(),
-    connect: 'align',
     showDifferences: false,
   })
 

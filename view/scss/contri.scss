@@ -15,6 +15,15 @@
   width: 100%;
 }
 
+.CodeMirror pre {
+  font-family: $font-family-code;
+}
+.CodeMirror-merge-2pane .CodeMirror-merge-pane {
+  width: 50%;
+}
+.CodeMirror-merge-2pane .CodeMirror-merge-gap {
+  display: none;
+}
 .contri {
   &__vice {
     &:hover {
@@ -27,13 +36,14 @@
   }
   &__dic {
     position: absolute;
-    z-index: 8;
+    z-index: 11;
     width: 47%;
     box-sizing: border-box;
     padding: 6px;
     background-color: #FFF8DC;
     border: 1px solid #E0DCBF;
     border-radius: 3px;
+    bottom: 0;
     box-shadow: 0 2px 8px rgba(59,64,69,0.1);
   }
   &__diff {
@@ -51,7 +61,7 @@
     &--active {
       border: 1px solid #e2e2e2;
       padding: 12px;
-      width: 53%;
+      width: 50%;
     }
   }
 }
