@@ -14,6 +14,24 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func tuneHTMLAction(c *gin.Context) {
+	result := util.NewResult()
+	defer c.JSON(http.StatusOK, result)
+
+	arg := map[string]interface{}{}
+	if err := c.BindJSON(&arg); nil != err {
+		result.Code = -1
+		result.Msg = "parses request failed"
+
+		return
+	}
+
+	html := arg["html"].(string)
+	html = util.TuneHTML(html)
+
+	result.Data = html
+}
+
 func showContriAction(c *gin.Context) {
 	if !util.IsLoggedIn(c) {
 		c.Status(http.StatusUnauthorized)
