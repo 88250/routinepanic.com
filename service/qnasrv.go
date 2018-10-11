@@ -20,6 +20,15 @@ var QnA = &qnaService{}
 type qnaService struct {
 }
 
+func (srv *qnaService) GetRevision(revisionID uint64) (ret *model.Revision) {
+	ret = &model.Revision{}
+	if err := db.Where("`id` = ?", revisionID).Find(&ret).Error; nil != err {
+		return
+	}
+
+	return
+}
+
 func (srv *qnaService) QRevisions(question *model.Question) (ret []*model.Revision) {
 	if err := db.Where("`data_id` = ? AND `data_type` = ?", question.ID, model.DataTypeQuestion).Find(&ret).Error; nil != err {
 		return
@@ -59,15 +68,23 @@ func (srv *qnaService) ContriAnswer(author *model.User, answer *model.Answer) (e
 		"content": answer.ContentZhCN,
 	}
 	revisionBytes, _ := json.Marshal(revisionData)
-	reversion := &model.Revision{
+	revision := &model.Revision{
 		DataType:    model.DataTypeAnswer,
-		DataId:      answer.ID,
+		DataID:      answer.ID,
 		Data:        string(revisionBytes),
 		AuthorID:    author.ID,
 		Distance:    distance,
 		JaroWinkler: winkler,
 	}
-	if err = tx.Save(reversion).Error; nil != err {
+	if err = tx.Save(revision).Error; nil != err {
+		return
+	}
+
+	review := &model.Review{
+		ReviewerID: revision.ID,
+		Status:     model.ReviewStatusWaiting,
+	}
+	if err = tx.Save(review).Error; nil != err {
 		return
 	}
 
@@ -103,15 +120,23 @@ func (srv *qnaService) ContriQuestion(author *model.User, question *model.Questi
 		"content": question.ContentZhCN,
 	}
 	revisionBytes, _ := json.Marshal(revisionData)
-	reversion := &model.Revision{
+	revision := &model.Revision{
 		DataType:    model.DataTypeQuestion,
-		DataId:      question.ID,
+		DataID:      question.ID,
 		Data:        string(revisionBytes),
 		AuthorID:    author.ID,
 		Distance:    contentDistance,
 		JaroWinkler: winkler,
 	}
-	if err = tx.Save(reversion).Error; nil != err {
+	if err = tx.Save(revision).Error; nil != err {
+		return
+	}
+
+	review := &model.Review{
+		ReviewerID: revision.ID,
+		Status:     model.ReviewStatusWaiting,
+	}
+	if err = tx.Save(review).Error; nil != err {
 		return
 	}
 

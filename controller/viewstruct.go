@@ -6,6 +6,7 @@ package controller
 import (
 	"html/template"
 	"strings"
+	"time"
 
 	"github.com/b3log/routinepanic.com/service"
 
@@ -14,6 +15,17 @@ import (
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/vinta/pangu"
 )
+
+type review struct {
+	Contributor *contributor
+	CreatedAt   time.Time
+	Distance    int
+	JaroWinkler float64
+	DataType    int
+	DataID      uint64
+	Status      int
+	Memo        string
+}
 
 type question struct {
 	ID           uint64
@@ -43,7 +55,38 @@ type answer struct {
 	Contributors []*contributor
 }
 
-const QINIU_IMG_STYLE_AVATAR = "imageView2/1/w/64/h/64/interlace/0/q/100"
+// 七牛图片处理样式，用于贡献者头像
+const QiniuImgStyleAvatar = "imageView2/1/w/64/h/64/interlace/0/q/100"
+
+func reviewsVos(rModels []*model.Review) (ret []*review) {
+	for _, rModel := range rModels {
+		r := reviewVo(rModel)
+		ret = append(ret, r)
+	}
+
+	return
+}
+
+func reviewVo(rModel *model.Review) (ret *review) {
+	ret = &review{
+		CreatedAt: rModel.CreatedAt,
+		Memo:      rModel.Memo,
+		Status:    rModel.Status,
+	}
+
+	revision := service.QnA.GetRevision(rModel.RevisionID)
+	ret.Distance = revision.Distance
+	ret.JaroWinkler = revision.JaroWinkler
+	ret.DataType = revision.DataType
+	ret.DataID = revision.DataID
+	author := service.User.Get(revision.AuthorID)
+	ret.Contributor = &contributor{
+		Name:   author.Name,
+		Avatar: author.Avatar + "?" + QiniuImgStyleAvatar,
+	}
+
+	return
+}
 
 func questionsVos(qModels []*model.Question) (ret []*question) {
 	for _, qModel := range qModels {
@@ -89,7 +132,7 @@ func questionVo(qModel *model.Question) (ret *question) {
 			contributor := &contributor{}
 			user := service.User.Get(revision.AuthorID)
 			contributor.Name = user.Name
-			contributor.Avatar = user.Avatar
+			contributor.Avatar = user.Avatar + "?" + QiniuImgStyleAvatar
 			contributor.ContriCount = 1
 			contributor.ContriDistance = revision.Distance
 			contributorMap[contributorId] = contributor
@@ -133,7 +176,7 @@ func answerVo(aModel *model.Answer) (ret *answer) {
 			contributor := &contributor{}
 			user := service.User.Get(revision.AuthorID)
 			contributor.Name = user.Name
-			contributor.Avatar = user.Avatar
+			contributor.Avatar = user.Avatar + "?" + QiniuImgStyleAvatar
 			contributor.ContriCount = 1
 			contributor.ContriDistance = revision.Distance
 			contributorMap[contributorId] = contributor

@@ -80,6 +80,8 @@ func MapRoutes() *gin.Engine {
 
 	ret.GET("/words/:name", getWordAction)
 
+	ret.GET("/reviews/waiting", showWaitingReviewAction)
+
 	return ret
 }
 
