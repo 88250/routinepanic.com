@@ -8,9 +8,9 @@ type Revision struct {
 	Model
 
 	DataType    int     `json:"dataType"`
-	DataId      uint64  `json:"dataId"`
+	DataID      uint64  `json:"dataID"`
 	Data        string  `gorm:"type:mediumtext" json:"data"`
-	AuthorID    uint64  `json:"authorId"`
+	AuthorID    uint64  `json:"authorID"`
 	Distance    int     `json:"distance"`
 	JaroWinkler float64 `json:"jaroWinkler"`
 }

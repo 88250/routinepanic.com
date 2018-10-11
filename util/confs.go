@@ -22,6 +22,9 @@ import (
 // Slogan
 const Slogan = "专注编程问答汉化"
 
+// Meta keywords
+const MetaKeywords = "程序员,编程,代码,问答"
+
 // Logger
 var logger = log.NewLogger(os.Stdout)
 
@@ -37,6 +40,7 @@ var Conf *Configuration
 // Models represents all models..
 var Models = []interface{}{
 	&model.Question{}, &model.Answer{}, &model.Tag{}, &model.Correlation{}, &model.Revision{}, &model.Word{}, &model.User{},
+	&model.Review{},
 }
 
 // Pagination parameters.

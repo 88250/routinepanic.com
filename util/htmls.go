@@ -38,6 +38,8 @@ func TuneHTML(html string) string {
 	doc.Find("code").Each(func(i int, ele *goquery.Selection) {
 		html, _ := ele.Html()
 		html = strings.TrimSpace(html)
+		html = strings.Replace(html, "<", "&lt;", -1)
+		html = strings.Replace(html, ">", "&gt;", -1)
 		ele.SetHtml(html)
 	})
 	ret, err := doc.Find("body").Html()
