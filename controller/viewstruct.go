@@ -4,19 +4,20 @@
 package controller
 
 import (
+	"fmt"
 	"html/template"
 	"strings"
 	"time"
 
-	"github.com/b3log/routinepanic.com/service"
-
 	"github.com/PuerkitoBio/goquery"
 	"github.com/b3log/routinepanic.com/model"
+	"github.com/b3log/routinepanic.com/service"
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/vinta/pangu"
 )
 
 type review struct {
+	URL         string
 	Contributor *contributor
 	CreatedAt   time.Time
 	Distance    int
@@ -79,6 +80,16 @@ func reviewVo(rModel *model.Review) (ret *review) {
 	ret.JaroWinkler = revision.JaroWinkler
 	ret.DataType = revision.DataType
 	ret.DataID = revision.DataID
+
+	if model.DataTypeQuestion == ret.DataType {
+		qModel := service.QnA.GetQuestionByID(ret.DataID)
+		ret.URL = util.Conf.Server + "/" + qModel.Path
+	} else {
+		aModel := service.QnA.GetAnswerByID(ret.DataID)
+		qModel := service.QnA.GetQuestionByID(aModel.QuestionID)
+		ret.URL = fmt.Sprintf(util.Conf.Server+"/"+qModel.Path+"/answers/%d", aModel.ID)
+	}
+
 	author := service.User.Get(revision.AuthorID)
 	ret.Contributor = &contributor{
 		Name:   author.Name,
