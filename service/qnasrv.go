@@ -59,11 +59,12 @@ func (srv *qnaService) AContributors(answer *model.Answer) (ret []*model.User) {
 func (srv *qnaService) ContriAnswer(author *model.User, answer *model.Answer) (err error) {
 	old := srv.GetAnswerByID(answer.ID)
 	distance := smetrics.WagnerFischer(old.ContentZhCN, answer.ContentZhCN, 1, 1, 2)
-	logger.Info(author.Name+" ", distance)
-
 	if 0 == distance {
 		return
 	}
+
+	winkler := smetrics.JaroWinkler(old.ContentZhCN, answer.ContentZhCN, 0.7, 4)
+	logger.Info(author.Name+" ", distance, " ", winkler)
 
 	tx := db.Begin()
 	defer func() {
@@ -79,10 +80,12 @@ func (srv *qnaService) ContriAnswer(author *model.User, answer *model.Answer) (e
 	}
 	revisionBytes, _ := json.Marshal(revisionData)
 	reversion := &model.Revision{
-		DataType: model.DataTypeAnswer,
-		DataId:   answer.ID,
-		Data:     string(revisionBytes),
-		AuthorID: author.ID,
+		DataType:    model.DataTypeAnswer,
+		DataId:      answer.ID,
+		Data:        string(revisionBytes),
+		AuthorID:    author.ID,
+		Distance:    distance,
+		JaroWinkler: winkler,
 	}
 	if err = tx.Save(reversion).Error; nil != err {
 		return
@@ -99,11 +102,12 @@ func (srv *qnaService) ContriQuestion(author *model.User, question *model.Questi
 	old := srv.GetQuestionByID(question.ID)
 	titleDistance := smetrics.WagnerFischer(old.TitleZhCN, question.TitleZhCN, 1, 1, 2)
 	contentDistance := smetrics.WagnerFischer(old.ContentZhCN, question.ContentZhCN, 1, 1, 2)
-	logger.Info(author.Name+" ", titleDistance, " ", contentDistance)
-
 	if 0 == titleDistance && 0 == contentDistance {
 		return
 	}
+
+	winkler := smetrics.JaroWinkler(old.ContentZhCN, question.ContentZhCN, 0.7, 4)
+	logger.Info(author.Name+" ", titleDistance, " ", contentDistance, " ", winkler)
 
 	tx := db.Begin()
 	defer func() {
@@ -120,10 +124,12 @@ func (srv *qnaService) ContriQuestion(author *model.User, question *model.Questi
 	}
 	revisionBytes, _ := json.Marshal(revisionData)
 	reversion := &model.Revision{
-		DataType: model.DataTypeQuestion,
-		DataId:   question.ID,
-		Data:     string(revisionBytes),
-		AuthorID: author.ID,
+		DataType:    model.DataTypeQuestion,
+		DataId:      question.ID,
+		Data:        string(revisionBytes),
+		AuthorID:    author.ID,
+		Distance:    contentDistance,
+		JaroWinkler: winkler,
 	}
 	if err = tx.Save(reversion).Error; nil != err {
 		return

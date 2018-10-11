@@ -7,8 +7,10 @@ package model
 type Revision struct {
 	Model
 
-	DataType int    `json:"dataType"`
-	DataId   uint64 `json:"dataId"`
-	Data     string `gorm:"type:mediumtext" json:"data"`
-	AuthorID uint64 `json:"authorId"`
+	DataType    int     `json:"dataType"`
+	DataId      uint64  `json:"dataId"`
+	Data        string  `gorm:"type:mediumtext" json:"data"`
+	AuthorID    uint64  `json:"authorId"`
+	Distance    int     `json:"distance"`
+	JaroWinkler float64 `json:"jaroWinkler"`
 }
