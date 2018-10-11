@@ -3,14 +3,17 @@
 
 package model
 
+import "time"
+
 // Review model.
 type Review struct {
 	Model
 
-	RevisionID uint64 `json:"revisionID"`
-	ReviewerID uint64 `json:"reviewerID"`
-	Memo       string `gorm:"type:mediumtext" json:"memo"`
-	Status     int    `json:"status"`
+	RevisionID uint64    `json:"revisionID"`
+	Status     int       `json:"status"`
+	ReviewerID uint64    `json:"reviewerID"`
+	Memo       string    `gorm:"type:mediumtext" json:"memo"`
+	ReviewedAt time.Time `json:"reviewedAt"`
 }
 
 const (
