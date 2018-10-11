@@ -133,7 +133,7 @@ func (srv *qnaService) ContriQuestion(author *model.User, question *model.Questi
 	}
 
 	review := &model.Review{
-		ReviewerID: revision.ID,
+		RevisionID: revision.ID,
 		Status:     model.ReviewStatusWaiting,
 	}
 	if err = tx.Save(review).Error; nil != err {
