@@ -50,11 +50,17 @@
                 <div class="details__contri fn-flex-center fn-flex-1">
                     {{if ne 0 (len .Question.Contributors)}}
                     <div class="tooltipped tooltipped--n" aria-label="贡献者">
-                        <svg class="ft-info"><use xlink:href="#iconContri"></use></svg>
+                        <svg class="ft-info contri__icon">
+                            <use xlink:href="#iconContri"></use>
+                        </svg>
                     </div>
                     {{range .Question.Contributors}}
-                    <a href="https://hacpai.com/member/{{.Name}}" aria-label="{{.Name}}" target="_blank" class="avatar tooltipped tooltipped--n"
-                       style="background-image: url({{.Avatar}}"></a>
+                    <div class="fn-relative contri__item">
+                        <a href="https://hacpai.com/member/{{.Name}}" target="_blank" class="avatar"
+                           style="background-image: url({{.Avatar}}"></a>
+                        <div class="contri__cnt">{{.ContriCount}}</div>
+                        <div class="contri__label"><b>{{.Name}}</b><br>贡献值 {{.ContriDistance}}<br>贡献次数 {{.ContriCount}}</div>
+                    </div>
                     {{end}}
                     {{end}}
                 </div>
@@ -76,7 +82,8 @@
                     </a>
                     <a href="{{.Question.SourceURL}}"
                        class="tooltipped tooltipped--n" aria-label="Stack Overflow 源" target="_blank">
-                        <div class="avatar" style="background-image: url({{.Conf.StaticServer}}/images/stackoverflow.png)"></div>
+                        <div class="avatar"
+                             style="background-image: url({{.Conf.StaticServer}}/images/stackoverflow.png)"></div>
                     </a>
                 </div>
             </div>
@@ -116,13 +123,19 @@
         <div class="list__item">
             <div class="fn-flex">
                 <div class="details__contri fn-flex-center fn-flex-1">
-                     {{if ne 0 (len .Contributors)}}
+                    {{if ne 0 (len .Contributors)}}
                     <div class="tooltipped tooltipped--n" aria-label="贡献者">
-                        <svg class="ft-info"><use xlink:href="#iconContri"></use></svg>
+                        <svg class="ft-info contri__icon">
+                            <use xlink:href="#iconContri"></use>
+                        </svg>
                     </div>
-                     {{range .Contributors}}
-                         <a href="https://hacpai.com/member/{{.Name}}" aria-label="{{.Name}}" target="_blank" class="avatar tooltipped tooltipped--n"
-                            style="background-image: url({{.Avatar}}"></a>
+                    {{range .Contributors}}
+                    <div class="fn-relative contri__item">
+                        <a href="https://hacpai.com/member/{{.Name}}" target="_blank" class="avatar"
+                           style="background-image: url({{.Avatar}}"></a>
+                        <div class="contri__cnt">{{.ContriCount}}</div>
+                        <div class="contri__label"><b>{{.Name}}</b><br>贡献值 {{.ContriDistance}}<br>贡献次数 {{.ContriCount}}</div>
+                    </div>
                     {{end}}
                     {{end}}
                 </div>

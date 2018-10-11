@@ -24,22 +24,6 @@ const preview = () => {
 }
 
 const initEditor = () => {
-  // format zh
-  const editorZh = CodeMirror.fromTextArea(document.getElementById('contentZh'),
-    {
-      mode: 'text/html',
-    })
-  CodeMirror.commands['selectAll'](editorZh)
-  editorZh.autoFormatRange(editorZh.getCursor(true), editorZh.getCursor(false))
-
-  // format en
-  const editorEn = CodeMirror.fromTextArea(document.getElementById('contentEn'),
-    {
-      mode: 'text/html',
-    })
-  CodeMirror.commands['selectAll'](editorEn)
-  editorEn.autoFormatRange(editorEn.getCursor(true), editorEn.getCursor(false))
-
   // init content
   editor = CodeMirror.MergeView(document.getElementById('content'), {
     autoCloseTags: true,
@@ -48,8 +32,8 @@ const initEditor = () => {
     foldGutter: true,
     mode: 'text/html',
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-    value: editorZh.getValue(),
-    origLeft: editorEn.getValue(),
+    value: html_beautify($('#contentZh').val()),
+    origLeft: html_beautify($('#contentEn').val()),
     showDifferences: false,
   })
 
