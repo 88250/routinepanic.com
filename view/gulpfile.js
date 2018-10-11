@@ -38,8 +38,9 @@ function minCodemirrorJS () {
     './js/lib/codemirror-5.40.2/mode/javascript/javascript.js',
     './js/lib/codemirror-5.40.2/mode/css/css.js',
     './js/lib/codemirror-5.40.2/mode/htmlmixed/htmlmixed.js',
-    './js/lib/codemirror-5.40.2/util/formatting.js',
     './js/lib/codemirror-5.40.2/addon/merge/merge.js',
+    './js/lib/js-beautify-1.8.5/beautify.min.js',
+    './js/lib/js-beautify-1.8.5/beautify-html.min.js',
     './js/lib/diff_match_patch.js',
   ]
   return gulp.src(jsCodemirror).
