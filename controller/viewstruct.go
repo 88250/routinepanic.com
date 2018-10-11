@@ -31,8 +31,10 @@ type tag struct {
 }
 
 type contributor struct {
-	Name   string
-	Avatar string
+	Name           string
+	Avatar         string
+	ContriCount    int
+	ContriDistance int
 }
 
 type answer struct {
@@ -78,13 +80,27 @@ func questionVo(qModel *model.Question) (ret *question) {
 		ret.Tags = append(ret.Tags, &tag{Title: tagTitle})
 	}
 
-	contributorUsers := service.QnA.QContributors(qModel)
-	ret.Contributors = []*contributor{}
-	for _, contributorUser := range contributorUsers {
-		ret.Contributors = append(ret.Contributors, &contributor{
-			Name:   contributorUser.Name,
-			Avatar: contributorUser.Avatar + "?" + QINIU_IMG_STYLE_AVATAR,
-		})
+	revisions := service.QnA.QRevisions(qModel)
+	contributorMap := map[uint64]*contributor{}
+
+	for _, revision := range revisions {
+		contributorId := revision.AuthorID
+		if val, ok := contributorMap[contributorId]; !ok {
+			contributor := &contributor{}
+			user := service.User.Get(revision.AuthorID)
+			contributor.Name = user.Name
+			contributor.Avatar = user.Avatar
+			contributor.ContriCount = 1
+			contributor.ContriDistance = revision.Distance
+			contributorMap[contributorId] = contributor
+		} else {
+			val.ContriCount += 1
+			val.ContriDistance += revision.Distance
+		}
+	}
+
+	for _, val := range contributorMap {
+		ret.Contributors = append(ret.Contributors, val)
 	}
 
 	return

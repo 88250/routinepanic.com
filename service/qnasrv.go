@@ -20,19 +20,9 @@ var QnA = &qnaService{}
 type qnaService struct {
 }
 
-func (srv *qnaService) QContributors(question *model.Question) (ret []*model.User) {
-	ret = []*model.User{}
-	revisions := []*model.Revision{}
-	if err := db.Model(&model.Revision{}).Select("`author_id`").
-		Where("`data_id` = ? AND `data_type` = ?", question.ID, model.DataTypeQuestion).Find(&revisions).Error; nil != err {
+func (srv *qnaService) QRevisions(question *model.Question) (ret []*model.Revision) {
+	if err := db.Where("`data_id` = ? AND `data_type` = ?", question.ID, model.DataTypeQuestion).Find(&ret).Error; nil != err {
 		return
-	}
-
-	for _, revision := range revisions {
-		contributor := User.Get(revision.AuthorID)
-		if nil != contributor {
-			ret = append(ret, contributor)
-		}
 	}
 
 	return
