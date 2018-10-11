@@ -1,0 +1,28 @@
+/**
+ * reviews.
+ *
+ * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
+ * @version 0.1.0.0, Oct 11, 2018
+ */
+@import 'variables';
+
+.review {
+  &__icon {
+    height: 16px;
+    width: 16px;
+    margin: 8px 6px 0 0;
+  }
+
+  &__action {
+    height: 24px;
+    width: 24px;
+    color: $gray;
+    &:hover {
+      color: $fade;
+    }
+  }
+
+  &__avatar {
+    margin-right: 12px;
+  }
+}

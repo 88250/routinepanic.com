@@ -1,10 +1,11 @@
 {{define "nav"}}
 <header class="header">
     <div class="fn-wrap">
-        <a href="{{.Conf.Server}}" class="header__link">
+        <a href="{{.Conf.Server}}" class="header__title fn-flex-center">
             <div class="header__logo"></div>
-            <h1 class="header__title">协慌网</h1>
+            <h1>协慌网</h1>
         </a>
+        <a class="header__link" href="{{.Conf.Server}}/reviews/waiting">贡献</a>
         <!--
         <form>
             <input class="header__input" placeholder="回车搜索">

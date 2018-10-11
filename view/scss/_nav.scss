@@ -19,25 +19,29 @@
   &__logo {
     height: 32px;
     width: 32px;
-    @include image-bg;
-    background-image: url(../images/logo@48.png);
-    float: left;
+    @include image-bg('../images/logo@48.png');
     margin-right: 17px;
-    background-color: #fff;
   }
 
-  &__link {
+  &__title {
     color: $black;
-    float: left;
     white-space: nowrap;
+    line-height: 32px;
+    h1 {
+      font-size: 26px;
+    }
     &:hover {
       text-decoration: none;
     }
   }
 
-  &__title {
-    font-size: 26px;
-    line-height: 32px;
+  &__link {
+    color: $gray;
+    float: right;
+    line-height: 35px;
+    &:hover {
+      color: $fade;
+    }
   }
 
   &__input {

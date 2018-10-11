@@ -30,6 +30,10 @@
   width: 20px;
   background-size: cover;
   background-position: center center;
+  &--mid {
+    height: 38px;
+    width: 38px;
+  }
 }
 
 .question {
@@ -37,6 +41,8 @@
     color: $black;
     font-size: 20px;
     transition: $transition;
+    margin-bottom: 12px;
+    display: block;
     &:hover {
       color: #000;
     }
@@ -47,7 +53,7 @@
     white-space: nowrap;
     background-color: rgb(241, 248, 255);
     padding: 3px 6px;
-    margin: 12px 12px 0 0;
+    margin-right: 12px;
     border-radius: 3px;
     font-size: 12px;
     line-height: 14px;
@@ -65,4 +71,49 @@
   border-top: 1px solid #ddd;
   font-size: 13px;
   color: $gray;
+}
+
+.pagination {
+  &__item {
+    color: #4285f4;
+    vertical-align: middle;
+    cursor: pointer;
+    padding: 6px 12px;
+    background: rgb(255, 255, 255);
+    border: 1px solid rgb(225, 228, 232);
+    margin-right: -1px;
+    float: left;
+    transition: $transition;
+    font-weight: 600;
+    line-height: 21px;
+    font-size: 13px;
+
+    &:hover {
+      background-color: rgb(239, 243, 246);
+      text-decoration: none;
+      border-color: rgb(225, 228, 232);
+    }
+
+    &:first-child {
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+    }
+
+    &:last-child {
+      border-radius: 0 3px 3px 0;
+    }
+    &--current,
+    &--current:hover {
+      color: rgb(255, 255, 255);
+      background-color: #4285f4;
+      border-color: #4285f4;
+      cursor: default;
+    }
+    &--disabled,
+    &--disabled:hover {
+      color: rgb(209, 213, 218);
+      background-color: rgb(250, 251, 252);
+      cursor: not-allowed;
+    }
+  }
 }
