@@ -124,13 +124,27 @@ func answerVo(aModel *model.Answer) (ret *answer) {
 		Content: template.HTML(content),
 	}
 
-	contributorUsers := service.QnA.AContributors(aModel)
-	ret.Contributors = []*contributor{}
-	for _, contributorUser := range contributorUsers {
-		ret.Contributors = append(ret.Contributors, &contributor{
-			Name:   contributorUser.Name,
-			Avatar: contributorUser.Avatar + "?" + QINIU_IMG_STYLE_AVATAR,
-		})
+	revisions := service.QnA.ARevisions(aModel)
+	contributorMap := map[uint64]*contributor{}
+
+	for _, revision := range revisions {
+		contributorId := revision.AuthorID
+		if val, ok := contributorMap[contributorId]; !ok {
+			contributor := &contributor{}
+			user := service.User.Get(revision.AuthorID)
+			contributor.Name = user.Name
+			contributor.Avatar = user.Avatar
+			contributor.ContriCount = 1
+			contributor.ContriDistance = revision.Distance
+			contributorMap[contributorId] = contributor
+		} else {
+			val.ContriCount += 1
+			val.ContriDistance += revision.Distance
+		}
+	}
+
+	for _, val := range contributorMap {
+		ret.Contributors = append(ret.Contributors, val)
 	}
 
 	return

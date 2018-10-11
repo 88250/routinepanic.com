@@ -28,19 +28,9 @@ func (srv *qnaService) QRevisions(question *model.Question) (ret []*model.Revisi
 	return
 }
 
-func (srv *qnaService) AContributors(answer *model.Answer) (ret []*model.User) {
-	ret = []*model.User{}
-	revisions := []*model.Revision{}
-	if err := db.Model(&model.Revision{}).Select("`author_id`").
-		Where("`data_id` = ? AND `data_type` = ?", answer.ID, model.DataTypeAnswer).Find(&revisions).Error; nil != err {
+func (srv *qnaService) ARevisions(answer *model.Answer) (ret []*model.Revision) {
+	if err := db.Where("`data_id` = ? AND `data_type` = ?", answer.ID, model.DataTypeAnswer).Find(&ret).Error; nil != err {
 		return
-	}
-
-	for _, revision := range revisions {
-		contributor := User.Get(revision.AuthorID)
-		if nil != contributor {
-			ret = append(ret, contributor)
-		}
 	}
 
 	return
