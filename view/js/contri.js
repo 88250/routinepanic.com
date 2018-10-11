@@ -2,7 +2,7 @@ let editor
 
 const _getPreview = (preview) => {
   $.ajax({
-    url: '/html',
+    url: config.server + '/html',
     type: 'POST',
     data: JSON.stringify({html: editor.edit.getValue()}),
     success: function (result) {
@@ -67,7 +67,7 @@ const initEditor = () => {
       return
     }
     $.ajax({
-      url: '/words/' + cm.doc.getSelection(),
+      url:  config.server + '/words/' + cm.doc.getSelection(),
       success: function (result) {
         if (result.code !== 0) {
           $('#dictionary').html('')
