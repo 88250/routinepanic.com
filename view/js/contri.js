@@ -7,6 +7,9 @@ const _getPreview = (preview) => {
     data: JSON.stringify({html: editor.edit.getValue()}),
     success: function (result) {
       preview.innerHTML = result.data
+      $('pre code').each(function (i, block) {
+        hljs.highlightBlock(block)
+      })
     },
   })
 }
