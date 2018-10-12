@@ -15,6 +15,7 @@ import (
 	"github.com/b3log/routinepanic.com/log"
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 )
 
@@ -46,7 +47,7 @@ func MapRoutes() *gin.Engine {
 
 	ret.Use(gin.Recovery())
 
-	store := sessions.NewCookieStore([]byte(util.Conf.SessionSecret))
+	store := cookie.NewStore([]byte(util.Conf.SessionSecret))
 	store.Options(sessions.Options{
 		Path:     "/",
 		MaxAge:   util.Conf.SessionMaxAge,
