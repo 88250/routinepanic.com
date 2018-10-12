@@ -6,7 +6,6 @@ package service
 import (
 	"encoding/json"
 	"strings"
-	"time"
 
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/b3log/routinepanic.com/spider"
@@ -84,6 +83,7 @@ func (srv *qnaService) ContriAnswer(author *model.User, answer *model.Answer) (e
 	review := &model.Review{
 		RevisionID: revision.ID,
 		Status:     model.ReviewStatusWaiting,
+		ReviewedAt: ZeroTime,
 	}
 	if err = tx.Save(review).Error; nil != err {
 		return
@@ -136,7 +136,7 @@ func (srv *qnaService) ContriQuestion(author *model.User, question *model.Questi
 	review := &model.Review{
 		RevisionID: revision.ID,
 		Status:     model.ReviewStatusWaiting,
-		ReviewedAt: time.Time{},
+		ReviewedAt: ZeroTime,
 	}
 
 	if err = tx.Save(review).Error; nil != err {

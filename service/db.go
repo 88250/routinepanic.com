@@ -5,6 +5,7 @@ package service
 
 import (
 	"os"
+	"time"
 
 	"github.com/b3log/routinepanic.com/log"
 	"github.com/b3log/routinepanic.com/util"
@@ -14,6 +15,9 @@ import (
 
 // Logger
 var logger = log.NewLogger(os.Stdout)
+
+// ZeroTime represents zero time.
+var ZeroTime, _ = time.Parse("2006-01-02 15:04:05", "2006-01-02 15:04:05")
 
 var db *gorm.DB
 
