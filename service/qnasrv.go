@@ -81,7 +81,7 @@ func (srv *qnaService) ContriAnswer(author *model.User, answer *model.Answer) (e
 	}
 
 	review := &model.Review{
-		ReviewerID: revision.ID,
+		RevisionID: revision.ID,
 		Status:     model.ReviewStatusWaiting,
 	}
 	if err = tx.Save(review).Error; nil != err {

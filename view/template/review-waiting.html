@@ -32,7 +32,7 @@
                     <use xlink:href="#icon{{if eq 0 .DataType}}Question{{else}}Answer{{end}}"></use>
                 </svg>
                 <h2 class="fn-flex-1">
-                    <a href="#" class="question__title"> 为什么处理排序数组比处理未排序数组更快？</a>
+                    <a href="{{.URL}}" class="question__title"> {{.Title}}</a>
                 </h2>
                 {{if eq 0 .Status}}
                 <a href="{{.DataID}}">

@@ -17,6 +17,7 @@ import (
 )
 
 type review struct {
+	Title string
 	URL         string
 	Contributor *contributor
 	CreatedAt   time.Time
@@ -83,11 +84,13 @@ func reviewVo(rModel *model.Review) (ret *review) {
 
 	if model.DataTypeQuestion == ret.DataType {
 		qModel := service.QnA.GetQuestionByID(ret.DataID)
-		ret.URL = util.Conf.Server + "/" + qModel.Path
+		ret.Title = qModel.TitleZhCN
+		ret.URL = util.Conf.Server + "/questions/" + qModel.Path
 	} else {
 		aModel := service.QnA.GetAnswerByID(ret.DataID)
 		qModel := service.QnA.GetQuestionByID(aModel.QuestionID)
-		ret.URL = fmt.Sprintf(util.Conf.Server+"/"+qModel.Path+"/answers/%d", aModel.ID)
+		ret.Title = qModel.TitleZhCN
+		ret.URL = fmt.Sprintf(util.Conf.Server+"/questions/"+qModel.Path+"/answers/%d", aModel.ID)
 	}
 
 	author := service.User.Get(revision.AuthorID)
