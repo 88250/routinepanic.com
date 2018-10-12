@@ -4,6 +4,7 @@
 package controller
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"strings"
@@ -17,7 +18,8 @@ import (
 )
 
 type review struct {
-	Title string
+	ID          uint64
+	Title       string
 	URL         string
 	Contributor *contributor
 	CreatedAt   time.Time
@@ -27,6 +29,9 @@ type review struct {
 	DataID      uint64
 	Status      int
 	Memo        string
+	OldTitle    string
+	OldContent  string
+	Content     string
 }
 
 type question struct {
@@ -71,6 +76,7 @@ func reviewsVos(rModels []*model.Review) (ret []*review) {
 
 func reviewVo(rModel *model.Review) (ret *review) {
 	ret = &review{
+		ID:        rModel.ID,
 		CreatedAt: rModel.CreatedAt,
 		Memo:      rModel.Memo,
 		Status:    rModel.Status,
@@ -82,14 +88,26 @@ func reviewVo(rModel *model.Review) (ret *review) {
 	ret.DataType = revision.DataType
 	ret.DataID = revision.DataID
 
+	data := map[string]interface{}{}
+	if err := json.Unmarshal([]byte(revision.Data), &data); nil == err {
+		ret.Content = data["content"].(string)
+		if model.DataTypeQuestion == revision.DataType {
+			ret.Title = data["title"].(string)
+		}
+	} else {
+		logger.Errorf("unmarshal json failed: " + err.Error())
+	}
+
 	if model.DataTypeQuestion == ret.DataType {
 		qModel := service.QnA.GetQuestionByID(ret.DataID)
-		ret.Title = qModel.TitleZhCN
+		ret.OldTitle = qModel.TitleZhCN
+		ret.OldContent = qModel.ContentZhCN
 		ret.URL = util.Conf.Server + "/questions/" + qModel.Path
 	} else {
 		aModel := service.QnA.GetAnswerByID(ret.DataID)
 		qModel := service.QnA.GetQuestionByID(aModel.QuestionID)
-		ret.Title = qModel.TitleZhCN
+		ret.OldTitle = qModel.TitleZhCN
+		ret.OldContent = aModel.ContentZhCN
 		ret.URL = fmt.Sprintf(util.Conf.Server+"/questions/"+qModel.Path+"/answers/%d", aModel.ID)
 	}
 

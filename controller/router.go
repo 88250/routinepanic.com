@@ -82,6 +82,7 @@ func MapRoutes() *gin.Engine {
 	ret.GET("/words/:name", getWordAction)
 
 	ret.GET("/reviews/waiting", showWaitingReviewAction)
+	ret.GET("/reviews/details/:id", showReviewAction)
 
 	return ret
 }
@@ -101,9 +102,11 @@ func fillCommon(c *gin.Context) {
 	dataModel := &DataModel{}
 	c.Set("dataModel", dataModel)
 
-	(*dataModel)["Conf"] = util.Conf
-	(*dataModel)["Title"] = "协慌网"
-	(*dataModel)["Slogan"] = util.Slogan
+	dataModel.Put("Conf", util.Conf)
+	dataModel.Put("Title", "协慌网")
+	dataModel.Put("Slogan", util.Slogan)
+	dataModel.Put("MetaKeywords", util.MetaKeywords)
+	dataModel.Put("MetaDescription", util.Slogan)
 }
 
 func getDataModel(c *gin.Context) *DataModel {

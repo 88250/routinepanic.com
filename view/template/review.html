@@ -1,8 +1,8 @@
-{{define "review-waiting.html"}}
+{{define "review.html"}}
 <!DOCTYPE html>
 <html>
 <head>
-    {{template "head" .}}
+{{template "head" .}}
     <link type="text/css" rel="stylesheet"
           href="{{.Conf.StaticServer}}/css/reviews.css?{{.Conf.StaticResourceVersion}}"/>
 </head>
@@ -24,70 +24,48 @@
 {{template "nav" .}}
 <div class="fn-content fn-wrap">
     <div class="fn-flex-1">
-        {{if ne 0 (len .Reviews)}}
-        {{range .Reviews}}
         <article class="list__item">
             <header class="fn-flex">
                 <svg class="review__icon">
-                    <use xlink:href="#icon{{if eq 0 .DataType}}Question{{else}}Answer{{end}}"></use>
+                    <use xlink:href="#icon{{if eq 0 .Review.DataType}}Question{{else}}Answer{{end}}"></use>
                 </svg>
                 <h2 class="fn-flex-1">
-                    <a href="{{.URL}}" class="question__title"> {{.Title}}</a>
+                    <a href="{{.Review.URL}}" class="question__title"> {{.Review.OldTitle}}</a>
                 </h2>
-                {{if eq 0 .Status}}
-                <a href="details/{{.ID}}">
+            {{if eq 0 .Review.Status}}
+                <a href="{{.Review.DataID}}">
                     <svg class="review__action">
                         <use xlink:href="#iconCheck"></use>
                     </svg>
                 </a>
-                {{end}}
+            {{end}}
             </header>
             <div class="fn-flex">
                 <a class="avatar avatar--mid review__avatar"
-                   href="https://hacpai.com/member/{{.Contributor.Name}}"
-                   style="background-image: url('{{.Contributor.Avatar}}')"></a>
+                   href="https://hacpai.com/member/{{.Review.Contributor.Name}}"
+                   style="background-image: url('{{.Review.Contributor.Avatar}}')"></a>
                 <div class="fn-flex-1 ft-12 ft-fade">
                     <div>
-                        贡献值 {{.Distance}} • 差异比 {{.JaroWinkler}}
-                        {{if ne "" .Memo}}
-                        • {{.CreatedAt}}
-                        {{end}}
+                        贡献值 {{.Review.Distance}} • 差异比 {{.Review.JaroWinkler}}
+                    {{if ne "" .Review.Memo}}
+                        • {{.Review.CreatedAt}}
+                    {{end}}
                     </div>
                     <div class="fn-hr6"></div>
                     <div>
-                        {{if eq "" .Memo}}
-                        {{.CreatedAt}}
+                    {{if eq "" .Review.Memo}}
+                        {{.Review.CreatedAt}}
                         {{else}}
-                        {{.Memo}}
+                        {{.Review.Memo}}
                         {{end}}
                     </div>
+                    {{.Review.OldTitle}} - {{.Review.Title}}
+                {{.Review.OldContent}} - {{.Review.Content}}
                 </div>
             </div>
         </article>
-        {{end}}
-        <div class="fn-clear">
-            <nav class="pagination fn-right">
-                <a aria-label="上一页"
-                   class="pagination__item{{if lt .Pagination.PreviousPageNum 1}} pagination__item--disabled{{end}}"
-                   href="?p={{.Pagination.PreviousPageNum}}">
-                    上一页
-                </a>
-                {{range .Pagination.PageNums}}
-                <a class="pagination__item{{if eq $.Pagination.CurrentPageNum .}} pagination__item--current{{end}}"
-                   href="?p={{.}}">{{.}}</a>
-                {{end}}
-                <a aria-label="下一页"
-                   class="pagination__item{{if lt .Pagination.NextPageNum 1}} pagination__item--disabled{{end}}"
-                   href="?p={{.Pagination.NextPageNum}}">
-                    下一页
-                </a>
-            </nav>
-        </div>
-        {{else}}
-        <a href="{{.Conf.Server}}">参与贡献</a>
-        {{end}}
     </div>
-    {{template "footer" .}}
+{{template "footer" .}}
 </div>
 </body>
 </html>

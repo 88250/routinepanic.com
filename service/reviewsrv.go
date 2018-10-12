@@ -14,6 +14,17 @@ var Review = &reviewService{}
 type reviewService struct {
 }
 
+func (srv *reviewService) GetReviewByID(id uint64) (ret *model.Review) {
+	ret = &model.Review{}
+	if err := db.Where("`id` = ?", id).First(ret).Error; nil != err {
+		logger.Errorf("get review [id=%d] failed: "+err.Error(), id)
+
+		return nil
+	}
+
+	return
+}
+
 func (srv *reviewService) GetReviews(status, page int) (ret []*model.Review, pagination *util.Pagination) {
 	offset := (page - 1) * util.PageSize
 	count := 0

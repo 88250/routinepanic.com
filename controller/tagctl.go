@@ -30,7 +30,6 @@ func showTagAction(c *gin.Context) {
 	dataModel.Put("Pagination", pagination)
 
 	dataModel.Put("MetaKeywords", util.MetaKeywords+","+tagModel.Title)
-	dataModel.Put("MetaDescription", util.Slogan)
 
 	c.HTML(http.StatusOK, "tag.html", dataModel)
 }

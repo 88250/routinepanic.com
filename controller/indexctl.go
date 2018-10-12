@@ -27,7 +27,6 @@ func showIndexAction(c *gin.Context) {
 	}
 	keywords = keywords[:len(keywords)-1]
 	dataModel.Put("MetaKeywords", util.MetaKeywords+","+keywords)
-	dataModel.Put("MetaDescription", util.Slogan)
 
 	c.HTML(http.StatusOK, "index.html", dataModel)
 }
