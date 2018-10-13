@@ -82,7 +82,9 @@ func MapRoutes() *gin.Engine {
 
 	ret.GET("/words/:name", getWordAction)
 
-	ret.GET("/reviews/waiting", showWaitingReviewAction)
+	ret.GET("/reviews/waiting", showWaitingReviewsAction)
+	ret.GET("/reviews/passed", showPassedReviewsAction)
+	ret.GET("/reviews/rejected", showRejectedReviewsAction)
 	ret.GET("/reviews/details/:id", showReviewAction)
 
 	return ret

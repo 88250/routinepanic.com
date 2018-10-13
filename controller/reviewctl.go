@@ -30,7 +30,7 @@ func showReviewAction(c *gin.Context) {
 	c.HTML(http.StatusOK, "review.html", dataModel)
 }
 
-func showWaitingReviewAction(c *gin.Context) {
+func showWaitingReviewsAction(c *gin.Context) {
 	dataModel := getDataModel(c)
 	page := util.GetPage(c)
 
@@ -40,4 +40,28 @@ func showWaitingReviewAction(c *gin.Context) {
 	dataModel.Put("Pagination", pagination)
 
 	c.HTML(http.StatusOK, "review-waiting.html", dataModel)
+}
+
+func showPassedReviewsAction(c *gin.Context) {
+	dataModel := getDataModel(c)
+	page := util.GetPage(c)
+
+	rModels, pagination := service.Review.GetReviews(model.ReviewStatusPassed, page)
+	reviews := reviewsVos(rModels)
+	dataModel.Put("Reviews", reviews)
+	dataModel.Put("Pagination", pagination)
+
+	c.HTML(http.StatusOK, "review-passed.html", dataModel)
+}
+
+func showRejectedReviewsAction(c *gin.Context) {
+	dataModel := getDataModel(c)
+	page := util.GetPage(c)
+
+	rModels, pagination := service.Review.GetReviews(model.ReviewStatusRejected, page)
+	reviews := reviewsVos(rModels)
+	dataModel.Put("Reviews", reviews)
+	dataModel.Put("Pagination", pagination)
+
+	c.HTML(http.StatusOK, "review-rejected.html", dataModel)
 }
