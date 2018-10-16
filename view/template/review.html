@@ -43,7 +43,7 @@
         <textarea id="contentZh" class="fn-none">{{.Review.Content}}</textarea>
         <textarea id="contentValue" class="fn-none">{{.Review.Content}}</textarea>
         <div class="fn-hr"></div>
-        <input placeholder="备注" type="text" id="memo">
+        <input placeholder="备注" type="text" id="memo" {{if ne 1 $.User.URole}}readonly{{end}}>
         <div class="fn-hr"></div>
         <div class="fn-flex">
             <a class="avatar avatar--mid avatar--right tooltipped tooltipped--n"
@@ -67,11 +67,13 @@
                 </div>
             </div>
 
+            {{if eq 1 $.User.URole}}
             <div class="fn-flex-center">
                 <button type="submit" class="btn--red" onclick="review(false, '{{.Review.ID}}')">拒绝</button>
                 <div class="fn-space"></div>
                 <button type="submit" onclick="review(true, '{{.Review.ID}}')">通过</button>
             </div>
+            {{end}}
         </div>
     </div>
 </div>
