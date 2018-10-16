@@ -1,0 +1,23 @@
+/**
+ * side.
+ *
+ * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
+ * @version 0.1.0.0, Oct 16, 2018
+ */
+.side {
+  width: 148px;
+  margin-right: 24px;
+
+  a {
+    color: #666;
+    &:hover {
+      color: $blue;
+    }
+  }
+
+  &__item {
+    &--current {
+      background-color: #e6e6e6;
+    }
+  }
+}
