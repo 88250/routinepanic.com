@@ -46,8 +46,6 @@
     <textarea id="contentZh" class="fn-none">{{.Contri.ContentZhCN}}</textarea>
     <textarea id="contentValue" class="fn-none" name="content">{{.Contri.ContentZhCN}}</textarea>
     <div class="fn-hr"></div>
-    <input placeholder="内测码" name="password" type="text">
-    <div class="fn-hr"></div>
     <div class="fn-clear">
         <button type="submit" class="fn-right">提交</button>
     </div>
@@ -57,6 +55,9 @@
 <script src="{{.Conf.StaticServer}}/js/lib/jquery-3.3.1.min.js"></script>
 <script src="{{.Conf.StaticServer}}/js/lib/highlight.min.js"></script>
 <script src="{{.Conf.StaticServer}}/js/contri.js"></script>
+<script>
+  initEditor()
+</script>
 </body>
 </html>
 {{end}}
