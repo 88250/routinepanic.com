@@ -156,6 +156,7 @@ func questionVo(qModel *model.Question) (ret *question) {
 	}
 
 	revisions := service.QnA.QRevisions(qModel)
+	revisions = service.Review.FilterPassed(revisions)
 	contributorMap := map[uint64]*contributor{}
 
 	for _, revision := range revisions {
@@ -200,6 +201,7 @@ func answerVo(aModel *model.Answer) (ret *answer) {
 	}
 
 	revisions := service.QnA.ARevisions(aModel)
+	revisions = service.Review.FilterPassed(revisions)
 	contributorMap := map[uint64]*contributor{}
 
 	for _, revision := range revisions {

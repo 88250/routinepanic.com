@@ -17,6 +17,20 @@ var Review = &reviewService{}
 type reviewService struct {
 }
 
+func (srv *reviewService) FilterPassed(revisions []*model.Revision) (ret []*model.Revision) {
+	ret = []*model.Revision{}
+	for _, revision := range revisions {
+		count := 0
+		db.Model(&model.Review{}).Where("`revision_id` = ? AND `status` = ?", revision.ID, model.ReviewStatusPassed).
+			Count(&count)
+		if 0 < count {
+			ret = append(ret, revision)
+		}
+	}
+
+	return
+}
+
 func (srv *reviewService) RejectReview(review *model.Review) (err error) {
 	tx := db.Begin()
 	defer func() {
