@@ -9,8 +9,14 @@
   margin-right: 24px;
 
   a {
-    color: #666;
+    color: $gray;
+    padding: 4px 8px;
+    margin-bottom: 8px;
+    border-radius: 3px;
+    display: block;
+    font-size: 14px;
     &:hover {
+      text-decoration: none;
       color: $blue;
     }
   }
@@ -18,6 +24,9 @@
   &__item {
     &--current {
       background-color: #e6e6e6;
+      &:hover {
+        color: $gray !important;
+      }
     }
   }
 }

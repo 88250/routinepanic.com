@@ -2,13 +2,14 @@
  * basic.
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.1.0.0, Apr 13, 2018
+ * @version 0.1.0.0, Oct 16, 2018
  */
 
 @import 'basic';
 @import 'github';
 @import 'nav';
 @import 'tip';
+@import 'side';
 
 .list {
   &__item {
@@ -69,7 +70,6 @@
   margin-top: 48px;
   padding: 48px 0;
   border-top: 1px solid #ddd;
-  font-size: 13px;
   color: $gray;
 }
 
@@ -86,7 +86,6 @@
     transition: $transition;
     font-weight: 600;
     line-height: 21px;
-    font-size: 13px;
 
     &:hover {
       background-color: rgb(239, 243, 246);
