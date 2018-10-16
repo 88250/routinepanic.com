@@ -14,6 +14,10 @@ var Review = &reviewService{}
 type reviewService struct {
 }
 
+func (srv *reviewService) PassReview() {
+
+}
+
 func (srv *reviewService) GetReviewByID(id uint64) (ret *model.Review) {
 	ret = &model.Review{}
 	if err := db.Where("`id` = ?", id).First(ret).Error; nil != err {

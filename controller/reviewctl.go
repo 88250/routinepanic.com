@@ -33,7 +33,9 @@ func ReviewAction(c *gin.Context) {
 	_ = memo
 
 	review := service.Review.GetReviewByID(id)
-	_ = review
+	revision := service.QnA.GetRevision(review.RevisionID)
+	_ = revision
+
 }
 
 func showReviewAction(c *gin.Context) {

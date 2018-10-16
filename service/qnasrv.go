@@ -89,10 +89,6 @@ func (srv *qnaService) ContriAnswer(author *model.User, answer *model.Answer) (e
 		return
 	}
 
-	if err = tx.Model(&model.Answer{}).Updates(answer).Error; nil != err {
-		return
-	}
-
 	return nil
 }
 
@@ -140,10 +136,6 @@ func (srv *qnaService) ContriQuestion(author *model.User, question *model.Questi
 	}
 
 	if err = tx.Save(review).Error; nil != err {
-		return
-	}
-
-	if err = tx.Model(&model.Question{}).Updates(question).Error; nil != err {
 		return
 	}
 
