@@ -11,7 +11,6 @@ import (
 
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/b3log/routinepanic.com/service"
-
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/gin-gonic/gin"
 	"github.com/mssola/user_agent"
