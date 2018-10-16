@@ -1,4 +1,4 @@
-{{define "contri-answer.html"}}
+{{define "contri.html"}}
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,27 +19,38 @@
 </svg>
 {{template "nav" .}}
 <div class="fn-content fn-wrap">
-    <form class="form fn-flex-1 list__item contri__form"
-          method="post" action="{{.Conf.Server}}/contri/answers/{{.Answer.ID}}">
-        <div class="fn-relative fn-clear">
-            <div id="dictionary"></div>
-            <button type="button" class="fn-right" onclick="preview()">预览</button>
-        </div>
-        <div class="fn-hr"></div>
-        <div class="fn-relative">
-            <div class="contri__preview content-reset" id="contriPreview"></div>
-        </div>
+    <form class="form fn-flex-1 list__item contri__form" method="post"
+          action="{{.Conf.Server}}/contri/{{if eq "Answer" .Type}}answers{{else}}questions{{end}}/{{.Contri.ID}}">
+    {{if eq "Question" .Type}}
+    <div class="fn-flex">
+        <input type="text" class="fn-flex-1" value="{{.Contri.TitleEnUS}}" disabled>
+        <div class="contri__diff"></div>
+        <input type="text" class="fn-flex-1"
+               value="{{.Contri.TitleZhCN}}"
+               name="title">
+    </div>
+    {{end}}
 
-        <div id="content" class="fn-flex-1"></div>
-        <textarea id="contentEn" class="fn-none">{{.Answer.ContentEnUS}}</textarea>
-        <textarea id="contentZh" class="fn-none">{{.Answer.ContentZhCN}}</textarea>
-        <textarea id="contentValue" class="fn-none" name="content">{{.Answer.ContentZhCN}}</textarea>
-        <div class="fn-hr"></div>
-        <input placeholder="内测码" name="password" type="text">
-        <div class="fn-hr"></div>
-        <div class="fn-clear">
-            <button type="submit" class="fn-right">提交</button>
-        </div>
+    <div class="fn-hr"></div>
+    <div class="fn-relative fn-clear">
+        <div id="dictionary"></div>
+        <button type="button" class="fn-right" onclick="preview()">预览</button>
+    </div>
+    <div class="fn-hr"></div>
+    <div class="fn-relative">
+        <div class="contri__preview content-reset" id="contriPreview"></div>
+    </div>
+
+    <div id="content" class="fn-flex-1"></div>
+    <textarea id="contentEn" class="fn-none">{{.Contri.ContentEnUS}}</textarea>
+    <textarea id="contentZh" class="fn-none">{{.Contri.ContentZhCN}}</textarea>
+    <textarea id="contentValue" class="fn-none" name="content">{{.Contri.ContentZhCN}}</textarea>
+    <div class="fn-hr"></div>
+    <input placeholder="内测码" name="password" type="text">
+    <div class="fn-hr"></div>
+    <div class="fn-clear">
+        <button type="submit" class="fn-right">提交</button>
+    </div>
     </form>
 </div>
 <script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/codemirror.min.js"></script>

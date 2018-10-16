@@ -20,6 +20,12 @@
     flex-direction: column;
   }
 
+  &-center-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   &-flex {
     display: flex;
   }
