@@ -30,7 +30,7 @@ func (srv *reviewService) RejectReview(review *model.Review) (err error) {
 	review.ReviewedAt = time.Now()
 	review.Status = model.ReviewStatusRejected
 
-	if err = tx.Update(review).Error; nil != err {
+	if err = tx.Model(review).Update(review).Error; nil != err {
 		return
 	}
 
@@ -52,7 +52,7 @@ func (srv *reviewService) PassReview(review *model.Review, arg map[string]interf
 	review.ReviewedAt = time.Now()
 	review.Status = model.ReviewStatusPassed
 
-	if err = tx.Update(review).Error; nil != err {
+	if err = tx.Model(review).Update(review).Error; nil != err {
 		return
 	}
 
@@ -68,20 +68,20 @@ func (srv *reviewService) PassReview(review *model.Review, arg map[string]interf
 		question := QnA.GetQuestionByID(revision.DataID)
 		question.ContentZhCN = data["content"].(string)
 		question.TitleZhCN = data["title"].(string)
-		if err = tx.Update(question).Error; nil != err {
+		if err = tx.Model(question).Update(question).Error; nil != err {
 			return
 		}
 	} else {
 		answer := QnA.GetAnswerByID(revision.DataID)
 		answer.ContentZhCN = data["content"].(string)
-		if err = tx.Update(answer).Error; nil != err {
+		if err = tx.Model(answer).Update(answer).Error; nil != err {
 			return
 		}
 	}
 
 	revisionBytes, _ := json.Marshal(data)
 	revision.Data = string(revisionBytes)
-	if err = tx.Update(revision).Error; nil != err {
+	if err = tx.Model(revision).Update(revision).Error; nil != err {
 		return
 	}
 

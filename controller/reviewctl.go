@@ -4,6 +4,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -21,7 +22,7 @@ func ReviewAction(c *gin.Context) {
 	}
 
 	session := util.GetSession(c)
-	if "88250" != session.UName || "Vanessa" != session.UName {
+	if "88250" != session.UName && "Vanessa" != session.UName {
 		c.Status(http.StatusUnauthorized)
 
 		return
@@ -61,6 +62,16 @@ func ReviewAction(c *gin.Context) {
 
 			return
 		}
+	}
+
+	revision := service.QnA.GetRevision(review.RevisionID)
+	if model.DataTypeQuestion == revision.DataType {
+		question := service.QnA.GetQuestionByID(revision.DataID)
+		result.Data = util.Conf.Server + "/questions/" + question.Path
+	} else {
+		answer := service.QnA.GetAnswerByID(revision.DataID)
+		question := service.QnA.GetQuestionByID(answer.QuestionID)
+		result.Data = fmt.Sprintf(util.Conf.Server+"/questions/"+question.Path+"/answers/%d", answer.ID)
 	}
 }
 

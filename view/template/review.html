@@ -68,9 +68,9 @@
             </div>
 
             <div class="fn-flex-center">
-                <button type="submit" class="btn--red" onclick="review(false, {{.Review.ID}})">拒绝</button>
+                <button type="submit" class="btn--red" onclick="review(false, '{{.Review.ID}}')">拒绝</button>
                 <div class="fn-space"></div>
-                <button type="submit" onclick="review(true, {{.Review.ID}})">通过</button>
+                <button type="submit" onclick="review(true, '{{.Review.ID}}')">通过</button>
             </div>
         </div>
     </div>
