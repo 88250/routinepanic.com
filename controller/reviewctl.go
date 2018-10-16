@@ -27,9 +27,13 @@ func ReviewAction(c *gin.Context) {
 
 	passed := arg["passed"].(bool)
 	memo := arg["memo"].(string)
-
+	idStr := c.Param("id")
+	id, _ := strconv.ParseUint(idStr, 0, 64)
 	_ = passed
 	_ = memo
+
+	review := service.Review.GetReviewByID(id)
+	_ = review
 }
 
 func showReviewAction(c *gin.Context) {
