@@ -86,6 +86,7 @@ func MapRoutes() *gin.Engine {
 	ret.GET("/reviews/passed", showPassedReviewsAction)
 	ret.GET("/reviews/rejected", showRejectedReviewsAction)
 	ret.GET("/reviews/details/:id", showReviewAction)
+	ret.POST("/reviews/review/:id", ReviewAction)
 
 	return ret
 }

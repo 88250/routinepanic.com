@@ -13,6 +13,23 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func ReviewAction(c *gin.Context) {
+	result := util.NewResult()
+	defer c.JSON(http.StatusOK, result)
+
+	arg := map[string]interface{}{}
+	if err := c.BindJSON(&arg); nil != err {
+		result.Code = -1
+		result.Msg = "parses request failed"
+
+		return
+	}
+
+	passed := arg["passed"].(bool)
+	memo := arg["memo"].(string)
+
+}
+
 func showReviewAction(c *gin.Context) {
 	idStr := c.Param("id")
 	id, _ := strconv.ParseUint(idStr, 0, 64)
@@ -38,8 +55,8 @@ func showWaitingReviewsAction(c *gin.Context) {
 	reviews := reviewsVos(rModels)
 	dataModel.Put("Reviews", reviews)
 	dataModel.Put("Pagination", pagination)
-
-	c.HTML(http.StatusOK, "review-waiting.html", dataModel)
+	dataModel.Put("Type", "Waiting")
+	c.HTML(http.StatusOK, "reviews.html", dataModel)
 }
 
 func showPassedReviewsAction(c *gin.Context) {
@@ -50,8 +67,8 @@ func showPassedReviewsAction(c *gin.Context) {
 	reviews := reviewsVos(rModels)
 	dataModel.Put("Reviews", reviews)
 	dataModel.Put("Pagination", pagination)
-
-	c.HTML(http.StatusOK, "review-passed.html", dataModel)
+	dataModel.Put("Type", "Passed")
+	c.HTML(http.StatusOK, "reviews.html", dataModel)
 }
 
 func showRejectedReviewsAction(c *gin.Context) {
@@ -62,6 +79,6 @@ func showRejectedReviewsAction(c *gin.Context) {
 	reviews := reviewsVos(rModels)
 	dataModel.Put("Reviews", reviews)
 	dataModel.Put("Pagination", pagination)
-
-	c.HTML(http.StatusOK, "review-rejected.html", dataModel)
+	dataModel.Put("Type", "Rejected")
+	c.HTML(http.StatusOK, "reviews.html", dataModel)
 }
