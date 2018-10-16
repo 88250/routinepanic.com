@@ -36,10 +36,11 @@
   }
 
   &__link {
-    color: #666;
+    color: $gray;
     float: right;
     line-height: 59px;
     padding: 0 12px;
+    font-size: 14px;
     transition: $transition;
     &:hover {
       background-color: #fafafa;

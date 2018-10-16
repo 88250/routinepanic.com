@@ -1,4 +1,4 @@
-{{define "review-waiting.html"}}
+{{define "reviews.html"}}
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,72 +23,76 @@
 </svg>
 {{template "nav" .}}
 <div class="fn-content fn-wrap">
-    <div class="side">
-        <a href=""></a>
-    </div>
-    <div class="fn-flex-1">
-        {{if ne 0 (len .Reviews)}}
-        {{range .Reviews}}
-        <article class="list__item">
-            <header class="fn-flex">
-                <svg class="review__icon">
-                    <use xlink:href="#icon{{if eq 0 .DataType}}Question{{else}}Answer{{end}}"></use>
-                </svg>
-                <h2 class="fn-flex-1">
-                    <a href="{{.URL}}" class="question__title"> {{.OldTitle}}</a>
-                </h2>
-                {{if eq 0 .Status}}
-                <a href="details/{{.ID}}">
-                    <svg class="review__action">
-                        <use xlink:href="#iconCheck"></use>
+    <div class="fn-flex">
+        <div class="side">
+            <a{{if eq "Waiting" .Type}} class="side__item--current"{{end}} href="{{.Conf.Server}}/reviews/waiting">等待审核</a>
+            <a{{if eq "Passed" .Type}} class="side__item--current"{{end}} href="{{.Conf.Server}}/reviews/passed">审核通过</a>
+            <a{{if eq "Rejected" .Type}} class="side__item--current"{{end}} href="{{.Conf.Server}}/reviews/rejected">审核拒绝</a>
+        </div>
+        <div class="fn-flex-1">
+            {{if ne 0 (len .Reviews)}}
+            {{range .Reviews}}
+            <article class="list__item">
+                <header class="fn-flex">
+                    <svg class="review__icon">
+                        <use xlink:href="#icon{{if eq 0 .DataType}}Question{{else}}Answer{{end}}"></use>
                     </svg>
-                </a>
-                {{end}}
-            </header>
-            <div class="fn-flex">
-                <a class="avatar avatar--mid review__avatar"
-                   href="https://hacpai.com/member/{{.Contributor.Name}}"
-                   style="background-image: url('{{.Contributor.Avatar}}')"></a>
-                <div class="fn-flex-1 ft-12 ft-fade">
-                    <div>
-                        贡献值 {{.Distance}} • 差异比 {{.JaroWinkler}}
-                        {{if ne "" .Memo}}
-                        • {{.CreatedAt}}
-                        {{end}}
-                    </div>
-                    <div class="fn-hr6"></div>
-                    <div>
-                        {{if eq "" .Memo}}
-                        {{.CreatedAt}}
-                        {{else}}
-                        {{.Memo}}
-                        {{end}}
+                    <h2 class="fn-flex-1">
+                        <a href="{{.URL}}" class="question__title"> {{.OldTitle}}</a>
+                    </h2>
+                    {{if eq 0 .Status}}
+                    <a href="details/{{.ID}}">
+                        <svg class="review__action">
+                            <use xlink:href="#iconCheck"></use>
+                        </svg>
+                    </a>
+                    {{end}}
+                </header>
+                <div class="fn-flex">
+                    <a class="avatar avatar--mid review__avatar"
+                       href="https://hacpai.com/member/{{.Contributor.Name}}"
+                       style="background-image: url('{{.Contributor.Avatar}}')"></a>
+                    <div class="fn-flex-1 ft-12 ft-fade">
+                        <div>
+                            贡献值 {{.Distance}} • 差异比 {{.JaroWinkler}}
+                            {{if ne "" .Memo}}
+                            • {{.CreatedAt}}
+                            {{end}}
+                        </div>
+                        <div class="fn-hr6"></div>
+                        <div>
+                            {{if eq "" .Memo}}
+                            {{.CreatedAt}}
+                            {{else}}
+                            {{.Memo}}
+                            {{end}}
+                        </div>
                     </div>
                 </div>
+            </article>
+            {{end}}
+            <div class="fn-clear">
+                <nav class="pagination fn-right">
+                    <a aria-label="上一页"
+                       class="pagination__item{{if lt .Pagination.PreviousPageNum 1}} pagination__item--disabled{{end}}"
+                       href="?p={{.Pagination.PreviousPageNum}}">
+                        上一页
+                    </a>
+                    {{range .Pagination.PageNums}}
+                    <a class="pagination__item{{if eq $.Pagination.CurrentPageNum .}} pagination__item--current{{end}}"
+                       href="?p={{.}}">{{.}}</a>
+                    {{end}}
+                    <a aria-label="下一页"
+                       class="pagination__item{{if lt .Pagination.NextPageNum 1}} pagination__item--disabled{{end}}"
+                       href="?p={{.Pagination.NextPageNum}}">
+                        下一页
+                    </a>
+                </nav>
             </div>
-        </article>
-        {{end}}
-        <div class="fn-clear">
-            <nav class="pagination fn-right">
-                <a aria-label="上一页"
-                   class="pagination__item{{if lt .Pagination.PreviousPageNum 1}} pagination__item--disabled{{end}}"
-                   href="?p={{.Pagination.PreviousPageNum}}">
-                    上一页
-                </a>
-                {{range .Pagination.PageNums}}
-                <a class="pagination__item{{if eq $.Pagination.CurrentPageNum .}} pagination__item--current{{end}}"
-                   href="?p={{.}}">{{.}}</a>
-                {{end}}
-                <a aria-label="下一页"
-                   class="pagination__item{{if lt .Pagination.NextPageNum 1}} pagination__item--disabled{{end}}"
-                   href="?p={{.Pagination.NextPageNum}}">
-                    下一页
-                </a>
-            </nav>
+            {{else}}
+            <a href="{{.Conf.Server}}">参与贡献</a>
+            {{end}}
         </div>
-        {{else}}
-        <a href="{{.Conf.Server}}">参与贡献</a>
-        {{end}}
     </div>
     {{template "footer" .}}
 </div>
