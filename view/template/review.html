@@ -2,9 +2,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-{{template "head" .}}
+    {{template "head" .}}
     <link type="text/css" rel="stylesheet"
-          href="{{.Conf.StaticServer}}/css/reviews.css?{{.Conf.StaticResourceVersion}}"/>
+          href="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/codemirror.min.css"/>
+    <link type="text/css" rel="stylesheet"
+          href="{{.Conf.StaticServer}}/css/contri.css?{{.Conf.StaticResourceVersion}}"/>
 </head>
 <body>
 <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1"
@@ -19,54 +21,74 @@
         <symbol id="iconAnswer" viewBox="0 0 24 24">
             <path d="M22.36 10.633l1.64 1.64-11.098 11.098-5.904-5.959 1.64-1.64 4.264 4.319zM4.647 9.977h4.811l-2.405-6.451zM11.699 15.772l-1.367-3.499h-6.56l-1.312 3.499h-2.46l5.959-15.144h2.187l5.959 15.144h-2.405z"></path>
         </symbol>
+        <symbol id="iconVice" viewBox="0 0 24 24">
+            <path d="M21.514 6.009c-0.153-0.156-0.365-0.252-0.6-0.252s-0.447 0.096-0.6 0.252l-0 0c-0.159 0.147-0.258 0.356-0.258 0.589s0.099 0.442 0.257 0.589l0.001 0c1.2 1.176 1.972 2.86 1.972 4.792 0 1.936-0.772 3.534-1.972 4.794-0.159 0.147-0.258 0.356-0.258 0.589s0.099 0.442 0.257 0.589l0.001 0c0.153 0.156 0.365 0.252 0.6 0.252s0.447-0.096 0.6-0.252l0-0c1.535-1.508 2.486-3.605 2.486-5.925 0-0.016-0-0.033-0-0.049l0 0.003c0-0.013 0-0.029 0-0.045 0-2.32-0.951-4.417-2.485-5.924l-0.001-0.001zM19.028 8.449c-0.153-0.156-0.365-0.252-0.6-0.252s-0.447 0.096-0.6 0.252l-0 0c-0.158 0.147-0.257 0.356-0.257 0.588s0.099 0.441 0.256 0.588l0 0c0.6 0.588 1.030 1.43 1.030 2.354 0 0.926-0.344 1.766-1.030 2.356-0.159 0.147-0.258 0.356-0.258 0.589s0.099 0.442 0.257 0.589l0.001 0c0.153 0.156 0.365 0.252 0.6 0.252s0.447-0.096 0.6-0.252l0-0c0.944-0.926 1.544-2.188 1.544-3.534 0-1.344-0.6-2.69-1.544-3.532zM13.2 2.307l-6.342 3.786v11.774l6.342 3.784c1.2 0.758 2.228 0.168 2.228-1.178v-16.904c0-1.428-1.028-1.934-2.228-1.26zM0 8.613v6.728c0 1.43 1.114 2.524 2.572 2.524h2.568v-11.772h-2.568c-1.458 0-2.572 1.094-2.572 2.52z"></path>
+        </symbol>
     </defs>
 </svg>
 {{template "nav" .}}
 <div class="fn-content fn-wrap">
-    <div class="fn-flex-1">
-        <article class="list__item">
-            <header class="fn-flex">
-                <svg class="review__icon">
-                    <use xlink:href="#icon{{if eq 0 .Review.DataType}}Question{{else}}Answer{{end}}"></use>
-                </svg>
-                <h2 class="fn-flex-1">
-                    <a href="{{.Review.URL}}" class="question__title"> {{.Review.OldTitle}}</a>
-                </h2>
-            {{if eq 0 .Review.Status}}
-                <a href="{{.Review.DataID}}">
-                    <svg class="review__action">
-                        <use xlink:href="#iconCheck"></use>
-                    </svg>
-                </a>
-            {{end}}
-            </header>
-            <div class="fn-flex">
-                <a class="avatar avatar--mid review__avatar"
-                   href="https://hacpai.com/member/{{.Review.Contributor.Name}}"
-                   style="background-image: url('{{.Review.Contributor.Avatar}}')"></a>
-                <div class="fn-flex-1 ft-12 ft-fade">
-                    <div>
-                        贡献值 {{.Review.Distance}} • 差异比 {{.Review.JaroWinkler}}
+    <div class="form fn-flex-1 list__item contri__form">
+        {{if eq 0 .Review.DataType}}
+        <div class="fn-flex">
+            <input type="text" class="fn-flex-1" value="{{.Review.OldTitle}}" disabled>
+            <div class="contri__diff"></div>
+            <input type="text" class="fn-flex-1"
+                   value="{{.Review.Title}}"
+                   name="title">
+        </div>
+        <div class="fn-hr"></div>
+        {{end}}
+        <div class="fn-relative fn-clear">
+            <div id="dictionary"></div>
+            <button type="button" class="fn-right" onclick="preview()">预览</button>
+        </div>
+        <div class="fn-hr"></div>
+        <div class="fn-relative">
+            <div class="contri__preview content-reset" id="contriPreview"></div>
+        </div>
+
+        <div id="content" class="fn-flex-1"></div>
+        <textarea id="contentEn" class="fn-none">{{.Review.OldContent}}</textarea>
+        <textarea id="contentZh" class="fn-none">{{.Review.Content}}</textarea>
+        <textarea id="contentValue" class="fn-none" name="content">{{.Review.Content}}</textarea>
+        <div class="fn-hr"></div>
+        <input placeholder="备注" name="memo" type="text">
+        <div class="fn-hr"></div>
+        <div class="fn-flex">
+            <a class="avatar avatar--mid avatar--right tooltipped tooltipped--n"
+               aria-label="{{.Review.Contributor.Name}}"
+               href="https://hacpai.com/member/{{.Review.Contributor.Name}}"
+               style="background-image: url('{{.Review.Contributor.Avatar}}')"></a>
+            <div class="fn-flex-1 ft-12 ft-fade">
+                <div>
+                    贡献值 {{.Review.Distance}} • 差异比 {{.Review.JaroWinkler}}
                     {{if ne "" .Review.Memo}}
-                        • {{.Review.CreatedAt}}
+                    • {{.Review.CreatedAt}}
                     {{end}}
-                    </div>
-                    <div class="fn-hr6"></div>
-                    <div>
+                </div>
+                <div class="fn-hr6"></div>
+                <div>
                     {{if eq "" .Review.Memo}}
-                        {{.Review.CreatedAt}}
-                        {{else}}
-                        {{.Review.Memo}}
-                        {{end}}
-                    </div>
-                    {{.Review.OldTitle}} - {{.Review.Title}} <br>
-                {{.Review.OldContent}} - {{.Review.Content}}
+                    {{.Review.CreatedAt}}
+                    {{else}}
+                    {{.Review.Memo}}
+                    {{end}}
                 </div>
             </div>
-        </article>
+
+            <div class="fn-flex-center">
+                <button type="submit" class="btn--red">拒绝</button>
+                <div class="fn-space"></div>
+                <button type="submit">通过</button>
+            </div>
+        </div>
     </div>
-{{template "footer" .}}
 </div>
+<script src="{{.Conf.StaticServer}}/js/lib/codemirror-5.40.2/codemirror.min.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/jquery-3.3.1.min.js"></script>
+<script src="{{.Conf.StaticServer}}/js/lib/highlight.min.js"></script>
+<script src="{{.Conf.StaticServer}}/js/contri.js"></script>
 </body>
 </html>
 {{end}}
