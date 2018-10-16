@@ -7,5 +7,6 @@
   "SessionSecret": "BEYOND",
   "SessionMaxAge": 86400,
   "MySQL": "root:123456@(localhost:3306)/rp?charset=utf8mb4&parseTime=True&loc=Local",
-  "Port": "5858"
+  "Port": "5858",
+  "BaiduToken": ""
 }

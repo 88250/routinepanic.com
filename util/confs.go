@@ -63,6 +63,7 @@ type Configuration struct {
 	RuntimeMode           string // runtime mode (dev/prod)
 	MySQL                 string // MySQL connection URL
 	Port                  string // listen port
+	BaiduToken            string // baidu search push token
 }
 
 // LoadConf loads the configurations. Command-line arguments will override configuration file.
@@ -76,6 +77,7 @@ func LoadConf() {
 	confRuntimeMode := flag.String("runtime_mode", "", "this will override Conf.RuntimeMode if specified")
 	confMySQL := flag.String("mysql", "", "this will override Conf.MySQL if specified")
 	confPort := flag.String("port", "", "this will override Conf.Port if specified")
+	confBaiduToken := flag.String("baidu_token", "", "this will override Conf.BaiduToken if specified")
 
 	flag.Parse()
 
@@ -135,6 +137,10 @@ func LoadConf() {
 
 	if "" != *confPort {
 		Conf.Port = *confPort
+	}
+
+	if "" != *confBaiduToken {
+		Conf.BaiduToken = *confBaiduToken
 	}
 
 	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
