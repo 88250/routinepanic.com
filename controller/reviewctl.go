@@ -21,7 +21,7 @@ func ReviewAction(c *gin.Context) {
 	}
 
 	session := util.GetSession(c)
-	if "88250" != session.UName {
+	if "88250" != session.UName || "Vanessa" != session.UName {
 		c.Status(http.StatusUnauthorized)
 
 		return
@@ -46,7 +46,7 @@ func ReviewAction(c *gin.Context) {
 	review.ReviewerID = session.UID
 
 	if passed {
-		if err := service.Review.PassReview(review); nil != err {
+		if err := service.Review.PassReview(review, arg); nil != err {
 			logger.Errorf("pass review failed: %s", err.Error())
 			c.Status(http.StatusInternalServerError)
 

@@ -37,7 +37,7 @@ func (srv *reviewService) RejectReview(review *model.Review) (err error) {
 	return nil
 }
 
-func (srv *reviewService) PassReview(review *model.Review) (err error) {
+func (srv *reviewService) PassReview(review *model.Review, arg map[string]interface{}) (err error) {
 	revision := QnA.GetRevision(review.RevisionID)
 
 	tx := db.Begin()
@@ -61,7 +61,10 @@ func (srv *reviewService) PassReview(review *model.Review) (err error) {
 		return
 	}
 
+	data["content"] = arg["content"].(string)
+
 	if model.DataTypeQuestion == revision.DataType {
+		data["title"] = arg["title"].(string)
 		question := QnA.GetQuestionByID(revision.DataID)
 		question.ContentZhCN = data["content"].(string)
 		question.TitleZhCN = data["title"].(string)
@@ -74,6 +77,12 @@ func (srv *reviewService) PassReview(review *model.Review) (err error) {
 		if err = tx.Update(answer).Error; nil != err {
 			return
 		}
+	}
+
+	revisionBytes, _ := json.Marshal(data)
+	revision.Data = string(revisionBytes)
+	if err = tx.Update(revision).Error; nil != err {
+		return
 	}
 
 	return nil
