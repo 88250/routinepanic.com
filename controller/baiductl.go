@@ -24,7 +24,7 @@ func submitURL(c *gin.Context) {
 
 		urls := ""
 		for _, question := range questions {
-			urls += "https://routinepanic.com/questions/" + question.Path + "\n"
+			urls += util.Conf.Server + "/questions/" + question.Path + "\n"
 		}
 
 		_, data, errors := gorequest.New().Post("http://data.zz.baidu.com/urls?site=routinepanic.com&token=y82YmzUKXO9JZUAr").
