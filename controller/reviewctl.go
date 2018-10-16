@@ -22,7 +22,7 @@ func ReviewAction(c *gin.Context) {
 	}
 
 	session := util.GetSession(c)
-	if "88250" != session.UName && "Vanessa" != session.UName {
+	if util.RoleReviewer != session.URole {
 		c.Status(http.StatusUnauthorized)
 
 		return

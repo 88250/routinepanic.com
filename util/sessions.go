@@ -10,11 +10,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const (
+	RoleNormal = iota
+	RoleReviewer
+)
+
 // SessionData represents the session.
 type SessionData struct {
 	UID     uint64 // user id
 	UName   string // username
 	UAvatar string // user avatar URL
+	URole   int    // 0: normal user, 1: reviewer
 }
 
 // Save saves the current session of the specified context.

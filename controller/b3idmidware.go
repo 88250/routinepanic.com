@@ -4,12 +4,13 @@
 package controller
 
 import (
-	"github.com/b3log/routinepanic.com/model"
-	"github.com/b3log/routinepanic.com/service"
 	"net/http"
 	"net/url"
 	"strings"
 	"time"
+
+	"github.com/b3log/routinepanic.com/model"
+	"github.com/b3log/routinepanic.com/service"
 
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/gin-gonic/gin"
@@ -52,8 +53,8 @@ func fillUser(c *gin.Context) {
 		return
 	default:
 		result := util.NewResult()
-		_, _, errs := gorequest.New().Get("https://hacpai.com/apis/check-b3-identity?b3id=" + b3id).
-			Set("user-agent", util.UserAgent).Timeout(5 * time.Second).
+		_, _, errs := gorequest.New().Get("https://hacpai.com/apis/check-b3-identity?b3id="+b3id).
+			Set("user-agent", util.UserAgent).Timeout(5*time.Second).
 			Retry(3, 2*time.Second, http.StatusInternalServerError).EndStruct(result)
 		if nil != errs {
 			logger.Errorf("check b3 identity failed: %s", errs)
@@ -81,10 +82,16 @@ func fillUser(c *gin.Context) {
 			result.Msg = "saves user failed: " + err.Error()
 		}
 
+		role := util.RoleNormal
+		if "88250" == user.Name || "Vanessa" == user.Name {
+			role = util.RoleReviewer
+		}
+
 		session = &util.SessionData{
 			UID:     user.ID,
 			UName:   user.Name,
 			UAvatar: user.Avatar,
+			URole:   role,
 		}
 
 		if err := session.Save(c); nil != err {
