@@ -6,6 +6,7 @@ package service
 import (
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/b3log/routinepanic.com/util"
+	"time"
 )
 
 // Review service.
@@ -14,8 +15,28 @@ var Review = &reviewService{}
 type reviewService struct {
 }
 
-func (srv *reviewService) PassReview() {
+func (srv *reviewService) PassReview(review *model.Review) (err error) {
+	revision := QnA.GetRevision(review.RevisionID)
 
+	tx := db.Begin()
+	defer func() {
+		if err == nil {
+			tx.Commit()
+		} else {
+			tx.Rollback()
+		}
+	}()
+
+	review.ReviewedAt = time.Now()
+	review.Status = model.ReviewStatusPassed
+
+	if err = tx.Update(review).Error; nil != err {
+		return
+	}
+
+	_ = revision
+
+	return
 }
 
 func (srv *reviewService) GetReviewByID(id uint64) (ret *model.Review) {

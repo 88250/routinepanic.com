@@ -57,9 +57,8 @@ func showContriAction(c *gin.Context) {
 			return
 		}
 
-		dataModel.Put("Question", question)
-
-		c.HTML(http.StatusOK, "contri-question.html", dataModel)
+		dataModel.Put("Contri", question)
+		dataModel.Put("Type", "Question")
 	} else {
 		answer := service.QnA.GetAnswerByID(dataId)
 		if nil == answer {
@@ -68,10 +67,11 @@ func showContriAction(c *gin.Context) {
 			return
 		}
 
-		dataModel.Put("Answer", answer)
-
-		c.HTML(http.StatusOK, "contri-answer.html", dataModel)
+		dataModel.Put("Contri", answer)
+		dataModel.Put("Type", "Answer")
 	}
+
+	c.HTML(http.StatusOK, "contri.html", dataModel)
 }
 
 func contriAction(c *gin.Context) {

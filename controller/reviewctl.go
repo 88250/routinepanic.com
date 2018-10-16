@@ -14,6 +14,19 @@ import (
 )
 
 func ReviewAction(c *gin.Context) {
+	if !util.IsLoggedIn(c) {
+		c.Status(http.StatusUnauthorized)
+
+		return
+	}
+
+	session := util.GetSession(c)
+	if "88250" != session.UName {
+		c.Status(http.StatusUnauthorized)
+
+		return
+	}
+
 	result := util.NewResult()
 	defer c.JSON(http.StatusOK, result)
 
@@ -33,9 +46,9 @@ func ReviewAction(c *gin.Context) {
 	_ = memo
 
 	review := service.Review.GetReviewByID(id)
-	revision := service.QnA.GetRevision(review.RevisionID)
-	_ = revision
+	review.ReviewerID = session.UID
 
+	service.Review.PassReview(review)
 }
 
 func showReviewAction(c *gin.Context) {
