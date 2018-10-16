@@ -23,25 +23,28 @@
 </svg>
 {{template "nav" .}}
 <div class="fn-content fn-wrap">
-    <div class="fn-flex">
+    <div class="fn-flex fn-flex-1">
         <div class="side">
             <a{{if eq "Waiting" .Type}} class="side__item--current"{{end}} href="{{.Conf.Server}}/reviews/waiting">等待审核</a>
             <a{{if eq "Passed" .Type}} class="side__item--current"{{end}} href="{{.Conf.Server}}/reviews/passed">审核通过</a>
             <a{{if eq "Rejected" .Type}} class="side__item--current"{{end}} href="{{.Conf.Server}}/reviews/rejected">审核拒绝</a>
         </div>
-        <div class="fn-flex-1">
+        <div class="fn-flex-1{{if eq 0 (len .Reviews)}} fn-center-center{{end}}">
             {{if ne 0 (len .Reviews)}}
             {{range .Reviews}}
             <article class="list__item">
                 <header class="fn-flex">
-                    <svg class="review__icon">
-                        <use xlink:href="#icon{{if eq 0 .DataType}}Question{{else}}Answer{{end}}"></use>
-                    </svg>
+                    <div class="review__icon tooltipped--n tooltipped"
+                         aria-label="{{if eq 0 .DataType}}问题{{else}}回答{{end}}">
+                        <svg>
+                            <use xlink:href="#icon{{if eq 0 .DataType}}Question{{else}}Answer{{end}}"></use>
+                        </svg>
+                    </div>
                     <h2 class="fn-flex-1">
                         <a href="{{.URL}}" class="question__title"> {{.OldTitle}}</a>
                     </h2>
                     {{if eq 0 .Status}}
-                    <a href="details/{{.ID}}">
+                    <a href="details/{{.ID}}" class="tooltipped--n tooltipped" aria-label="审核">
                         <svg class="review__action">
                             <use xlink:href="#iconCheck"></use>
                         </svg>
@@ -49,7 +52,8 @@
                     {{end}}
                 </header>
                 <div class="fn-flex">
-                    <a class="avatar avatar--mid review__avatar"
+                    <a class="avatar avatar--mid review__avatar tooltipped tooltipped--n"
+                       aria-label="{{.Contributor.Name}}"
                        href="https://hacpai.com/member/{{.Contributor.Name}}"
                        style="background-image: url('{{.Contributor.Avatar}}')"></a>
                     <div class="fn-flex-1 ft-12 ft-fade">
@@ -90,7 +94,9 @@
                 </nav>
             </div>
             {{else}}
-            <a href="{{.Conf.Server}}">参与贡献</a>
+            <div class="ft-fade">
+                暂无数据，<a href="{{.Conf.Server}}">参与贡献</a>
+            </div>
             {{end}}
         </div>
     </div>

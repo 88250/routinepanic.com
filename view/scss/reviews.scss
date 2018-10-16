@@ -8,9 +8,11 @@
 
 .review {
   &__icon {
-    height: 16px;
-    width: 16px;
     margin: 8px 6px 0 0;
+    svg {
+      height: 16px;
+      width: 16px;
+    }
   }
 
   &__action {
