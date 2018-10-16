@@ -32,7 +32,7 @@
                     <use xlink:href="#icon{{if eq 0 .DataType}}Question{{else}}Answer{{end}}"></use>
                 </svg>
                 <h2 class="fn-flex-1">
-                    <a href="{{.URL}}" class="question__title"> {{.Title}}</a>
+                    <a href="{{.URL}}" class="question__title"> {{.OldTitle}}</a>
                 </h2>
                 {{if eq 0 .Status}}
                 <a href="details/{{.ID}}">
