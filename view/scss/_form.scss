@@ -49,6 +49,17 @@
   padding-top: 5px;
 }
 
+.btn {
+  &--red {
+    color: $red;
+    &:hover {
+      color: #FFF;
+      border-color: $red;
+      background-color: $red;
+    }
+  }
+}
+
 button {
   cursor: pointer;
   color: $black;
