@@ -4,10 +4,10 @@
 package controller
 
 import (
-	"github.com/b3log/routinepanic.com/model"
 	"net/http"
 	"strconv"
 
+	"github.com/b3log/routinepanic.com/model"
 	"github.com/b3log/routinepanic.com/service"
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/gin-gonic/gin"
@@ -39,16 +39,29 @@ func ReviewAction(c *gin.Context) {
 	}
 
 	passed := arg["passed"].(bool)
-	memo := arg["memo"].(string)
 	idStr := c.Param("id")
 	id, _ := strconv.ParseUint(idStr, 0, 64)
-	_ = passed
-	_ = memo
 
 	review := service.Review.GetReviewByID(id)
 	review.ReviewerID = session.UID
 
-	service.Review.PassReview(review)
+	if passed {
+		if err := service.Review.PassReview(review); nil != err {
+			logger.Errorf("pass review failed: %s", err.Error())
+			c.Status(http.StatusInternalServerError)
+
+			return
+		}
+	} else {
+		memo := arg["memo"].(string)
+		review.Memo = memo
+		if err := service.Review.RejectReview(review); nil != err {
+			logger.Errorf("reject review failed: %s", err.Error())
+			c.Status(http.StatusInternalServerError)
+
+			return
+		}
+	}
 }
 
 func showReviewAction(c *gin.Context) {
