@@ -28,6 +28,8 @@ func ReviewAction(c *gin.Context) {
 	passed := arg["passed"].(bool)
 	memo := arg["memo"].(string)
 
+	_ = passed
+	_ = memo
 }
 
 func showReviewAction(c *gin.Context) {
