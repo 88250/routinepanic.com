@@ -81,13 +81,6 @@ func contriAction(c *gin.Context) {
 		return
 	}
 
-	password := c.PostForm("password")
-	if "rp" != password {
-		c.Status(http.StatusForbidden)
-
-		return
-	}
-
 	dataTypeStr := c.Param("dataType")
 	dataType := model.DataTypeQuestion
 	if "answers" == dataTypeStr {
