@@ -92,7 +92,6 @@ func contriAction(c *gin.Context) {
 
 	session := util.GetSession(c)
 	author := service.User.Get(session.UID)
-	questionPath := ""
 
 	if model.DataTypeQuestion == dataType {
 		question := service.QnA.GetQuestionByID(dataId)
@@ -111,8 +110,6 @@ func contriAction(c *gin.Context) {
 
 			return
 		}
-
-		questionPath = question.Path
 	} else {
 		answer := service.QnA.GetAnswerByID(dataId)
 		if nil == answer {
@@ -127,7 +124,6 @@ func contriAction(c *gin.Context) {
 
 			return
 		}
-		questionPath = question.Path
 
 		answer.ContentZhCN = dataContent
 		if err := service.QnA.ContriAnswer(author, answer); nil != err {
@@ -138,5 +134,5 @@ func contriAction(c *gin.Context) {
 		}
 	}
 
-	c.Redirect(http.StatusSeeOther, util.Conf.Server+"/questions/"+questionPath)
+	c.Redirect(http.StatusSeeOther, util.Conf.Server+"/reviews/waiting")
 }
