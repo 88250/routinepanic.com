@@ -1,7 +1,6 @@
 package util
 
 import (
-	"net/url"
 	"time"
 
 	"github.com/parnurzeal/gorequest"
@@ -12,8 +11,7 @@ func PushBaidu(urls string) {
 		return
 	}
 
-	baiduURL := "http://data.zz.baidu.com/urls?site=" + url.QueryEscape(Conf.Server) +
-		"&token=" + url.QueryEscape(Conf.BaiduToken)
+	baiduURL := "http://data.zz.baidu.com/urls?site=" + Conf.Server + "&token=" + Conf.BaiduToken
 	logger.Info(baiduURL)
 	_, data, errors := gorequest.New().Post(baiduURL).
 		AppendHeader("User-Agent", "curl/7.12.1").
