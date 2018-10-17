@@ -16,8 +16,9 @@ func PushBaidu(urls string) {
 		urls += "\n"
 	}
 
-	baiduURL := "http://data.zz.baidu.com/urls?site=" + Conf.Server + "&token=" + Conf.BaiduToken
-	logger.Info(baiduURL)
+	site := Conf.Server
+	site = site[strings.Index(site, "://")+len("://"):]
+	baiduURL := "http://data.zz.baidu.com/urls?site=" + site + "&token=" + Conf.BaiduToken
 	_, data, errors := gorequest.New().Post(baiduURL).
 		AppendHeader("User-Agent", "curl/7.12.1").
 		AppendHeader("Host", "data.zz.baidu.com").
