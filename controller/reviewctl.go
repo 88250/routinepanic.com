@@ -64,14 +64,20 @@ func ReviewAction(c *gin.Context) {
 		}
 	}
 
+	url := ""
 	revision := service.QnA.GetRevision(review.RevisionID)
 	if model.DataTypeQuestion == revision.DataType {
 		question := service.QnA.GetQuestionByID(revision.DataID)
-		result.Data = util.Conf.Server + "/questions/" + question.Path
+		url = util.Conf.Server + "/questions/" + question.Path
 	} else {
 		answer := service.QnA.GetAnswerByID(revision.DataID)
 		question := service.QnA.GetQuestionByID(answer.QuestionID)
-		result.Data = fmt.Sprintf(util.Conf.Server+"/questions/"+question.Path+"/answers/%d", answer.ID)
+		url = fmt.Sprintf(util.Conf.Server+"/questions/"+question.Path+"/answers/%d", answer.ID)
+	}
+	result.Data = url
+
+	if passed {
+		util.PushBaidu(url)
 	}
 }
 
