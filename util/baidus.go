@@ -13,7 +13,7 @@ func PushBaidu(urls string) {
 	}
 
 	_, data, errors := gorequest.New().Post("http://data.zz.baidu.com/urls?site="+url.QueryEscape(Conf.Server)+
-		url.QueryEscape("&token="+Conf.BaiduToken)).
+		"&token="+url.QueryEscape(Conf.BaiduToken)).
 		AppendHeader("User-Agent", "curl/7.12.1").
 		AppendHeader("Host", "data.zz.baidu.com").
 		AppendHeader("Content-Type", "text/plain").Timeout(10 * time.Second).Send(urls).EndBytes()
