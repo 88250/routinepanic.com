@@ -1,6 +1,7 @@
 package util
 
 import (
+	"strings"
 	"time"
 
 	"github.com/parnurzeal/gorequest"
@@ -9,6 +10,10 @@ import (
 func PushBaidu(urls string) {
 	if "" == Conf.BaiduToken {
 		return
+	}
+
+	if !strings.HasSuffix(urls, "\n") {
+		urls += "\n"
 	}
 
 	baiduURL := "http://data.zz.baidu.com/urls?site=" + Conf.Server + "&token=" + Conf.BaiduToken
