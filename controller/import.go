@@ -28,7 +28,12 @@ func importSO(c *gin.Context) {
 	importing = true
 	qnas := spider.StackOverflow.ParseQuestionsByVotes(page, 50)
 
+	var importQnas []*spider.QnA
 	for _, qna := range qnas {
+		if service.QnA.Translated(qna) {
+			continue
+		}
+
 		qna.Question.TitleZhCN = service.Translation.Translate(qna.Question.TitleEnUS, "text")
 		qna.Question.ContentZhCN = service.Translation.Translate(qna.Question.ContentEnUS, "html")
 		for _, a := range qna.Answers {
@@ -36,9 +41,10 @@ func importSO(c *gin.Context) {
 		}
 
 		logger.Info("translated a QnA [" + qna.Question.TitleEnUS + ", " + qna.Question.TitleZhCN + "]")
+		importQnas = append(importQnas, qna)
 	}
 
-	if err := service.QnA.AddAll(qnas); nil != err {
+	if err := service.QnA.AddAll(importQnas); nil != err {
 		logger.Errorf("add QnAs failed: " + err.Error())
 	}
 

@@ -270,6 +270,10 @@ func (srv *qnaService) Add(qna *spider.QnA) (err error) {
 }
 
 func (srv *qnaService) add(tx *gorm.DB, qna *spider.QnA) (err error) {
+	if srv.Translated(qna) {
+		return
+	}
+
 	if err = tx.Where("`source_id` = ? AND `source` = ?", qna.Question.SourceID, qna.Question.Source).
 		Assign(model.Question{
 			TitleEnUS:   qna.Question.TitleEnUS,
@@ -278,7 +282,7 @@ func (srv *qnaService) add(tx *gorm.DB, qna *spider.QnA) (err error) {
 			ContentEnUS: qna.Question.ContentEnUS,
 			ContentZhCN: qna.Question.ContentZhCN,
 			SourceURL:   qna.Question.SourceURL,
-		}).FirstOrCreate(qna.Question).Error; nil != err {
+		}).Create(qna.Question).Error; nil != err {
 		return
 	}
 
@@ -323,6 +327,24 @@ func (srv *qnaService) TagAll(questions []*model.Question) (err error) {
 	}
 
 	return nil
+}
+
+func (src *qnaService) Translated(qna *spider.QnA) (exists bool) {
+	old := &model.Question{}
+	if err := db.Model(old).Where("`source_id` = ? AND `source` = ?", qna.Question.SourceID, qna.Question.Source).
+		Find(old).Error; nil != err && gorm.ErrRecordNotFound != err {
+		logger.Error("checks translation failed: " + err.Error())
+
+		return true
+	}
+
+	if 0 < len(old.TitleZhCN) || 0 < len(old.ContentZhCN) {
+		logger.Warn("question [" + old.TitleZhCN + "] exists")
+
+		return true
+	}
+
+	return false
 }
 
 func (srv *qnaService) UpdateSourceAll(qnas []*spider.QnA) (err error) {
