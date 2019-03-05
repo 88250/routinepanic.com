@@ -327,10 +327,20 @@
 			"revisionTime": "2018-10-11T05:27:23Z"
 		},
 		{
+			"checksumSHA1": "W+3cWL5KjepzF1XvyMSBUYfa8x8=",
+			"path": "golang.org/x/net/internal/socks",
+			"revision": ""
+		},
+		{
 			"checksumSHA1": "UxahDzW2v4mf/+aFxruuupaoIwo=",
 			"path": "golang.org/x/net/internal/timeseries",
 			"revision": "49bb7cea24b1df9410e1712aa6433dae904ff66a",
 			"revisionTime": "2018-10-11T05:27:23Z"
+		},
+		{
+			"checksumSHA1": "UrFs0T7kkYsUxJG5bsJt7KB8ejI=",
+			"path": "golang.org/x/net/proxy",
+			"revision": ""
 		},
 		{
 			"checksumSHA1": "r6aEFdHvXVXum48wmH6hrEZgqAk=",
