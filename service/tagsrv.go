@@ -1,9 +1,6 @@
 // 协慌网 https://routinepanic.com
 // Copyright (C) 2018-2019, b3log.org
 
-// 协慌网 https://routinepanic.com
-// Copyright (C) 2018, b3log.org
-
 package service
 
 import "github.com/b3log/routinepanic.com/model"
