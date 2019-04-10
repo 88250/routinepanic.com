@@ -24,15 +24,15 @@ func importSO(c *gin.Context) {
 		return
 	}
 
+	logger.Infof("parsing questions [page="+pStr+", importing=%v]", importing)
 	if importing {
 		return
 	}
 
 	importing = true
 	defer func() { importing = false }()
-	logger.Info("parsing questions [page=" + pStr + "]")
 	qnas := spider.StackOverflow.ParseQuestionsByVotes(page, 50)
-	logger.Info("parsed questions [page=" + pStr + "]")
+	logger.Infof("parsed questions [page=" + pStr + "]")
 
 	var importQnas []*spider.QnA
 	for _, qna := range qnas {
