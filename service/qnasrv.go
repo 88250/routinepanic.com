@@ -20,6 +20,32 @@ var QnA = &qnaService{}
 type qnaService struct {
 }
 
+func (srv *qnaService) UpdateAnswer(answer *model.Answer) (err error) {
+	tx := db.Begin()
+	defer func() {
+		if err == nil {
+			tx.Commit()
+		} else {
+			tx.Rollback()
+		}
+	}()
+
+	if err = srv.updateAnswer(tx, answer); nil != err {
+		return
+	}
+
+	return nil
+}
+
+func (srv *qnaService) updateAnswer(tx *gorm.DB, answer *model.Answer) (err error) {
+	if err = tx.Model(&model.Answer{}).Where("`id` = ?", answer.ID).
+		Update(answer).Error; nil != err {
+		return
+	}
+
+	return nil
+}
+
 func (srv *qnaService) UpdateQuestion(question *model.Question) (err error) {
 	tx := db.Begin()
 	defer func() {
@@ -46,9 +72,19 @@ func (srv *qnaService) updateQuestion(tx *gorm.DB, question *model.Question) (er
 	return nil
 }
 
+func (srv *qnaService) GetUntranslatedAnswers() (ret []*model.Answer) {
+	if err := db.Model(&model.Answer{}).
+		Where("`content_zh_cn` = '' OR `content_zh_cn` IS NULL").
+		Find(&ret).Error; nil != err {
+		logger.Errorf("get untranslated answers failed: " + err.Error())
+	}
+
+	return
+}
+
 func (srv *qnaService) GetUntranslatedQuestions() (ret []*model.Question) {
 	if err := db.Model(&model.Question{}).
-		Where("`title_zh_cn` == '' OR `content_zh_cn` == ''").
+		Where("`title_zh_cn` = '' OR `title_zh_cn` IS NULL OR `content_zh_cn` = '' OR `content_zh_cn` IS NULL").
 		Find(&ret).Error; nil != err {
 		logger.Errorf("get untranslated questions failed: " + err.Error())
 	}

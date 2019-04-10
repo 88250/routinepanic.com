@@ -56,5 +56,16 @@ func translate(c *gin.Context) {
 		}
 	}
 
+	answers := service.QnA.GetUntranslatedAnswers()
+	for _, a := range answers {
+		if "" == a.ContentZhCN {
+			a.ContentZhCN = service.Translation.Translate(a.ContentEnUS, "html")
+		}
+
+		if err := service.QnA.UpdateAnswer(a); nil != err {
+			logger.Errorf("update answer failed: " + err.Error())
+		}
+	}
+
 	c.Redirect(http.StatusTemporaryRedirect, util.Conf.Server)
 }
