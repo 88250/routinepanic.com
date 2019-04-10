@@ -75,6 +75,7 @@ func MapRoutes() *gin.Engine {
 	ret.GET("/tags/*tag", showTagAction)
 	ret.GET("/baidu", submitURL)
 	ret.GET("/import/so", importSO)
+	ret.GET("/translate", translate)
 
 	ret.GET("/contri/:dataType/:id", showContriAction)
 	ret.POST("/contri/:dataType/:id", contriAction)

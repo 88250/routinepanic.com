@@ -33,28 +33,28 @@ func importSO(c *gin.Context) {
 	defer func() { importing = false }()
 	qnas := spider.StackOverflow.ParseQuestionsByVotes(page, 50)
 	logger.Infof("parsed questions [page=" + pStr + "]")
-
-	var importQnas []*spider.QnA
-	for _, qna := range qnas {
-		if service.QnA.Translated(qna) {
-			continue
-		}
-
-		qna.Question.TitleZhCN = service.Translation.Translate(qna.Question.TitleEnUS, "text")
-		qna.Question.ContentZhCN = service.Translation.Translate(qna.Question.ContentEnUS, "html")
-		for _, a := range qna.Answers {
-			a.ContentZhCN = service.Translation.Translate(a.ContentEnUS, "html")
-		}
-
-		logger.Info("translated a QnA [" + qna.Question.TitleEnUS + ", " + qna.Question.TitleZhCN + "]")
-		importQnas = append(importQnas, qna)
-	}
-
-	if err := service.QnA.AddAll(importQnas); nil != err {
+	if err := service.QnA.AddAll(qnas); nil != err {
 		logger.Errorf("add QnAs failed: " + err.Error())
 	}
 	logger.Infof("imported QnAs")
-	importing = false
+
+	c.Redirect(http.StatusTemporaryRedirect, util.Conf.Server)
+}
+
+func translate(c *gin.Context) {
+	questions := service.QnA.GetUntranslatedQuestions()
+	for _, q := range questions {
+		if "" == q.TitleZhCN {
+			q.TitleZhCN = service.Translation.Translate(q.TitleEnUS, "text")
+		}
+		if "" == q.ContentZhCN {
+			q.ContentZhCN = service.Translation.Translate(q.ContentEnUS, "html")
+		}
+
+		if err := service.QnA.UpdateQuestion(q); nil != err {
+			logger.Errorf("update question failed: " + err.Error())
+		}
+	}
 
 	c.Redirect(http.StatusTemporaryRedirect, util.Conf.Server)
 }

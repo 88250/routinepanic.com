@@ -20,6 +20,42 @@ var QnA = &qnaService{}
 type qnaService struct {
 }
 
+func (srv *qnaService) UpdateQuestion(question *model.Question) (err error) {
+	tx := db.Begin()
+	defer func() {
+		if err == nil {
+			tx.Commit()
+		} else {
+			tx.Rollback()
+		}
+	}()
+
+	if err = srv.updateQuestion(tx, question); nil != err {
+		return
+	}
+
+	return nil
+}
+
+func (srv *qnaService) updateQuestion(tx *gorm.DB, question *model.Question) (err error) {
+	if err = tx.Model(&model.Question{}).Where("`id` = ?", question.ID).
+		Update(question).Error; nil != err {
+		return
+	}
+
+	return nil
+}
+
+func (srv *qnaService) GetUntranslatedQuestions() (ret []*model.Question) {
+	if err := db.Model(&model.Question{}).
+		Where("`title_zh_cn` == '' OR `content_zh_cn` == ''").
+		Find(&ret).Error; nil != err {
+		logger.Errorf("get untranslated questions failed: " + err.Error())
+	}
+
+	return
+}
+
 func (srv *qnaService) GetRevision(revisionID uint64) (ret *model.Revision) {
 	ret = &model.Revision{}
 	if err := db.Where("`id` = ?", revisionID).Find(&ret).Error; nil != err {
@@ -270,10 +306,6 @@ func (srv *qnaService) Add(qna *spider.QnA) (err error) {
 }
 
 func (srv *qnaService) add(tx *gorm.DB, qna *spider.QnA) (err error) {
-	if srv.Translated(qna) {
-		return
-	}
-
 	if err = tx.Where("`source_id` = ? AND `source` = ?", qna.Question.SourceID, qna.Question.Source).
 		Assign(model.Question{
 			TitleEnUS:   qna.Question.TitleEnUS,
@@ -327,24 +359,6 @@ func (srv *qnaService) TagAll(questions []*model.Question) (err error) {
 	}
 
 	return nil
-}
-
-func (src *qnaService) Translated(qna *spider.QnA) (exists bool) {
-	old := &model.Question{}
-	if err := db.Model(old).Where("`source_id` = ? AND `source` = ?", qna.Question.SourceID, qna.Question.Source).
-		Find(old).Error; nil != err && gorm.ErrRecordNotFound != err {
-		logger.Error("checks translation failed: " + err.Error())
-
-		return true
-	}
-
-	if old.TitleEnUS != old.TitleZhCN || old.ContentEnUS != old.ContentZhCN {
-		logger.Warn("question [" + old.TitleZhCN + "] exists")
-
-		return true
-	}
-
-	return false
 }
 
 func (srv *qnaService) UpdateSourceAll(qnas []*spider.QnA) (err error) {
