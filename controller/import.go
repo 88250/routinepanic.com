@@ -43,6 +43,7 @@ func importSO(c *gin.Context) {
 
 func translate(c *gin.Context) {
 	questions := service.QnA.GetUntranslatedQuestions()
+	qCnt, aCnt := 0, 0
 	for _, q := range questions {
 		if "" == q.TitleZhCN {
 			q.TitleZhCN = service.Translation.Translate(q.TitleEnUS, "text")
@@ -56,6 +57,7 @@ func translate(c *gin.Context) {
 		}
 
 		logger.Infof("translated a question [" + q.Path + "]")
+		qCnt++
 	}
 
 	answers := service.QnA.GetUntranslatedAnswers()
@@ -69,7 +71,10 @@ func translate(c *gin.Context) {
 		}
 
 		logger.Infof("translated an answer [%d]", a.ID)
+		aCnt++
 	}
+
+	logger.Infof("translated questions [%d], answers [%d]", qCnt, aCnt)
 
 	c.Redirect(http.StatusTemporaryRedirect, util.Conf.Server)
 }
