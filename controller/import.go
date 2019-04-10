@@ -50,12 +50,10 @@ func importSO(c *gin.Context) {
 		importQnas = append(importQnas, qna)
 	}
 
-	count := 0
 	if err := service.QnA.AddAll(importQnas); nil != err {
 		logger.Errorf("add QnAs failed: " + err.Error())
-		count++
 	}
-	logger.Infof("imported [%d] QnAs", count)
+	logger.Infof("imported QnAs")
 	importing = false
 
 	c.Redirect(http.StatusTemporaryRedirect, util.Conf.Server)
