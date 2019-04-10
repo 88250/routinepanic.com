@@ -54,6 +54,8 @@ func translate(c *gin.Context) {
 		if err := service.QnA.UpdateQuestion(q); nil != err {
 			logger.Errorf("update question failed: " + err.Error())
 		}
+
+		logger.Info("translated a question [" + q.Path + "]")
 	}
 
 	answers := service.QnA.GetUntranslatedAnswers()
@@ -65,6 +67,8 @@ func translate(c *gin.Context) {
 		if err := service.QnA.UpdateAnswer(a); nil != err {
 			logger.Errorf("update answer failed: " + err.Error())
 		}
+
+		logger.Info("translated an answer [" + a.Path + "]")
 	}
 
 	c.Redirect(http.StatusTemporaryRedirect, util.Conf.Server)
