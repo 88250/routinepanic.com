@@ -338,7 +338,7 @@ func (src *qnaService) Translated(qna *spider.QnA) (exists bool) {
 		return true
 	}
 
-	if 0 < len(old.TitleZhCN) || 0 < len(old.ContentZhCN) {
+	if old.TitleEnUS != old.TitleZhCN || old.ContentEnUS != old.ContentZhCN {
 		logger.Warn("question [" + old.TitleZhCN + "] exists")
 
 		return true
