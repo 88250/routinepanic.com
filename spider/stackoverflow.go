@@ -78,7 +78,13 @@ func (s *stackOverflow) ParseQuestionsByVotes(page, pageSize int) (ret []*QnA) {
 		question.SourceID = qId
 		question.SourceURL = link
 		owner := q["owner"].(map[string]interface{})
-		question.AuthorName = owner["display_name"].(string)
+		authorName := ""
+		if nil == owner["display_name"] {
+			authorName = "someone"
+		} else {
+			authorName = owner["display_name"].(string)
+		}
+		question.AuthorName = authorName
 		l := owner["link"]
 		if nil != l {
 			question.AuthorURL = l.(string)
