@@ -41,6 +41,12 @@ func IsLoggedIn(c *gin.Context) bool {
 	return "" != session.UName
 }
 
+// Invalidate invalidates the current session.
+func Invalidate(c *gin.Context) {
+	session := sessions.Default(c)
+	session.Clear()
+}
+
 // GetSession returns session of the specified context.
 func GetSession(c *gin.Context) *SessionData {
 	ret := &SessionData{}

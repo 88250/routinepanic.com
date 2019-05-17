@@ -6,13 +6,28 @@ package util
 import (
 	"bytes"
 	"errors"
+	"math/rand"
 	"os"
 	"os/exec"
 	"os/user"
 	"path/filepath"
 	"runtime"
 	"strings"
+	"time"
 )
+
+func RandStr(n int) string {
+	rand.Seed(time.Now().UTC().UnixNano())
+	time.Sleep(time.Nanosecond)
+
+	letter := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letter[rand.Intn(len(letter))]
+	}
+
+	return string(b)
+}
 
 // IsWindows determines whether current OS is Windows.
 func IsWindows() bool {

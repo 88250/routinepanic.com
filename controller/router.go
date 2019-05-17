@@ -89,6 +89,11 @@ func MapRoutes() *gin.Engine {
 	ret.GET("/reviews/details/:id", showReviewAction)
 	ret.POST("/reviews/review/:id", ReviewAction)
 
+	ret.GET("/login", showLoginAction)
+	ret.GET("/logout", logoutAction)
+	ret.GET("/oauth/github/redirect", redirectGitHubAction)
+	ret.GET("/oauth/github/callback", githubCallbackHandler)
+
 	return ret
 }
 

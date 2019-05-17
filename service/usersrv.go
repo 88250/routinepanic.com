@@ -11,6 +11,13 @@ var User = &userService{}
 type userService struct {
 }
 
+func (srv *userService) GetByName(name string) (ret *model.User) {
+	ret = &model.User{}
+	db.Where("`name` = ?", name).First(ret)
+
+	return
+}
+
 func (srv *userService) Get(id uint64) (ret *model.User) {
 	ret = &model.User{}
 	db.Where("`id` = ?", id).First(ret)
