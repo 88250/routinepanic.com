@@ -117,7 +117,7 @@ func GitHubUserInfo(accessToken string) (ret map[string]interface{}) {
 
 func showLoginAction(c *gin.Context) {
 	model := gin.H{"conf": util.Conf, "ver": util.Version, "year": time.Now().Year()}
-	c.HTML(http.StatusOK, "view/template/login.html", model)
+	c.HTML(http.StatusOK, "login.html", model)
 }
 
 func logoutAction(c *gin.Context) {
