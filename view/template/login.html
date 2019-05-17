@@ -3,43 +3,35 @@
 <html>
 <head>
 {{template "head" .}}
-    <link type="text/css" rel="stylesheet" href="{{.Conf.StaticServer}}/css/index.css?{{.Conf.StaticResourceVersion}}"/>
 </head>
 <body>
 {{template "nav" .}}
 <div class="fn-content fn-wrap">
-    <div class="fn-flex-1">
-        {{range .Questions}}
-        <article class="list__item">
-            <header><h2><a href="/questions/{{.Path}}" class="question__title">{{.Title}}</a></h2></header>
-            <div>
-                {{range .Tags}}
-                <a class="question__tag" rel="tag" href="/tags/{{.Title}}">{{.Title}}</a>
-                {{end}}
-            </div>
+    <div class="fn-flex-1 fn-flex">
+        <article class="list__item login__panel">
+            <div class="oauth login__img"></div>
+            <button class="oauth" href="{{.Conf.Server}}/oauth/github">登录 GitHub 账号后即可开始使用</button>
+            <br>
+            <br>
+            <label class="ft-gray">
+                <input type="checkbox"/>
+                是否愿意在 GitHub 关注<a
+                    href="https://github.com/88250" target="_blank">开发者</a>并加入 <a
+                    href="https://github.com/b3log" target="_blank">B3log
+                开源组织</a>
+            </label>
+            <img class="fn-hidden" src="{{.Conf.StaticServer}}/images/github.gif"/>
         </article>
-        {{end}}
-        <div class="fn-clear">
-            <nav class="pagination fn-right">
-                <a aria-label="上一页"
-                   class="pagination__item{{if lt .Pagination.PreviousPageNum 1}} pagination__item--disabled{{end}}"
-                   href="?p={{.Pagination.PreviousPageNum}}">
-                    上一页
-                </a>
-                {{range .Pagination.PageNums}}
-                <a class="pagination__item{{if eq $.Pagination.CurrentPageNum .}} pagination__item--current{{end}}"
-                   href="?p={{.}}">{{.}}</a>
-                {{end}}
-                <a aria-label="下一页"
-                   class="pagination__item{{if lt .Pagination.NextPageNum 1}} pagination__item--disabled{{end}}"
-                   href="?p={{.Pagination.NextPageNum}}">
-                    下一页
-                </a>
-            </nav>
-        </div>
     </div>
 {{template "footer" .}}
 </div>
+<script>
+  document.querySelectorAll('.oauth').forEach(function (item) {
+    item.addEventListener('click', function () {
+      window.location.href = '/oauth/github/redirect?state=' + (document.querySelector('input').checked ? '0' : '1')
+    })
+  })
+</script>
 </body>
 </html>
 {{end}}

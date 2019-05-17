@@ -2,9 +2,8 @@
  * basic.
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.1.0.0, Oct 16, 2018
+ * @version 0.2.0.0, May 17, 2019
  */
-
 @import 'basic';
 @import 'github';
 @import 'nav';
@@ -20,6 +19,7 @@
     margin-bottom: 24px;
     padding: 12px;
     transition: $transition;
+
     &:hover {
       border: 1px solid #e2e2e2;
     }
@@ -31,10 +31,12 @@
   width: 20px;
   background-size: cover;
   background-position: center center;
+
   &--mid {
     height: 38px;
     width: 38px;
   }
+
   &--right {
     margin-right: 12px;
   }
@@ -47,6 +49,7 @@
     transition: $transition;
     margin-bottom: 12px;
     display: block;
+
     &:hover {
       color: #000;
     }
@@ -104,6 +107,7 @@
     &:last-child {
       border-radius: 0 3px 3px 0;
     }
+
     &--current,
     &--current:hover {
       color: rgb(255, 255, 255);
@@ -111,11 +115,35 @@
       border-color: #4285f4;
       cursor: default;
     }
+
     &--disabled,
     &--disabled:hover {
       color: rgb(209, 213, 218);
       background-color: rgb(250, 251, 252);
       cursor: not-allowed;
+    }
+  }
+}
+
+.login {
+  &__panel {
+    height: 360px;
+    width: 400px;
+    text-align: center;
+    margin: 0 auto;
+    align-self: center;
+  }
+  &__img {
+    cursor: pointer;
+    background-image: url("../images/github.png");
+    height: 200px;
+    width: 200px;
+    background-size: cover;
+    margin: 20px auto;
+    background-position: center center;
+
+    &:hover {
+      background-image: url("../images/github.gif");
     }
   }
 }
