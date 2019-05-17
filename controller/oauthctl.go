@@ -69,15 +69,10 @@ func githubCallbackHandler(c *gin.Context) {
 		return
 	}
 
-	//githubId := githubUser["userId"].(string)
+	githubId := githubUser["userId"].(string)
 	userName := githubUser["userName"].(string)
 	avatar := githubUser["userAvatarURL"].(string)
-
-	user := &model.User{
-		Name:   userName,
-		Avatar: avatar,
-	}
-
+	user := &model.User{Name: userName, Avatar: avatar, GithubId: githubId}
 	if err := service.User.AddOrUpdate(user); nil != err {
 		logger.Errorf("add a new user failed: " + err.Error())
 		c.Status(http.StatusInternalServerError)

@@ -7,6 +7,7 @@ package model
 type User struct {
 	Model
 
-	Name   string `gorm:"size:32" json:"name"`
-	Avatar string `gorm:"size:255" json:"avatar"`
+	Name     string `gorm:"size:32" json:"name"`
+	Avatar   string `gorm:"size:255" json:"avatar"`
+	GithubId string `gorm:"size:32" json:"githubId"`
 }

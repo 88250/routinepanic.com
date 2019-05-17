@@ -44,7 +44,9 @@ func IsLoggedIn(c *gin.Context) bool {
 // Invalidate invalidates the current session.
 func Invalidate(c *gin.Context) {
 	session := sessions.Default(c)
+	session.Options(sessions.Options{Path: "/", MaxAge: -1})
 	session.Clear()
+	session.Save()
 }
 
 // GetSession returns session of the specified context.

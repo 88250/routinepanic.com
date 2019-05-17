@@ -37,8 +37,9 @@ func (srv *userService) AddOrUpdate(user *model.User) (err error) {
 
 	if err = tx.Where("`name` = ?", user.Name).
 		Assign(model.User{
-			Name:   user.Name,
-			Avatar: user.Avatar,
+			Name:     user.Name,
+			Avatar:   user.Avatar,
+			GithubId: user.GithubId,
 		}).FirstOrCreate(user).Error; nil != err {
 		return
 	}
