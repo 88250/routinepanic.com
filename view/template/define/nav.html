@@ -5,7 +5,15 @@
             <div class="header__logo"></div>
             <h1>协慌网</h1>
         </a>
+        {{if ne "" .User.UName}}
+        <a class="header__link" href="https://hacpai.com/settings">
+            {{.User.UName}}
+        </a>
+        {{else}}
+        <a class="header__link" href="{{.Conf.Server}}/login">登录</a>
+        {{end}}
         <a class="header__link" href="{{.Conf.Server}}/reviews/waiting">贡献</a>
+        <a class="header__link" href="https://hacpai.com">社区</a>
     </div>
 </header>
 {{end}}
