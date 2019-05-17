@@ -54,7 +54,7 @@ func MapRoutes() *gin.Engine {
 		Secure:   strings.HasPrefix(util.Conf.Server, "https"),
 		HttpOnly: true,
 	})
-	ret.Use(sessions.Sessions("rp", store), fillCommon, fillUser)
+	ret.Use(sessions.Sessions("rp", store), fillCommon)
 
 	templates, err := filepath.Glob("view/template/*.html")
 	if nil != err {
@@ -117,6 +117,8 @@ func fillCommon(c *gin.Context) {
 	dataModel.Put("Slogan", util.Slogan)
 	dataModel.Put("MetaKeywords", util.MetaKeywords)
 	dataModel.Put("MetaDescription", util.Slogan)
+	session := util.GetSession(c)
+	dataModel.Put("User", session)
 }
 
 func getDataModel(c *gin.Context) *DataModel {
