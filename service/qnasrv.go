@@ -296,8 +296,8 @@ func (srv *qnaService) GetQuestions(page int) (ret []*model.Question, pagination
 	if err := db.Model(&model.Question{}).
 		Select("`id`, `created_at`, `title_zh_cn`, `tags`, `path`").
 		Where("`title_zh_cn` != '' AND `content_zh_cn` != ''").
+		Order("`updated_at` DESC").Count(&count).
 		Order("`votes` DESC").
-		Order("`created_at` DESC").Count(&count).
 		Offset(offset).Limit(util.PageSize).
 		Find(&ret).Error; nil != err {
 		logger.Errorf("get questions failed: " + err.Error())
