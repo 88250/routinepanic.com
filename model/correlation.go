@@ -1,9 +1,6 @@
 // 协慌网 https://routinepanic.com
 // Copyright (C) 2018-present, b3log.org
 
-// 协慌网 https://routinepanic.com
-// Copyright (C) 2018-2019, b3log.org
-
 package model
 
 // Correlation types.
