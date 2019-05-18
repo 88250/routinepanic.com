@@ -6,6 +6,7 @@
             <h1>协慌网</h1>
         </a>
         {{if ne "" .User.UName}}
+        <a class="header__link" href="{{.Conf.Server}}/logout">登出</a>
         <a class="header__link" href="https://hacpai.com/settings">
             {{.User.UName}}
         </a>
