@@ -15,6 +15,12 @@ import (
 
 var importing = false
 
+func replenishAnswers(c *gin.Context) {
+	service.QnA.ReplenishAnswers()
+
+	c.Redirect(http.StatusTemporaryRedirect, util.Conf.Server)
+}
+
 func importSO(c *gin.Context) {
 	pStr := c.Query("p")
 	page, err := strconv.Atoi(pStr)

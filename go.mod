@@ -28,6 +28,7 @@ require (
 	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a // indirect
 	github.com/vinta/pangu v0.0.0-20180410182025-523e3fea9a89
 	github.com/xrash/smetrics v0.0.0-20170218160415-a3153f7040e9
+	golang.org/x/net v0.0.0-20190311183353-d8887717615a
 	golang.org/x/text v0.3.1-0.20180807135948-17ff2d5776d2
 	google.golang.org/api v0.5.0 // indirect
 )

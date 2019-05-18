@@ -20,6 +20,35 @@ var QnA = &qnaService{}
 type qnaService struct {
 }
 
+func (s *qnaService) ReplenishAnswers() {
+	rows, err := db.Raw("SELECT q.id, q.source_id FROM rp_questions q LEFT JOIN rp_answers a ON q.id = a.question_id WHERE a.question_id IS NULL").Rows()
+	if nil != err {
+		logger.Errorf("query failed: " + err.Error())
+
+		return
+	}
+
+	for rows.Next() {
+		var id uint64
+		var sid string
+		if err := rows.Scan(&id, &sid); nil != err {
+			logger.Errorf("parse row failed: " + err.Error())
+
+			return
+		}
+		questionID := id
+		sourceQuestionID := sid
+
+		answers := spider.StackOverflow.ParseAnswers(sourceQuestionID)
+		for _, answer := range answers {
+			answer.QuestionID = questionID
+			db.Create(answer)
+		}
+	}
+
+	return
+}
+
 func (srv *qnaService) UpdateAnswer(answer *model.Answer) (err error) {
 	tx := db.Begin()
 	defer func() {
