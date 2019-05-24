@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/b3log/gulu"
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/b3log/routinepanic.com/service"
 	"github.com/b3log/routinepanic.com/util"
@@ -15,7 +16,7 @@ import (
 )
 
 func tuneHTMLAction(c *gin.Context) {
-	result := util.NewResult()
+	result := gulu.Ret.NewResult()
 	defer c.JSON(http.StatusOK, result)
 
 	arg := map[string]interface{}{}

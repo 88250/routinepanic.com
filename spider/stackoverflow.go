@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/b3log/routinepanic.com/log"
+	"github.com/b3log/gulu"
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/parnurzeal/gorequest"
@@ -22,7 +22,7 @@ var StackOverflow = &stackOverflow{}
 type stackOverflow struct{}
 
 // Logger
-var logger = log.NewLogger(os.Stdout)
+var logger = gulu.Log.NewLogger(os.Stdout)
 
 const stackExchangeAPI = "https://api.stackexchange.com"
 

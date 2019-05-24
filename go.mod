@@ -6,6 +6,7 @@ require (
 	cloud.google.com/go v0.37.4
 	github.com/PuerkitoBio/goquery v0.0.0-20181003002105-8311f594d701
 	github.com/andybalholm/cascadia v1.0.0 // indirect
+	github.com/b3log/gulu v0.0.0-20190524134307-1c13d074e5e7
 	github.com/denisenkom/go-mssqldb v0.0.0-20190515213511-eb9f6a1743f3 // indirect
 	github.com/elazarl/goproxy v0.0.0-20190421051319-9d40249d3c2f // indirect
 	github.com/elazarl/goproxy/ext v0.0.0-20190421051319-9d40249d3c2f // indirect
@@ -29,6 +30,6 @@ require (
 	github.com/vinta/pangu v0.0.0-20180410182025-523e3fea9a89
 	github.com/xrash/smetrics v0.0.0-20170218160415-a3153f7040e9
 	golang.org/x/net v0.0.0-20190311183353-d8887717615a
-	golang.org/x/text v0.3.1-0.20180807135948-17ff2d5776d2
+	golang.org/x/text v0.3.2
 	google.golang.org/api v0.5.0 // indirect
 )

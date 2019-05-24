@@ -12,7 +12,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/b3log/routinepanic.com/log"
+	"github.com/b3log/gulu"
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -20,7 +20,7 @@ import (
 )
 
 // Logger
-var logger = log.NewLogger(os.Stdout)
+var logger = gulu.Log.NewLogger(os.Stdout)
 
 // MapRoutes returns a gin engine and binds controllers with request URLs.
 func MapRoutes() *gin.Engine {

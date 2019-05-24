@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/b3log/routinepanic.com/log"
+	"github.com/b3log/gulu"
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/jinzhu/gorm"
 )
@@ -26,7 +26,7 @@ const Slogan = "专注编程问答汉化"
 const MetaKeywords = "程序员,编程,代码,问答"
 
 // Logger
-var logger = log.NewLogger(os.Stdout)
+var logger = gulu.Log.NewLogger(os.Stdout)
 
 // Version of RP.
 const Version = "1.0.0"
@@ -97,13 +97,13 @@ func LoadConf() {
 		logger.Fatal("parses [rp.json] failed: ", err)
 	}
 
-	log.SetLevel(Conf.LogLevel)
+	gulu.Log.SetLevel(Conf.LogLevel)
 	if "" != *confLogLevel {
 		Conf.LogLevel = *confLogLevel
-		log.SetLevel(*confLogLevel)
+		gulu.Log.SetLevel(*confLogLevel)
 	}
 
-	home, err := UserHome()
+	home, err := gulu.OS.Home()
 	if nil != err {
 		logger.Fatal("can't find user home directory: " + err.Error())
 	}

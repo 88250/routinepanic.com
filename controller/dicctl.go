@@ -4,18 +4,19 @@
 package controller
 
 import (
-	"github.com/b3log/routinepanic.com/model"
-	"github.com/b3log/routinepanic.com/service"
-	"github.com/b3log/routinepanic.com/util"
-	"github.com/gin-gonic/gin"
-	"github.com/parnurzeal/gorequest"
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/b3log/gulu"
+	"github.com/b3log/routinepanic.com/model"
+	"github.com/b3log/routinepanic.com/service"
+	"github.com/gin-gonic/gin"
+	"github.com/parnurzeal/gorequest"
 )
 
 func getWordAction(c *gin.Context) {
-	result := util.NewResult()
+	result := gulu.Ret.NewResult()
 	defer c.JSON(http.StatusOK, result)
 
 	wordName := strings.ToLower(c.Param("name"))
@@ -26,7 +27,7 @@ func getWordAction(c *gin.Context) {
 			Param("w", wordName).
 			Param("type", "json").
 			Param("key", "AD4631FD78BDD04FE30000C76556C133").
-			Timeout(7 * time.Second).Retry(3, time.Second).EndStruct(&wordResult)
+			Timeout(7*time.Second).Retry(3, time.Second).EndStruct(&wordResult)
 		if nil != errors {
 			logger.Errorf("query iciba failed: %v", errors)
 			result.Code = -1

@@ -7,14 +7,14 @@ import (
 	"os"
 	"time"
 
-	"github.com/b3log/routinepanic.com/log"
+	"github.com/b3log/gulu"
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql" // mysql
 )
 
 // Logger
-var logger = log.NewLogger(os.Stdout)
+var logger = gulu.Log.NewLogger(os.Stdout)
 
 // ZeroTime represents zero time.
 var ZeroTime, _ = time.Parse("2006-01-02 15:04:05", "2006-01-02 15:04:05")

@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/b3log/gulu"
 	"github.com/b3log/routinepanic.com/model"
 	"github.com/b3log/routinepanic.com/service"
 	"github.com/b3log/routinepanic.com/util"
@@ -28,7 +29,7 @@ func ReviewAction(c *gin.Context) {
 		return
 	}
 
-	result := util.NewResult()
+	result := gulu.Ret.NewResult()
 	defer c.JSON(http.StatusOK, result)
 
 	arg := map[string]interface{}{}

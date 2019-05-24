@@ -5,6 +5,7 @@ package controller
 
 import (
 	"crypto/tls"
+	"github.com/b3log/gulu"
 	"net/http"
 	"strings"
 	"time"
@@ -19,7 +20,7 @@ import (
 var states = map[string]string{}
 
 func redirectGitHubAction(c *gin.Context) {
-	requestResult := util.NewResult()
+	requestResult := gulu.Ret.NewResult()
 	_, _, errs := gorequest.New().TLSClientConfig(&tls.Config{InsecureSkipVerify: true}).
 		Get("https://hacpai.com/oauth/rp/client").
 		Set("user-agent", util.UserAgent).Timeout(10 * time.Second).EndStruct(requestResult)
@@ -41,7 +42,7 @@ func redirectGitHubAction(c *gin.Context) {
 
 	state := c.Query("state")
 	referer := util.Conf.Server + "__" + state
-	state = util.RandStr(16) + referer
+	state = gulu.Rand.String(16) + referer
 	states[state] = state
 	path := loginAuthURL + "?client_id=" + clientId + "&state=" + state + "&scope=public_repo,read:user,user:follow"
 	c.Redirect(http.StatusSeeOther, path)

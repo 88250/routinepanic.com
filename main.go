@@ -12,22 +12,22 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/b3log/gulu"
 	"github.com/b3log/routinepanic.com/controller"
-	"github.com/b3log/routinepanic.com/log"
 	"github.com/b3log/routinepanic.com/service"
 	"github.com/b3log/routinepanic.com/util"
 	"github.com/gin-gonic/gin"
 )
 
 // Logger
-var logger *log.Logger
+var logger *gulu.Logger
 
 // The only one init function in RP.
 func init() {
 	rand.Seed(time.Now().Unix())
 
-	log.SetLevel("info")
-	logger = log.NewLogger(os.Stdout)
+	gulu.Log.SetLevel("info")
+	logger = gulu.Log.NewLogger(os.Stdout)
 
 	util.LoadConf()
 
