@@ -65,6 +65,9 @@ type answer struct {
 // 七牛图片处理样式，用于贡献者头像
 const QiniuImgStyleAvatar = "imageView2/1/w/64/h/64/interlace/0/q/100"
 
+// GitHub 头像样式
+const GitHubImgStyleAvatar = "s=48"
+
 func reviewsVos(rModels []*model.Review) (ret []*review) {
 	for _, rModel := range rModels {
 		r := reviewVo(rModel)
@@ -114,7 +117,7 @@ func reviewVo(rModel *model.Review) (ret *review) {
 	author := service.User.Get(revision.AuthorID)
 	ret.Contributor = &contributor{
 		Name:   author.Name,
-		Avatar: author.Avatar + "?" + QiniuImgStyleAvatar,
+		Avatar: avatarStyle(author.Avatar),
 	}
 
 	return
@@ -165,7 +168,7 @@ func questionVo(qModel *model.Question) (ret *question) {
 			contributor := &contributor{}
 			user := service.User.Get(revision.AuthorID)
 			contributor.Name = user.Name
-			contributor.Avatar = user.Avatar + "?" + QiniuImgStyleAvatar
+			contributor.Avatar = avatarStyle(user.Avatar)
 			contributor.ContriCount = 1
 			contributor.ContriDistance = revision.Distance
 			contributorMap[contributorId] = contributor
@@ -210,7 +213,7 @@ func answerVo(aModel *model.Answer) (ret *answer) {
 			contributor := &contributor{}
 			user := service.User.Get(revision.AuthorID)
 			contributor.Name = user.Name
-			contributor.Avatar = user.Avatar + "?" + QiniuImgStyleAvatar
+			contributor.Avatar = avatarStyle(user.Avatar)
 			contributor.ContriCount = 1
 			contributor.ContriDistance = revision.Distance
 			contributorMap[contributorId] = contributor
@@ -225,4 +228,12 @@ func answerVo(aModel *model.Answer) (ret *answer) {
 	}
 
 	return
+}
+
+func avatarStyle(avatar string) string {
+	if strings.Contains(avatar, "img.hacpai.com") {
+		return avatar + "?" + QiniuImgStyleAvatar
+	}
+
+	return avatar + "&" + GitHubImgStyleAvatar
 }
