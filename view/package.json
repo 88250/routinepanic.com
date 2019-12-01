@@ -2,13 +2,13 @@
   "name": "routinepanic-frontend",
   "version": "1.0.0",
   "description": "routinepanic.com template",
-  "homepage": "https://github.com/b3log/routinepanic.com",
+  "homepage": "https://github.com/88250/routinepanic.com",
   "repository": {
     "type": "git",
-    "url": "git://github.com/b3log/routinepanic.com.git"
+    "url": "git://github.com/88250/routinepanic.com.git"
   },
   "bugs": {
-    "url": "https://github.com/b3log/routinepanic.com/issues"
+    "url": "https://github.com/88250/routinepanic.com/issues"
   },
   "license": "GPLv3",
   "private": true,

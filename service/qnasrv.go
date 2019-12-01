@@ -20,9 +20,9 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/b3log/routinepanic.com/model"
-	"github.com/b3log/routinepanic.com/spider"
-	"github.com/b3log/routinepanic.com/util"
+	"github.com/88250/routinepanic.com/model"
+	"github.com/88250/routinepanic.com/spider"
+	"github.com/88250/routinepanic.com/util"
 	"github.com/jinzhu/gorm"
 	"github.com/xrash/smetrics"
 )

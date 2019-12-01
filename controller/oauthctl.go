@@ -18,14 +18,14 @@ package controller
 
 import (
 	"crypto/tls"
-	"github.com/b3log/gulu"
+	"github.com/88250/gulu"
 	"net/http"
 	"strings"
 	"time"
 
-	"github.com/b3log/routinepanic.com/model"
-	"github.com/b3log/routinepanic.com/service"
-	"github.com/b3log/routinepanic.com/util"
+	"github.com/88250/routinepanic.com/model"
+	"github.com/88250/routinepanic.com/service"
+	"github.com/88250/routinepanic.com/util"
 	"github.com/gin-gonic/gin"
 	"github.com/parnurzeal/gorequest"
 )
@@ -57,7 +57,7 @@ func redirectGitHubAction(c *gin.Context) {
 	referer := util.Conf.Server + "__" + state
 	state = gulu.Rand.String(16) + referer
 	states[state] = state
-	path := loginAuthURL + "?client_id=" + clientId + "&state=" + state + "&scope=public_repo,read:user,user:follow"
+	path := loginAuthURL + "?client_id=" + clientId + "&state=" + state
 	c.Redirect(http.StatusSeeOther, path)
 }
 

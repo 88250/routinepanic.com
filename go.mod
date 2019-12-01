@@ -1,12 +1,12 @@
-module github.com/b3log/routinepanic.com
+module github.com/88250/routinepanic.com
 
 go 1.12
 
 require (
 	cloud.google.com/go v0.37.4
+	github.com/88250/gulu v0.0.0-20191129115942-f593513f6ed6
 	github.com/PuerkitoBio/goquery v0.0.0-20181003002105-8311f594d701
 	github.com/andybalholm/cascadia v1.0.0 // indirect
-	github.com/b3log/gulu v0.0.0-20190524134307-1c13d074e5e7
 	github.com/denisenkom/go-mssqldb v0.0.0-20190515213511-eb9f6a1743f3 // indirect
 	github.com/elazarl/goproxy v0.0.0-20190421051319-9d40249d3c2f // indirect
 	github.com/elazarl/goproxy/ext v0.0.0-20190421051319-9d40249d3c2f // indirect

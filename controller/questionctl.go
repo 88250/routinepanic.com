@@ -20,8 +20,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/b3log/routinepanic.com/model"
-	"github.com/b3log/routinepanic.com/service"
+	"github.com/88250/routinepanic.com/model"
+	"github.com/88250/routinepanic.com/service"
 	"github.com/gin-gonic/gin"
 )
 

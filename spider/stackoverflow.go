@@ -24,9 +24,9 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/b3log/gulu"
-	"github.com/b3log/routinepanic.com/model"
-	"github.com/b3log/routinepanic.com/util"
+	"github.com/88250/gulu"
+	"github.com/88250/routinepanic.com/model"
+	"github.com/88250/routinepanic.com/util"
 	"github.com/parnurzeal/gorequest"
 )
 

@@ -25,10 +25,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/b3log/gulu"
-	"github.com/b3log/routinepanic.com/controller"
-	"github.com/b3log/routinepanic.com/service"
-	"github.com/b3log/routinepanic.com/util"
+	"github.com/88250/gulu"
+	"github.com/88250/routinepanic.com/controller"
+	"github.com/88250/routinepanic.com/service"
+	"github.com/88250/routinepanic.com/util"
 	"github.com/gin-gonic/gin"
 )
 

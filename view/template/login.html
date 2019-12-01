@@ -11,12 +11,6 @@
         <article class="list__item login__panel">
             <div class="oauth login__img"></div>
             <button class="oauth" href="{{.Conf.Server}}/oauth/github">登录 GitHub 账号后即可开始使用</button>
-            <br>
-            <br>
-            <label class="ft-gray">
-                <input type="checkbox" checked/>
-                是否愿意在 GitHub 上收藏该<a href="https://github.com/b3log/routinepanic.com" target="_blank">项目</a>、关注<a href="https://github.com/88250" target="_blank">开发者</a>并加入 <a href="https://github.com/b3log" target="_blank">B3log 开源组织</a>
-            </label>
             <img class="fn-hidden" src="{{.Conf.StaticServer}}/images/github.gif"/>
         </article>
     </div>
@@ -25,7 +19,7 @@
 <script>
   document.querySelectorAll('.oauth').forEach(function (item) {
     item.addEventListener('click', function () {
-      window.location.href = '/oauth/github/redirect?state=' + (document.querySelector('input').checked ? '0' : '1')
+      window.location.href = '/oauth/github/redirect?state=0'
     })
   })
 </script>

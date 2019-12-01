@@ -16,7 +16,7 @@
 
 package service
 
-import "github.com/b3log/routinepanic.com/model"
+import "github.com/88250/routinepanic.com/model"
 
 // Tag service.
 var Tag = &tagService{}

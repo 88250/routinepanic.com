@@ -20,8 +20,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/b3log/gulu"
-	"github.com/b3log/routinepanic.com/util"
+	"github.com/88250/gulu"
+	"github.com/88250/routinepanic.com/util"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql" // mysql
 )

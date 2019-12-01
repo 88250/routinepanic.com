@@ -19,8 +19,8 @@ package controller
 import (
 	"net/http"
 
-	"github.com/b3log/routinepanic.com/service"
-	"github.com/b3log/routinepanic.com/util"
+	"github.com/88250/routinepanic.com/service"
+	"github.com/88250/routinepanic.com/util"
 	"github.com/gin-gonic/gin"
 )
 

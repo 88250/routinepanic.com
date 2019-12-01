@@ -17,7 +17,7 @@
 package service
 
 import (
-	"github.com/b3log/routinepanic.com/model"
+	"github.com/88250/routinepanic.com/model"
 	"github.com/jinzhu/gorm"
 )
 
