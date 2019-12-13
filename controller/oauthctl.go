@@ -20,7 +20,6 @@ import (
 	"crypto/tls"
 	"github.com/88250/gulu"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/88250/routinepanic.com/model"
@@ -50,14 +49,11 @@ func redirectGitHubAction(c *gin.Context) {
 		return
 	}
 	data := requestResult.Data.(map[string]interface{})
-	clientId := data["clientId"].(string)
 	loginAuthURL := data["loginAuthURL"].(string)
 
-	state := c.Query("state")
-	referer := util.Conf.Server + "__" + state
-	state = gulu.Rand.String(16) + referer
+	state := gulu.Rand.String(16)
 	states[state] = state
-	path := loginAuthURL + "?client_id=" + clientId + "&state=" + state
+	path := loginAuthURL + "?state=" + state
 	c.Redirect(http.StatusSeeOther, path)
 }
 
@@ -70,10 +66,6 @@ func githubCallbackHandler(c *gin.Context) {
 	}
 	delete(states, state)
 
-	referer := state[16:]
-	if strings.Contains(referer, "__0") || strings.Contains(referer, "__1") {
-		referer = referer[:len(referer)-len("__0")]
-	}
 	accessToken := c.Query("ak")
 	githubUser := GitHubUserInfo(accessToken)
 	if nil == githubUser {
