@@ -127,7 +127,7 @@
 
 .login {
   &__panel {
-    height: 360px;
+    height: 320px;
     width: 400px;
     text-align: center;
     margin: 0 auto;
@@ -135,15 +135,11 @@
   }
   &__img {
     cursor: pointer;
-    background-image: url("../images/github.png");
+    background-image: url("../images/hacpai.png");
     height: 200px;
     width: 200px;
     background-size: cover;
     margin: 20px auto;
     background-position: center center;
-
-    &:hover {
-      background-image: url("../images/github.gif");
-    }
   }
 }
