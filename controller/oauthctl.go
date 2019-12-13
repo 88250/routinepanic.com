@@ -66,18 +66,9 @@ func githubCallbackHandler(c *gin.Context) {
 	}
 	delete(states, state)
 
-	accessToken := c.Query("ak")
-	githubUser := GitHubUserInfo(accessToken)
-	if nil == githubUser {
-		logger.Warnf("Can not get user info with token [" + accessToken + "]")
-		c.Status(http.StatusUnauthorized)
-
-		return
-	}
-
-	githubId := githubUser["userId"].(string)
-	userName := githubUser["userName"].(string)
-	avatar := githubUser["userAvatarURL"].(string)
+	githubId := ""
+	userName := c.Query("userName")
+	avatar := c.Query("avatar")
 	user := &model.User{Name: userName, Avatar: avatar, GithubId: githubId}
 	if err := service.User.AddOrUpdate(user); nil != err {
 		logger.Errorf("add a new user failed: " + err.Error())
@@ -95,25 +86,6 @@ func githubCallbackHandler(c *gin.Context) {
 	session.Save(c)
 
 	c.Redirect(http.StatusSeeOther, "/")
-}
-
-// GitHubUserInfo returns GitHub user info specified by the given access token.
-func GitHubUserInfo(accessToken string) (ret map[string]interface{}) {
-	result := map[string]interface{}{}
-	response, data, errors := gorequest.New().TLSClientConfig(&tls.Config{InsecureSkipVerify: true}).
-		Get("https://hacpai.com/github/user?ak="+accessToken).Timeout(7*time.Second).
-		Set("User-Agent", util.UserAgent).EndStruct(&result)
-	if nil != errors || http.StatusOK != response.StatusCode {
-		logger.Errorf("Get github user info failed: %+v, %s", errors, data)
-
-		return nil
-	}
-
-	if 0 != result["sc"].(float64) {
-		return nil
-	}
-
-	return result["data"].(map[string]interface{})
 }
 
 func showLoginAction(c *gin.Context) {
