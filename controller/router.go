@@ -105,8 +105,8 @@ func MapRoutes() *gin.Engine {
 
 	ret.GET("/login", showLoginAction)
 	ret.GET("/logout", logoutAction)
-	ret.GET("/oauth/github/redirect", redirectGitHubAction)
-	ret.GET("/oauth/github/callback", githubCallbackHandler)
+	ret.GET("/login/redirect", redirectLoginAction)
+	ret.GET("/login/callback", loginCallbackHandler)
 
 	return ret
 }

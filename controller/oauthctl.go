@@ -17,39 +17,19 @@
 package controller
 
 import (
-	"crypto/tls"
-	"github.com/88250/gulu"
 	"net/http"
-	"time"
 
+	"github.com/88250/gulu"
 	"github.com/88250/routinepanic.com/model"
 	"github.com/88250/routinepanic.com/service"
 	"github.com/88250/routinepanic.com/util"
 	"github.com/gin-gonic/gin"
-	"github.com/parnurzeal/gorequest"
 )
 
 var states = map[string]string{}
 
-func redirectGitHubAction(c *gin.Context) {
-	requestResult := gulu.Ret.NewResult()
-	_, _, errs := gorequest.New().TLSClientConfig(&tls.Config{InsecureSkipVerify: true}).
-		Get("https://hacpai.com/oauth/rp/client").
-		Set("user-agent", util.UserAgent).Timeout(10 * time.Second).EndStruct(requestResult)
-	if nil != errs {
-		logger.Errorf("Get oauth client id failed: %+v", errs)
-		c.Status(http.StatusInternalServerError)
-
-		return
-	}
-	if 0 != requestResult.Code {
-		logger.Errorf("get oauth client id failed [code=%d, msg=%s]", requestResult.Code, requestResult.Msg)
-		c.Status(http.StatusNotFound)
-
-		return
-	}
-	data := requestResult.Data.(map[string]interface{})
-	loginAuthURL := data["loginAuthURL"].(string)
+func redirectLoginAction(c *gin.Context) {
+	loginAuthURL := "https://hacpai.com/login?goto=" + util.Conf.Server + "/login/callback"
 
 	state := gulu.Rand.String(16)
 	states[state] = state
@@ -57,7 +37,7 @@ func redirectGitHubAction(c *gin.Context) {
 	c.Redirect(http.StatusSeeOther, path)
 }
 
-func githubCallbackHandler(c *gin.Context) {
+func loginCallbackHandler(c *gin.Context) {
 	state := c.Query("state")
 	if _, exist := states[state]; !exist {
 		c.Status(http.StatusBadRequest)
