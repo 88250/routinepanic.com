@@ -46,7 +46,7 @@ func loginCallbackHandler(c *gin.Context) {
 	}
 	delete(states, state)
 
-	githubId := ""
+	githubId := c.Query("userId")
 	userName := c.Query("userName")
 	avatar := c.Query("avatar")
 	user := &model.User{Name: userName, Avatar: avatar, GithubId: githubId}
