@@ -2,7 +2,7 @@
  * form.
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.1.0.0, Oct 9, 2018
+ * @version 0.2.0.0, Dec 14, 2019
  */
 
 /* start form */
@@ -52,6 +52,7 @@
 .btn {
   &--red {
     color: $red;
+
     &:hover {
       color: #FFF;
       border-color: $red;
@@ -60,7 +61,8 @@
   }
 }
 
-button {
+button,
+.btn {
   cursor: pointer;
   color: $black;
   border-radius: 3px;
@@ -72,20 +74,21 @@ button {
   line-height: 19px;
   white-space: nowrap;
   display: inline-block;
-}
 
-button:disabled {
-  opacity: 0.3;
-}
+  &:disabled {
+    opacity: 0.3;
+  }
 
-button:hover {
-  text-decoration: none;
-  border-color: #eee;
-  background-color: rgba(255, 255, 255, .8);
-}
+  &:hover {
+    text-decoration: none;
+    border-color: #eee;
+    background-color: rgba(255, 255, 255, .8);
+  }
 
-button:active {
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.25) inset;
+  &:active {
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.25) inset;
+  }
+
 }
 
 /* end form */
