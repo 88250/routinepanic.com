@@ -2,7 +2,7 @@
  * basic.
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.2.0.0, May 17, 2019
+ * @version 0.2.0.1, Dec 14, 2019
  */
 @import 'basic';
 @import 'github';
@@ -133,13 +133,17 @@
     margin: 0 auto;
     align-self: center;
   }
+
   &__img {
-    cursor: pointer;
-    background-image: url("../images/hacpai.png");
     height: 200px;
     width: 200px;
-    background-size: cover;
     margin: 20px auto;
-    background-position: center center;
+    color: #3b3e43;
+    transition: $transition;
+    padding-right: 25px;
+
+    &:hover {
+      transform: scale(1.1);
+    }
   }
 }
