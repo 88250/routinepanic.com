@@ -23,10 +23,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/PuerkitoBio/goquery"
 	"github.com/88250/routinepanic.com/model"
 	"github.com/88250/routinepanic.com/service"
 	"github.com/88250/routinepanic.com/util"
+	"github.com/PuerkitoBio/goquery"
 	"github.com/vinta/pangu"
 )
 
@@ -244,7 +244,7 @@ func answerVo(aModel *model.Answer) (ret *answer) {
 }
 
 func avatarStyle(avatar string) string {
-	if strings.Contains(avatar, "img.hacpai.com") {
+	if strings.Contains(avatar, "img.hacpai.com") && !strings.Contains(avatar, "imageView2") {
 		return avatar + "?" + QiniuImgStyleAvatar
 	}
 
