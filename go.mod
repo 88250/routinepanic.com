@@ -3,33 +3,44 @@ module github.com/88250/routinepanic.com
 go 1.12
 
 require (
-	cloud.google.com/go v0.37.4
-	github.com/88250/gulu v0.0.0-20191129115942-f593513f6ed6
-	github.com/PuerkitoBio/goquery v0.0.0-20181003002105-8311f594d701
-	github.com/andybalholm/cascadia v1.0.0 // indirect
-	github.com/denisenkom/go-mssqldb v0.0.0-20190515213511-eb9f6a1743f3 // indirect
-	github.com/elazarl/goproxy v0.0.0-20190421051319-9d40249d3c2f // indirect
-	github.com/elazarl/goproxy/ext v0.0.0-20190421051319-9d40249d3c2f // indirect
-	github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5 // indirect
-	github.com/gin-contrib/sessions v0.0.0-20180724132311-854e10e72056
-	github.com/gin-gonic/gin v0.0.0-20181011233131-6ab50f944ca5
-	github.com/go-sql-driver/mysql v0.0.0-20181001072239-361f66ef3b53 // indirect
-	github.com/google/go-cmp v0.3.0 // indirect
-	github.com/gorilla/sessions v1.1.1 // indirect
-	github.com/jinzhu/gorm v0.0.0-20181007004937-742154be9a26
-	github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a // indirect
-	github.com/jinzhu/now v1.0.0 // indirect
-	github.com/kr/pretty v0.1.0 // indirect
-	github.com/lib/pq v1.1.1 // indirect
-	github.com/mattn/go-isatty v0.0.4 // indirect
-	github.com/mattn/go-sqlite3 v1.10.0 // indirect
-	github.com/moul/http2curl v1.0.0 // indirect
-	github.com/parnurzeal/gorequest v0.0.0-20171015110455-8e3aed27fe49
+	cloud.google.com/go v0.51.0
+	github.com/88250/gulu v0.0.0-20191221090949-7ec528e17061
+	github.com/PuerkitoBio/goquery v1.5.0
+	github.com/andybalholm/cascadia v1.1.0 // indirect
+	github.com/denisenkom/go-mssqldb v0.0.0-20191128021309-1d7a30a10f73 // indirect
+	github.com/elazarl/goproxy v0.0.0-20191011121108-aa519ddbe484 // indirect
+	github.com/elazarl/goproxy/ext v0.0.0-20191011121108-aa519ddbe484 // indirect
+	github.com/gin-contrib/sessions v0.0.3
+	github.com/gin-gonic/gin v1.5.0
+	github.com/go-playground/universal-translator v0.17.0 // indirect
+	github.com/go-sql-driver/mysql v1.5.0 // indirect
+	github.com/google/go-cmp v0.4.0 // indirect
+	github.com/gopherjs/gopherjs v0.0.0-20191106031601-ce3c9ade29de // indirect
+	github.com/gorilla/sessions v1.2.0 // indirect
+	github.com/jinzhu/gorm v1.9.12
+	github.com/jinzhu/now v1.1.1 // indirect
+	github.com/json-iterator/go v1.1.9 // indirect
+	github.com/kr/pretty v0.2.0 // indirect
+	github.com/leodido/go-urn v1.2.0 // indirect
+	github.com/lib/pq v1.3.0 // indirect
+	github.com/mattn/go-isatty v0.0.11 // indirect
+	github.com/mattn/go-sqlite3 v2.0.2+incompatible // indirect
+	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
+	github.com/modern-go/reflect2 v1.0.1 // indirect
+	github.com/parnurzeal/gorequest v0.2.16
 	github.com/pkg/errors v0.8.1 // indirect
-	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a // indirect
-	github.com/vinta/pangu v0.0.0-20180410182025-523e3fea9a89
+	github.com/smartystreets/assertions v1.0.1 // indirect
+	github.com/smartystreets/goconvey v1.6.4 // indirect
+	github.com/vinta/pangu v3.0.0+incompatible
 	github.com/xrash/smetrics v0.0.0-20170218160415-a3153f7040e9
-	golang.org/x/net v0.0.0-20190311183353-d8887717615a
+	golang.org/x/crypto v0.0.0-20200109152110-61a87790db17 // indirect
+	golang.org/x/net v0.0.0-20191209160850-c0dbc17a3553
+	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d // indirect
+	golang.org/x/sys v0.0.0-20200107162124-548cf772de50 // indirect
 	golang.org/x/text v0.3.2
-	google.golang.org/api v0.5.0 // indirect
+	google.golang.org/genproto v0.0.0-20200108215221-bd8f9a0ef82f // indirect
+	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
+	gopkg.in/go-playground/validator.v9 v9.31.0 // indirect
+	gopkg.in/yaml.v2 v2.2.7 // indirect
+	moul.io/http2curl v1.0.0 // indirect
 )
