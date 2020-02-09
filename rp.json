@@ -6,7 +6,7 @@
   "LogLevel": "debug",
   "SessionSecret": "BEYOND",
   "SessionMaxAge": 86400,
-  "MySQL": "root:123456@(localhost:3306)/rp?charset=utf8mb4&parseTime=True&loc=Local",
+  "MySQL": "root:123456@(localhost:3306)/rp?charset=utf8mb4&parseTime=True&loc=Local&timeout=1s",
   "Port": "5858",
   "BaiduToken": ""
 }
