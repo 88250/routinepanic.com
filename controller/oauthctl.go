@@ -33,7 +33,7 @@ func redirectLoginAction(c *gin.Context) {
 
 	state := gulu.Rand.String(16)
 	states[state] = state
-	path := loginAuthURL + "?state=" + state
+	path := loginAuthURL + "&state=" + state + "&v=" + util.Version
 	c.Redirect(http.StatusSeeOther, path)
 }
 
@@ -41,19 +41,20 @@ func loginCallbackHandler(c *gin.Context) {
 	state := c.Query("state")
 	if _, exist := states[state]; !exist {
 		c.Status(http.StatusBadRequest)
-
 		return
 	}
 	delete(states, state)
 
-	githubId := c.Query("userId")
-	userName := c.Query("userName")
-	avatar := c.Query("avatar")
-	user := &model.User{Name: userName, Avatar: avatar, GithubId: githubId}
-	if err := service.User.AddOrUpdate(user); nil != err {
-		logger.Errorf("add a new user failed: " + err.Error())
-		c.Status(http.StatusInternalServerError)
+	accessToken := c.Query("access_token")
+	userInfo := util.HacPaiUserInfo(accessToken)
 
+	userId := userInfo["userId"].(string)
+	userName := userInfo["userName"].(string)
+	avatar := userInfo["avatar"].(string)
+	user := &model.User{Name: userName, Avatar: avatar, GithubId: userId}
+	if err := service.User.AddOrUpdate(user); nil != err {
+		logger.Errorf("add or update a user failed: " + err.Error())
+		c.Status(http.StatusInternalServerError)
 		return
 	}
 

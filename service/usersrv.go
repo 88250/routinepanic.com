@@ -27,14 +27,12 @@ type userService struct {
 func (srv *userService) GetByName(name string) (ret *model.User) {
 	ret = &model.User{}
 	db.Where("`name` = ?", name).First(ret)
-
 	return
 }
 
 func (srv *userService) Get(id uint64) (ret *model.User) {
 	ret = &model.User{}
 	db.Where("`id` = ?", id).First(ret)
-
 	return
 }
 
@@ -48,7 +46,7 @@ func (srv *userService) AddOrUpdate(user *model.User) (err error) {
 		}
 	}()
 
-	if err = tx.Where("`name` = ?", user.Name).
+	if err = tx.Where("`github_id` = ?", user.GithubId).
 		Assign(model.User{
 			Name:     user.Name,
 			Avatar:   user.Avatar,
@@ -56,6 +54,5 @@ func (srv *userService) AddOrUpdate(user *model.User) (err error) {
 		}).FirstOrCreate(user).Error; nil != err {
 		return
 	}
-
 	return nil
 }
