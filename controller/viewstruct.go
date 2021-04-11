@@ -244,7 +244,8 @@ func answerVo(aModel *model.Answer) (ret *answer) {
 }
 
 func avatarStyle(avatar string) string {
-	if strings.Contains(avatar, "img.hacpai.com") && !strings.Contains(avatar, "imageView2") {
+	if strings.Contains(avatar, "img.hacpai.com") || strings.Contains(avatar, "b3logfile.com") &&
+		!strings.Contains(avatar, "imageView2") {
 		return avatar + "?" + QiniuImgStyleAvatar
 	}
 

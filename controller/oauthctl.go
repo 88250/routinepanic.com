@@ -29,7 +29,7 @@ import (
 var states = map[string]string{}
 
 func redirectLoginAction(c *gin.Context) {
-	loginAuthURL := "https://hacpai.com/login?goto=" + util.Conf.Server + "/login/callback"
+	loginAuthURL := "https://ld246.com/login?goto=" + util.Conf.Server + "/login/callback"
 
 	state := gulu.Rand.String(16)
 	states[state] = state

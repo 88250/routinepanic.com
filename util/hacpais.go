@@ -24,14 +24,14 @@ import (
 	"github.com/parnurzeal/gorequest"
 )
 
-// HacPaiURL is the URL of HacPai community.
-const HacPaiURL = "https://hacpai.com"
+// CommunityURL is the URL of HacPai community.
+const CommunityURL = "https://ld246.com"
 
 // HacPaiUserInfo returns HacPai community user info specified by the given access token.
 func HacPaiUserInfo(accessToken string) (ret map[string]interface{}) {
 	result := map[string]interface{}{}
 	response, data, errors := gorequest.New().TLSClientConfig(&tls.Config{InsecureSkipVerify: true}).
-		Post(HacPaiURL+"/user/ak").SendString("access_token="+accessToken).Timeout(7*time.Second).
+		Post(CommunityURL+"/user/ak").SendString("access_token="+accessToken).Timeout(7*time.Second).
 		Set("User-Agent", "Pipe; +https://github.com/88250/routinepanic.com").EndStruct(&result)
 	if nil != errors || http.StatusOK != response.StatusCode {
 		logger.Errorf("get community user info failed: %+v, %s", errors, data)

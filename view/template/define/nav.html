@@ -7,14 +7,14 @@
         </a>
         {{if ne "" .User.UName}}
         <a class="header__link" href="{{.Conf.Server}}/logout">登出</a>
-        <a class="header__link" href="https://hacpai.com/settings">
+        <a class="header__link" href="https://ld246.com/settings">
             {{.User.UName}}
         </a>
         {{else}}
         <a class="header__link" href="{{.Conf.Server}}/login">登录</a>
         {{end}}
         <a class="header__link" href="{{.Conf.Server}}/reviews/waiting">贡献</a>
-        <a class="header__link" href="https://hacpai.com" target="_blank">社区</a>
+        <a class="header__link" href="https://ld246.com" target="_blank">社区</a>
     </div>
 </header>
 {{end}}
