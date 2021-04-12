@@ -10,9 +10,9 @@
   "bugs": {
     "url": "https://github.com/88250/routinepanic.com/issues"
   },
-  "license": "GPLv3",
+  "license": "AGPLv3",
   "private": true,
-  "author": "Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
+  "author": "Vanessa <84588990@qq.com> (http://vanessa.b3log.org)",
   "scripts": {
     "dev": "gulp watch",
     "build": "gulp"
@@ -20,7 +20,7 @@
   "maintainers": [
     {
       "name": "Vanessa",
-      "email": "v@b3log.org"
+      "email": "84588990@qq.com"
     }
   ],
   "devDependencies": {
