@@ -30,7 +30,7 @@ func TuneHTML(html string) string {
 
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(html))
 	if nil != err {
-		logger.Errorf("pangu space failed: " + err.Error())
+		logger.Errorf("parse dom failed: " + err.Error())
 
 		return html
 	}
@@ -73,7 +73,7 @@ func TuneHTML(html string) string {
 
 	ret, err := doc.Find("body").Html()
 	if nil != err {
-		logger.Errorf("pangu space failed: " + err.Error())
+		logger.Errorf("parse dom failed: " + err.Error())
 
 		return html
 	}
