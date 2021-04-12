@@ -3,5 +3,5 @@
 cd view
 npm install && npm run build
 cd ..
-go build -i -v
+go build -v
 echo 'build rp done'
