@@ -58,6 +58,19 @@ func TuneHTML(html string) string {
 		html = strings.Replace(html, ">", "&gt;", -1)
 		ele.SetHtml(html)
 	})
+	doc.Find("a").Each(func(i int, ele *goquery.Selection) {
+		rel, ok := ele.Attr("rel")
+		if !ok {
+			rel = "nofollow"
+		} else {
+			rel = strings.ToLower(rel)
+			if !strings.Contains(rel, "nofollow") {
+				rel += " nofollow"
+			}
+		}
+		ele.SetAttr("rel", rel)
+	})
+
 	ret, err := doc.Find("body").Html()
 	if nil != err {
 		logger.Errorf("pangu space failed: " + err.Error())
