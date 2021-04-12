@@ -69,6 +69,7 @@ func TuneHTML(html string) string {
 			}
 		}
 		ele.SetAttr("rel", rel)
+		ele.SetAttr("target", "_blank")
 	})
 
 	ret, err := doc.Find("body").Html()
