@@ -133,6 +133,7 @@ func fillCommon(c *gin.Context) {
 	dataModel.Put("MetaDescription", util.Slogan)
 	session := util.GetSession(c)
 	dataModel.Put("User", session)
+	dataModel.Put("AdSense", true)
 }
 
 func getDataModel(c *gin.Context) *DataModel {

@@ -71,6 +71,7 @@ func loginCallbackHandler(c *gin.Context) {
 
 func showLoginAction(c *gin.Context) {
 	dataModel := getDataModel(c)
+	dataModel.Put("AdSense", false)
 	c.HTML(http.StatusOK, "login.html", dataModel)
 }
 
